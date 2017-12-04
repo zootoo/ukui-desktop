@@ -63,9 +63,9 @@ AC_DEFINE(UKUI_MAJOR, [ukui_platform], [Define to the major version])
 AC_DEFINE(UKUI_MINOR, [ukui_minor], [Define to the minor version])
 AC_DEFINE(UKUI_MICRO, [ukui_micro], [Define to the micro version])
 
-UKUI_COMMON_INIT
-UKUI_DEBUG_CHECK
-UKUI_COMPILE_WARNINGS([maximum])
+MATE_COMMON_INIT
+MATE_DEBUG_CHECK
+MATE_COMPILE_WARNINGS([maximum])
 UKUI_MAINTAINER_MODE_DEFINES
 
 AC_ARG_ENABLE(deprecation_flags,
