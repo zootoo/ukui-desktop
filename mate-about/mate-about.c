@@ -18,18 +18,18 @@
  * 02110-1301, USA.
  */
 
-#include "mate-about.h"
+#include "ukui-about.h"
 
 /* get text macro, this should be on the common macros. or not?
  */
-#ifndef mate_gettext
-#define mate_gettext(package, locale, codeset) \
+#ifndef ukui_gettext
+#define ukui_gettext(package, locale, codeset) \
     bindtextdomain(package, locale); \
     bind_textdomain_codeset(package, codeset); \
     textdomain(package);
 #endif
 
-static void mate_about_on_activate(GtkApplication* app)
+static void ukui_about_on_activate(GtkApplication* app)
 {
     GList* list;
     GtkWidget* window;
@@ -42,52 +42,52 @@ static void mate_about_on_activate(GtkApplication* app)
     }
     else
     {
-        mate_about_run();
+        ukui_about_run();
     }
 }
 
-void mate_about_run(void)
+void ukui_about_run(void)
 {
-    mate_about_dialog = (GtkAboutDialog*) gtk_about_dialog_new();
+    ukui_about_dialog = (GtkAboutDialog*) gtk_about_dialog_new();
 
     gtk_window_set_default_icon_name(icon);
-    gtk_about_dialog_set_logo_icon_name(mate_about_dialog, icon);
+    gtk_about_dialog_set_logo_icon_name(ukui_about_dialog, icon);
 
     // name
-    gtk_about_dialog_set_program_name(mate_about_dialog, gettext(program_name));
+    gtk_about_dialog_set_program_name(ukui_about_dialog, gettext(program_name));
 
     // version
-    gtk_about_dialog_set_version(mate_about_dialog, version);
+    gtk_about_dialog_set_version(ukui_about_dialog, version);
 
     // credits and website
-    gtk_about_dialog_set_copyright(mate_about_dialog, copyright);
-    gtk_about_dialog_set_website(mate_about_dialog, website);
+    gtk_about_dialog_set_copyright(ukui_about_dialog, copyright);
+    gtk_about_dialog_set_website(ukui_about_dialog, website);
 
     /**
      * This generate a random message.
      * The comments index must not be more than comments_count - 1
      */
-    gtk_about_dialog_set_comments(mate_about_dialog, gettext(comments_array[g_random_int_range(0, comments_count - 1)]));
+    gtk_about_dialog_set_comments(ukui_about_dialog, gettext(comments_array[g_random_int_range(0, comments_count - 1)]));
 
-    gtk_about_dialog_set_authors(mate_about_dialog, authors);
-    gtk_about_dialog_set_artists(mate_about_dialog, artists);
-    gtk_about_dialog_set_documenters(mate_about_dialog, documenters);
+    gtk_about_dialog_set_authors(ukui_about_dialog, authors);
+    gtk_about_dialog_set_artists(ukui_about_dialog, artists);
+    gtk_about_dialog_set_documenters(ukui_about_dialog, documenters);
     /* Translators should localize the following string which will be
      * displayed in the about box to give credit to the translator(s). */
-    gtk_about_dialog_set_translator_credits(mate_about_dialog, _("translator-credits"));
+    gtk_about_dialog_set_translator_credits(ukui_about_dialog, _("translator-credits"));
 
-    gtk_window_set_application(GTK_WINDOW(mate_about_dialog), mate_about_application);
+    gtk_window_set_application(GTK_WINDOW(ukui_about_dialog), ukui_about_application);
 
     // start and destroy
-    gtk_dialog_run((GtkDialog*) mate_about_dialog);
-    gtk_widget_destroy((GtkWidget*) mate_about_dialog);
+    gtk_dialog_run((GtkDialog*) ukui_about_dialog);
+    gtk_widget_destroy((GtkWidget*) ukui_about_dialog);
 }
 
 int main(int argc, char** argv)
 {
     int status = 0;
 
-    mate_gettext(GETTEXT_PACKAGE, LOCALE_DIR, "UTF-8");
+    ukui_gettext(GETTEXT_PACKAGE, LOCALE_DIR, "UTF-8");
 
     GOptionContext* context = g_option_context_new(NULL);
     g_option_context_add_main_entries(context, command_entries, GETTEXT_PACKAGE);
@@ -95,7 +95,7 @@ int main(int argc, char** argv)
     g_option_context_parse(context, &argc, &argv, NULL);
     g_option_context_free(context);
 
-    if (mate_about_nogui == TRUE)
+    if (ukui_about_nogui == TRUE)
     {
         printf("%s %s\n", gettext(program_name), version);
     }
@@ -103,12 +103,12 @@ int main(int argc, char** argv)
     {
         gtk_init(&argc, &argv);
 
-        mate_about_application = gtk_application_new("org.mate.about", 0);
-        g_signal_connect(mate_about_application, "activate", G_CALLBACK(mate_about_on_activate), NULL);
+        ukui_about_application = gtk_application_new("org.ukui.about", 0);
+        g_signal_connect(ukui_about_application, "activate", G_CALLBACK(ukui_about_on_activate), NULL);
 
-        status = g_application_run(G_APPLICATION(mate_about_application), argc, argv);
+        status = g_application_run(G_APPLICATION(ukui_about_application), argc, argv);
 
-        g_object_unref(mate_about_application);
+        g_object_unref(ukui_about_application);
     }
 
     return status;
