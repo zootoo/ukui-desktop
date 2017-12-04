@@ -1,7 +1,7 @@
-SUBDIRS = libmate-desktop man docs po schemas tools icons
+SUBDIRS = libukui-desktop man docs po schemas tools icons
 
-if MATE_ABOUT_ENABLED
-SUBDIRS += mate-about
+if UKUI_ABOUT_ENABLED
+SUBDIRS += ukui-about
 endif
 
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
@@ -9,9 +9,9 @@ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 DISTCHECK_CONFIGURE_FLAGS = \
 	--enable-gtk-doc
 
-if MATE_ABOUT_ENABLED
-versiondir = $(datadir)/mate-about
-version_DATA = mate-version.xml
+if UKUI_ABOUT_ENABLED
+versiondir = $(datadir)/ukui-about
+version_DATA = ukui-version.xml
 endif
 
 @INTLTOOL_XML_RULE@
@@ -19,7 +19,7 @@ endif
 EXTRA_DIST =			\
 	autogen.sh		\
 	COPYING-DOCS		\
-	mate-version.xml.in.in
+	ukui-version.xml.in.in
 
 CLEANFILES = \
 	$(version_DATA)

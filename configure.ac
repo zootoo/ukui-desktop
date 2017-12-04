@@ -1,11 +1,11 @@
-m4_define([mate_platform], [1])
-m4_define([mate_minor], [19])
-m4_define([mate_micro], [1])
+m4_define([ukui_platform], [1])
+m4_define([ukui_minor], [19])
+m4_define([ukui_micro], [1])
 
-m4_define(mate_version, [mate_platform.mate_minor.mate_micro]),
+m4_define(ukui_version, [ukui_platform.ukui_minor.ukui_micro]),
 
-AC_INIT([mate-desktop], mate_version, [https://github.com/mate-desktop/mate-desktop/])
-AC_CONFIG_SRCDIR([libmate-desktop])
+AC_INIT([ukui-desktop], ukui_version, [https://github.com/ukui-desktop/ukui-desktop/])
+AC_CONFIG_SRCDIR([libukui-desktop])
 
 AM_INIT_AUTOMAKE([1.9 foreign no-dist-gzip dist-xz tar-ustar check-news])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
@@ -43,30 +43,30 @@ AC_STDC_HEADERS
 AC_PROG_LIBTOOL
 PKG_PROG_PKG_CONFIG
 
-MATE_PLATFORM=mate_platform
-MATE_MINOR=mate_minor
-MATE_MICRO=mate_micro
-MATE_DATE=`date +"%Y-%m-%d"`
+UKUI_PLATFORM=ukui_platform
+UKUI_MINOR=ukui_minor
+UKUI_MICRO=ukui_micro
+UKUI_DATE=`date +"%Y-%m-%d"`
 
-MATE_DATE=
-MATE_DATE_COMMENT_START="<!--"
-MATE_DATE_COMMENT_END="-->"
+UKUI_DATE=
+UKUI_DATE_COMMENT_START="<!--"
+UKUI_DATE_COMMENT_END="-->"
 
-AC_SUBST(MATE_PLATFORM)
-AC_SUBST(MATE_MINOR)
-AC_SUBST(MATE_MICRO)
-AC_SUBST(MATE_DATE)
-AC_SUBST(MATE_DATE_COMMENT_START)
-AC_SUBST(MATE_DATE_COMMENT_END)
+AC_SUBST(UKUI_PLATFORM)
+AC_SUBST(UKUI_MINOR)
+AC_SUBST(UKUI_MICRO)
+AC_SUBST(UKUI_DATE)
+AC_SUBST(UKUI_DATE_COMMENT_START)
+AC_SUBST(UKUI_DATE_COMMENT_END)
 
-AC_DEFINE(MATE_MAJOR, [mate_platform], [Define to the major version])
-AC_DEFINE(MATE_MINOR, [mate_minor], [Define to the minor version])
-AC_DEFINE(MATE_MICRO, [mate_micro], [Define to the micro version])
+AC_DEFINE(UKUI_MAJOR, [ukui_platform], [Define to the major version])
+AC_DEFINE(UKUI_MINOR, [ukui_minor], [Define to the minor version])
+AC_DEFINE(UKUI_MICRO, [ukui_micro], [Define to the micro version])
 
-MATE_COMMON_INIT
-MATE_DEBUG_CHECK
-MATE_COMPILE_WARNINGS([maximum])
-MATE_MAINTAINER_MODE_DEFINES
+UKUI_COMMON_INIT
+UKUI_DEBUG_CHECK
+UKUI_COMPILE_WARNINGS([maximum])
+UKUI_MAINTAINER_MODE_DEFINES
 
 AC_ARG_ENABLE(deprecation_flags,
               [AC_HELP_STRING([--enable-deprecation-flags],
@@ -84,11 +84,11 @@ AC_DEFINE([GLIB_VERSION_MAX_ALLOWED], [GLIB_VERSION_2_36],
 AC_DEFINE([GLIB_VERSION_MIN_REQUIRED], [GLIB_VERSION_2_36],
 	[Warn on use of APIs deprecated before GLib 2.36])
 
-# Whether to build mate-about
-AC_ARG_ENABLE([mate-about],
-	[AS_HELP_STRING([--disable-mate-about],[do not build mate-about])],,
-	[enable_mate_about=yes])
-AM_CONDITIONAL(MATE_ABOUT_ENABLED, test "x$enable_mate_about" = "xyes")
+# Whether to build ukui-about
+AC_ARG_ENABLE([ukui-about],
+	[AS_HELP_STRING([--disable-ukui-about],[do not build ukui-about])],,
+	[enable_ukui_about=yes])
+AM_CONDITIONAL(UKUI_ABOUT_ENABLED, test "x$enable_ukui_about" = "xyes")
 
 
 # Path to the pnp.ids file -- to know if we use one shipped with another
@@ -164,7 +164,7 @@ AC_SUBST(STARTUP_NOTIFICATION_PACKAGE)
 
 GOBJECT_INTROSPECTION_CHECK([0.9.7])
 
-dnl we need x11 for MateBG
+dnl we need x11 for UkuiBG
 
 PKG_CHECK_MODULES(XLIB, x11,
     X11_PACKAGE=x11,
@@ -199,15 +199,15 @@ AC_SUBST(RANDR_PACKAGE)
 
 dnl pkg-config dependency checks
 
-PKG_CHECK_MODULES(MATE_DESKTOP, gdk-pixbuf-2.0 gtk+-3.0 >= $GTK_REQUIRED glib-2.0 >= $GLIB_REQUIRED gio-2.0 >= $GIO_REQUIRED $STARTUP_NOTIFICATION_PACKAGE $RANDR_PACKAGE)
+PKG_CHECK_MODULES(UKUI_DESKTOP, gdk-pixbuf-2.0 gtk+-3.0 >= $GTK_REQUIRED glib-2.0 >= $GLIB_REQUIRED gio-2.0 >= $GIO_REQUIRED $STARTUP_NOTIFICATION_PACKAGE $RANDR_PACKAGE)
 
-PKG_CHECK_MODULES(MATE_ABOUT, gtk+-3.0 >= $GTK_REQUIRED)
-AC_SUBST(MATE_ABOUT_CFLAGS)
-AC_SUBST(MATE_ABOUT_LIBS)
+PKG_CHECK_MODULES(UKUI_ABOUT, gtk+-3.0 >= $GTK_REQUIRED)
+AC_SUBST(UKUI_ABOUT_CFLAGS)
+AC_SUBST(UKUI_ABOUT_LIBS)
 
 dnl Language Support
 
-GETTEXT_PACKAGE=mate-desktop
+GETTEXT_PACKAGE=ukui-desktop
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
 		   [The gettext translation domain])
 AC_SUBST(GETTEXT_PACKAGE)
@@ -239,37 +239,37 @@ GTK_DOC_CHECK([1.4])
 
 AC_CONFIG_FILES([
 Makefile
-mate-about/Makefile
-mate-about/mate-about.desktop.in
-libmate-desktop/Makefile
-libmate-desktop/mate-desktop-2.0.pc
-libmate-desktop/mate-desktop-2.0-uninstalled.pc
+ukui-about/Makefile
+ukui-about/ukui-about.desktop.in
+libukui-desktop/Makefile
+libukui-desktop/ukui-desktop-2.0.pc
+libukui-desktop/ukui-desktop-2.0-uninstalled.pc
 docs/Makefile
 docs/reference/Makefile
-docs/reference/mate-desktop/Makefile
-mate-version.xml.in
+docs/reference/ukui-desktop/Makefile
+ukui-version.xml.in
 po/Makefile.in
 schemas/Makefile
-schemas/org.mate.accessibility-keyboard.gschema.xml
-schemas/org.mate.accessibility-startup.gschema.xml
-schemas/org.mate.applications-at-mobility.gschema.xml
-schemas/org.mate.applications-at-visual.gschema.xml
-schemas/org.mate.applications-browser.gschema.xml
-schemas/org.mate.applications-office.gschema.xml
-schemas/org.mate.applications-terminal.gschema.xml
-schemas/org.mate.background.gschema.xml
-schemas/org.mate.debug.gschema.xml
-schemas/org.mate.file-views.gschema.xml
-schemas/org.mate.interface.gschema.xml
-schemas/org.mate.lockdown.gschema.xml
-schemas/org.mate.peripherals-keyboard.gschema.xml
-schemas/org.mate.peripherals-mouse.gschema.xml
-schemas/org.mate.sound.gschema.xml
-schemas/org.mate.thumbnail-cache.gschema.xml
-schemas/org.mate.thumbnailers.gschema.xml
-schemas/org.mate.typing-break.gschema.xml
+schemas/org.ukui.accessibility-keyboard.gschema.xml
+schemas/org.ukui.accessibility-startup.gschema.xml
+schemas/org.ukui.applications-at-mobility.gschema.xml
+schemas/org.ukui.applications-at-visual.gschema.xml
+schemas/org.ukui.applications-browser.gschema.xml
+schemas/org.ukui.applications-office.gschema.xml
+schemas/org.ukui.applications-terminal.gschema.xml
+schemas/org.ukui.background.gschema.xml
+schemas/org.ukui.debug.gschema.xml
+schemas/org.ukui.file-views.gschema.xml
+schemas/org.ukui.interface.gschema.xml
+schemas/org.ukui.lockdown.gschema.xml
+schemas/org.ukui.peripherals-keyboard.gschema.xml
+schemas/org.ukui.peripherals-mouse.gschema.xml
+schemas/org.ukui.sound.gschema.xml
+schemas/org.ukui.thumbnail-cache.gschema.xml
+schemas/org.ukui.thumbnailers.gschema.xml
+schemas/org.ukui.typing-break.gschema.xml
 man/Makefile
-tools/mate-color-select.desktop.in
+tools/ukui-color-select.desktop.in
 tools/Makefile
 icons/Makefile
 ])
@@ -281,8 +281,8 @@ dnl - Show summary
 dnl ---------------------------------------------------------------------------
 
 echo "
-mate-desktop $VERSION
-`echo mate-desktop $VERSION | sed "s/./=/g"`
+ukui-desktop $VERSION
+`echo ukui-desktop $VERSION | sed "s/./=/g"`
 
     prefix:                       ${prefix}
     exec_prefix:                  ${exec_prefix}
@@ -298,7 +298,7 @@ mate-desktop $VERSION
     Maintainer mode:              ${USE_MAINTAINER_MODE}
     Use *_DISABLE_DEPRECATED:     ${enable_deprecation_flags}
 
-    Build mate-about:             ${enable_mate_about}
+    Build ukui-about:             ${enable_ukui_about}
     Use external pnp.ids:         ${EXTERNAL_PNP_IDS}
     Startup notification support: ${have_startup_notification}
     XRandr support:               ${have_randr}
