@@ -1,5 +1,5 @@
 /*
- * test.c: general tests for libmate-desktop
+ * test.c: general tests for libukui-desktop
  *
  * Copyright (C) 2013-2014 Stefano Karapetsas
  * 
@@ -23,8 +23,8 @@
  */
 
 #include <config.h>
-#include "mate-desktop.h"
-#include "mate-colorbutton.h"
+#include "ukui-desktop.h"
+#include "ukui-colorbutton.h"
 
 int
 main (int argc, char **argv)
@@ -38,12 +38,12 @@ main (int argc, char **argv)
     /* create window */
     window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
 
-    gtk_window_set_title (window, "MATE Desktop Test");
+    gtk_window_set_title (window, "UKUI Desktop Test");
 
-    /* create a MateColorButton */
-    widget = mate_color_button_new ();
+    /* create a UkuiColorButton */
+    widget = ukui_color_button_new ();
 
-    /* add MateColorButton to window */
+    /* add UkuiColorButton to window */
     gtk_container_add (GTK_CONTAINER (window), widget);
 
     /* quit signal */

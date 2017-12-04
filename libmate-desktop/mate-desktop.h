@@ -1,5 +1,5 @@
 /*
- * mate-desktop.h: general functions for libmate-desktop
+ * ukui-desktop.h: general functions for libukui-desktop
  *
  * Copyright (C) 2013 Stefano Karapetsas
  *
@@ -22,8 +22,8 @@
  *  Stefano Karapetsas <stefano@karapetsas.com>
  */
 
-#ifndef __MATE_DESKTOP_H__
-#define __MATE_DESKTOP_H__
+#ifndef __UKUI_DESKTOP_H__
+#define __UKUI_DESKTOP_H__
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -33,12 +33,12 @@
 
 G_BEGIN_DECLS
 
-#define MATE_DESKTOP_CHECK_VERSION(major,minor,micro) \
-        (MATE_MAJOR > (major) || \
-        (MATE_MAJOR == (major) && MATE_MINOR > (minor)) || \
-        (MATE_MAJOR == (major) && MATE_MINOR == (minor) && \
-        MATE_MICRO >= (micro)))
+#define UKUI_DESKTOP_CHECK_VERSION(major,minor,micro) \
+        (UKUI_MAJOR > (major) || \
+        (UKUI_MAJOR == (major) && UKUI_MINOR > (minor)) || \
+        (UKUI_MAJOR == (major) && UKUI_MINOR == (minor) && \
+        UKUI_MICRO >= (micro)))
 
 G_END_DECLS
 
-#endif /* __MATE_DESKTOP_H__ */
+#endif /* __UKUI_DESKTOP_H__ */

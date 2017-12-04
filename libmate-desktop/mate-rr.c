@@ -1,28 +1,28 @@
-/* mate-rr.c
+/* ukui-rr.c
  *
  * Copyright 2007, 2008, Red Hat, Inc.
  * 
- * This file is part of the Mate Library.
+ * This file is part of the Ukui Library.
  * 
- * The Mate Library is free software; you can redistribute it and/or
+ * The Ukui Library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
- * The Mate Library is distributed in the hope that it will be useful,
+ * The Ukui Library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Library General Public License for more details.
  * 
  * You should have received a copy of the GNU Library General Public
- * License along with the Mate Library; see the file COPYING.LIB.  If not,
+ * License along with the Ukui Library; see the file COPYING.LIB.  If not,
  * write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  * 
  * Author: Soren Sandmann <sandmann@redhat.com>
  */
 
-#define MATE_DESKTOP_USE_UNSTABLE_API
+#define UKUI_DESKTOP_USE_UNSTABLE_API
 
 #include <config.h>
 #include <glib/gi18n-lib.h>
@@ -37,12 +37,12 @@
 #include <gdk/gdkx.h>
 #include <X11/Xatom.h>
 
-#undef MATE_DISABLE_DEPRECATED
-#include "mate-rr.h"
-#include "mate-rr-config.h"
+#undef UKUI_DISABLE_DEPRECATED
+#include "ukui-rr.h"
+#include "ukui-rr-config.h"
 
 #include "private.h"
-#include "mate-rr-private.h"
+#include "ukui-rr-private.h"
 
 #define DISPLAY(o) ((o)->info->screen->priv->xdisplay)
 
@@ -73,47 +73,47 @@ enum {
 
 gint screen_signals[SCREEN_SIGNAL_LAST];
 
-struct MateRROutput
+struct UkuiRROutput
 {
     ScreenInfo *	info;
     RROutput		id;
     
     char *		name;
-    MateRRCrtc *	current_crtc;
+    UkuiRRCrtc *	current_crtc;
     gboolean		connected;
     gulong		width_mm;
     gulong		height_mm;
-    MateRRCrtc **	possible_crtcs;
-    MateRROutput **	clones;
-    MateRRMode **	modes;
+    UkuiRRCrtc **	possible_crtcs;
+    UkuiRROutput **	clones;
+    UkuiRRMode **	modes;
     int			n_preferred;
     guint8 *		edid_data;
     int         edid_size;
     char *              connector_type;
 };
 
-struct MateRROutputWrap
+struct UkuiRROutputWrap
 {
     RROutput		id;
 };
 
-struct MateRRCrtc
+struct UkuiRRCrtc
 {
     ScreenInfo *	info;
     RRCrtc		id;
     
-    MateRRMode *	current_mode;
-    MateRROutput **	current_outputs;
-    MateRROutput **	possible_outputs;
+    UkuiRRMode *	current_mode;
+    UkuiRROutput **	current_outputs;
+    UkuiRROutput **	possible_outputs;
     int			x;
     int			y;
     
-    MateRRRotation	current_rotation;
-    MateRRRotation	rotations;
+    UkuiRRRotation	current_rotation;
+    UkuiRRRotation	rotations;
     int			gamma_size;
 };
 
-struct MateRRMode
+struct UkuiRRMode
 {
     ScreenInfo *	info;
     RRMode		id;
@@ -123,77 +123,77 @@ struct MateRRMode
     int			freq;		/* in mHz */
 };
 
-/* MateRRCrtc */
-static MateRRCrtc *  crtc_new          (ScreenInfo         *info,
+/* UkuiRRCrtc */
+static UkuiRRCrtc *  crtc_new          (ScreenInfo         *info,
 					 RRCrtc              id);
-static MateRRCrtc *  crtc_copy         (const MateRRCrtc  *from);
-static void           crtc_free         (MateRRCrtc        *crtc);
+static UkuiRRCrtc *  crtc_copy         (const UkuiRRCrtc  *from);
+static void           crtc_free         (UkuiRRCrtc        *crtc);
 
 #ifdef HAVE_RANDR
-static gboolean       crtc_initialize   (MateRRCrtc        *crtc,
+static gboolean       crtc_initialize   (UkuiRRCrtc        *crtc,
 					 XRRScreenResources *res,
 					 GError            **error);
 #endif
 
-/* MateRROutput */
-static MateRROutput *output_new        (ScreenInfo         *info,
+/* UkuiRROutput */
+static UkuiRROutput *output_new        (ScreenInfo         *info,
 					 RROutput            id);
 
 #ifdef HAVE_RANDR
-static gboolean       output_initialize (MateRROutput      *output,
+static gboolean       output_initialize (UkuiRROutput      *output,
 					 XRRScreenResources *res,
 					 GError            **error);
 #endif
 
-static MateRROutput *output_copy       (const MateRROutput *from);
-static void           output_free       (MateRROutput      *output);
+static UkuiRROutput *output_copy       (const UkuiRROutput *from);
+static void           output_free       (UkuiRROutput      *output);
 
-/* MateRRMode */
-static MateRRMode *  mode_new          (ScreenInfo         *info,
+/* UkuiRRMode */
+static UkuiRRMode *  mode_new          (ScreenInfo         *info,
 					 RRMode              id);
 
 #ifdef HAVE_RANDR
-static void           mode_initialize   (MateRRMode        *mode,
+static void           mode_initialize   (UkuiRRMode        *mode,
 					 XRRModeInfo        *info);
 #endif
 
-static MateRRMode *  mode_copy         (const MateRRMode  *from);
-static void           mode_free         (MateRRMode        *mode);
+static UkuiRRMode *  mode_copy         (const UkuiRRMode  *from);
+static void           mode_free         (UkuiRRMode        *mode);
 
 
-static void mate_rr_screen_finalize (GObject*);
-static void mate_rr_screen_set_property (GObject*, guint, const GValue*, GParamSpec*);
-static void mate_rr_screen_get_property (GObject*, guint, GValue*, GParamSpec*);
-static gboolean mate_rr_screen_initable_init (GInitable*, GCancellable*, GError**);
-static void mate_rr_screen_initable_iface_init (GInitableIface *iface);
-G_DEFINE_TYPE_WITH_CODE (MateRRScreen, mate_rr_screen, G_TYPE_OBJECT,
-    G_IMPLEMENT_INTERFACE (G_TYPE_INITABLE, mate_rr_screen_initable_iface_init))
+static void ukui_rr_screen_finalize (GObject*);
+static void ukui_rr_screen_set_property (GObject*, guint, const GValue*, GParamSpec*);
+static void ukui_rr_screen_get_property (GObject*, guint, GValue*, GParamSpec*);
+static gboolean ukui_rr_screen_initable_init (GInitable*, GCancellable*, GError**);
+static void ukui_rr_screen_initable_iface_init (GInitableIface *iface);
+G_DEFINE_TYPE_WITH_CODE (UkuiRRScreen, ukui_rr_screen, G_TYPE_OBJECT,
+    G_IMPLEMENT_INTERFACE (G_TYPE_INITABLE, ukui_rr_screen_initable_iface_init))
 
-G_DEFINE_BOXED_TYPE (MateRRCrtc, mate_rr_crtc, crtc_copy, crtc_free)
-G_DEFINE_BOXED_TYPE (MateRROutput, mate_rr_output, output_copy, output_free)
-G_DEFINE_BOXED_TYPE (MateRRMode, mate_rr_mode, mode_copy, mode_free)
+G_DEFINE_BOXED_TYPE (UkuiRRCrtc, ukui_rr_crtc, crtc_copy, crtc_free)
+G_DEFINE_BOXED_TYPE (UkuiRROutput, ukui_rr_output, output_copy, output_free)
+G_DEFINE_BOXED_TYPE (UkuiRRMode, ukui_rr_mode, mode_copy, mode_free)
 
 /* Errors */
 
 /**
- * mate_rr_error_quark:
+ * ukui_rr_error_quark:
  *
  * Returns the #GQuark that will be used for #GError values returned by the
- * MateRR API.
+ * UkuiRR API.
  *
- * Return value: a #GQuark used to identify errors coming from the MateRR API.
+ * Return value: a #GQuark used to identify errors coming from the UkuiRR API.
  */
 GQuark
-mate_rr_error_quark (void)
+ukui_rr_error_quark (void)
 {
-    return g_quark_from_static_string ("mate-rr-error-quark");
+    return g_quark_from_static_string ("ukui-rr-error-quark");
 }
 
 /* Screen */
-static MateRROutput *
-mate_rr_output_by_id (ScreenInfo *info, RROutput id)
+static UkuiRROutput *
+ukui_rr_output_by_id (ScreenInfo *info, RROutput id)
 {
-    MateRROutput **output;
+    UkuiRROutput **output;
     
     g_assert (info != NULL);
     
@@ -206,10 +206,10 @@ mate_rr_output_by_id (ScreenInfo *info, RROutput id)
     return NULL;
 }
 
-static MateRRCrtc *
+static UkuiRRCrtc *
 crtc_by_id (ScreenInfo *info, RRCrtc id)
 {
-    MateRRCrtc **crtc;
+    UkuiRRCrtc **crtc;
     
     if (!info)
         return NULL;
@@ -223,10 +223,10 @@ crtc_by_id (ScreenInfo *info, RRCrtc id)
     return NULL;
 }
 
-static MateRRMode *
+static UkuiRRMode *
 mode_by_id (ScreenInfo *info, RRMode id)
 {
-    MateRRMode **mode;
+    UkuiRRMode **mode;
     
     g_assert (info != NULL);
     
@@ -242,9 +242,9 @@ mode_by_id (ScreenInfo *info, RRMode id)
 static void
 screen_info_free (ScreenInfo *info)
 {
-    MateRROutput **output;
-    MateRRCrtc **crtc;
-    MateRRMode **mode;
+    UkuiRROutput **output;
+    UkuiRRCrtc **crtc;
+    UkuiRRMode **mode;
     
     g_assert (info != NULL);
 
@@ -288,19 +288,19 @@ screen_info_free (ScreenInfo *info)
 }
 
 static gboolean
-has_similar_mode (MateRROutput *output, MateRRMode *mode)
+has_similar_mode (UkuiRROutput *output, UkuiRRMode *mode)
 {
     int i;
-    MateRRMode **modes = mate_rr_output_list_modes (output);
-    int width = mate_rr_mode_get_width (mode);
-    int height = mate_rr_mode_get_height (mode);
+    UkuiRRMode **modes = ukui_rr_output_list_modes (output);
+    int width = ukui_rr_mode_get_width (mode);
+    int height = ukui_rr_mode_get_height (mode);
 
     for (i = 0; modes[i] != NULL; ++i)
     {
-	MateRRMode *m = modes[i];
+	UkuiRRMode *m = modes[i];
 
-	if (mate_rr_mode_get_width (m) == width	&&
-	    mate_rr_mode_get_height (m) == height)
+	if (ukui_rr_mode_get_width (m) == width	&&
+	    ukui_rr_mode_get_height (m) == height)
 	{
 	    return TRUE;
 	}
@@ -318,7 +318,7 @@ gather_clone_modes (ScreenInfo *info)
     for (i = 0; info->outputs[i] != NULL; ++i)
     {
 	int j;
-	MateRROutput *output1, *output2;
+	UkuiRROutput *output1, *output2;
 
 	output1 = info->outputs[i];
 	
@@ -327,7 +327,7 @@ gather_clone_modes (ScreenInfo *info)
 	
 	for (j = 0; output1->modes[j] != NULL; ++j)
 	{
-	    MateRRMode *mode = output1->modes[j];
+	    UkuiRRMode *mode = output1->modes[j];
 	    gboolean valid;
 	    int k;
 
@@ -353,7 +353,7 @@ gather_clone_modes (ScreenInfo *info)
 
     g_ptr_array_add (result, NULL);
     
-    info->clone_modes = (MateRRMode **)g_ptr_array_free (result, FALSE);
+    info->clone_modes = (UkuiRRMode **)g_ptr_array_free (result, FALSE);
 }
 
 #ifdef HAVE_RANDR
@@ -364,8 +364,8 @@ fill_screen_info_from_resources (ScreenInfo *info,
 {
     int i;
     GPtrArray *a;
-    MateRRCrtc **crtc;
-    MateRROutput **output;
+    UkuiRRCrtc **crtc;
+    UkuiRROutput **output;
 
     info->resources = resources;
 
@@ -375,32 +375,32 @@ fill_screen_info_from_resources (ScreenInfo *info,
     a = g_ptr_array_new ();
     for (i = 0; i < resources->ncrtc; ++i)
     {
-	MateRRCrtc *crtc = crtc_new (info, resources->crtcs[i]);
+	UkuiRRCrtc *crtc = crtc_new (info, resources->crtcs[i]);
 
 	g_ptr_array_add (a, crtc);
     }
     g_ptr_array_add (a, NULL);
-    info->crtcs = (MateRRCrtc **)g_ptr_array_free (a, FALSE);
+    info->crtcs = (UkuiRRCrtc **)g_ptr_array_free (a, FALSE);
 
     a = g_ptr_array_new ();
     for (i = 0; i < resources->noutput; ++i)
     {
-	MateRROutput *output = output_new (info, resources->outputs[i]);
+	UkuiRROutput *output = output_new (info, resources->outputs[i]);
 
 	g_ptr_array_add (a, output);
     }
     g_ptr_array_add (a, NULL);
-    info->outputs = (MateRROutput **)g_ptr_array_free (a, FALSE);
+    info->outputs = (UkuiRROutput **)g_ptr_array_free (a, FALSE);
 
     a = g_ptr_array_new ();
     for (i = 0;  i < resources->nmode; ++i)
     {
-	MateRRMode *mode = mode_new (info, resources->modes[i].id);
+	UkuiRRMode *mode = mode_new (info, resources->modes[i].id);
 
 	g_ptr_array_add (a, mode);
     }
     g_ptr_array_add (a, NULL);
-    info->modes = (MateRRMode **)g_ptr_array_free (a, FALSE);
+    info->modes = (UkuiRRMode **)g_ptr_array_free (a, FALSE);
 
     /* Initialize */
     for (crtc = info->crtcs; *crtc; ++crtc)
@@ -417,7 +417,7 @@ fill_screen_info_from_resources (ScreenInfo *info,
 
     for (i = 0; i < resources->nmode; ++i)
     {
-	MateRRMode *mode = mode_by_id (info, resources->modes[i].id);
+	UkuiRRMode *mode = mode_by_id (info, resources->modes[i].id);
 
 	mode_initialize (mode, &(resources->modes[i]));
     }
@@ -455,7 +455,7 @@ fill_out_screen_info (Display *xdisplay,
     }
     else
     {
-	g_set_error (error, MATE_RR_ERROR, MATE_RR_ERROR_RANDR_ERROR,
+	g_set_error (error, UKUI_RR_ERROR, UKUI_RR_ERROR_RANDR_ERROR,
 		     /* Translators: a CRTC is a CRT Controller (this is X terminology). */
 		     _("could not get the screen resources (CRTCs, outputs, modes)"));
 	return FALSE;
@@ -476,20 +476,20 @@ fill_out_screen_info (Display *xdisplay,
 					 &(info->max_height));
 	gdk_flush ();
 	if (gdk_error_trap_pop ()) {
-	    g_set_error (error, MATE_RR_ERROR, MATE_RR_ERROR_UNKNOWN,
+	    g_set_error (error, UKUI_RR_ERROR, UKUI_RR_ERROR_UNKNOWN,
 			 _("unhandled X error while getting the range of screen sizes"));
 	    return FALSE;
 	}
 
 	if (!success) {
-	    g_set_error (error, MATE_RR_ERROR, MATE_RR_ERROR_RANDR_ERROR,
+	    g_set_error (error, UKUI_RR_ERROR, UKUI_RR_ERROR_RANDR_ERROR,
 			 _("could not get the range of screen sizes"));
             return FALSE;
         }
     }
     else
     {
-        mate_rr_screen_get_ranges (info->screen, 
+        ukui_rr_screen_get_ranges (info->screen, 
 					 &(info->min_width),
 					 &(info->max_width),
 					 &(info->min_height),
@@ -508,10 +508,10 @@ fill_out_screen_info (Display *xdisplay,
 }
 
 static ScreenInfo *
-screen_info_new (MateRRScreen *screen, gboolean needs_reprobe, GError **error)
+screen_info_new (UkuiRRScreen *screen, gboolean needs_reprobe, GError **error)
 {
     ScreenInfo *info = g_new0 (ScreenInfo, 1);
-    MateRRScreenPrivate *priv;
+    UkuiRRScreenPrivate *priv;
 
     g_assert (screen != NULL);
 
@@ -534,7 +534,7 @@ screen_info_new (MateRRScreen *screen, gboolean needs_reprobe, GError **error)
 }
 
 static gboolean
-screen_update (MateRRScreen *screen, gboolean force_callback, gboolean needs_reprobe, GError **error)
+screen_update (UkuiRRScreen *screen, gboolean force_callback, gboolean needs_reprobe, GError **error)
 {
     ScreenInfo *info;
     gboolean changed = FALSE;
@@ -566,8 +566,8 @@ screen_on_event (GdkXEvent *xevent,
 		 gpointer data)
 {
 #ifdef HAVE_RANDR
-    MateRRScreen *screen = data;
-    MateRRScreenPrivate *priv = screen->priv;
+    UkuiRRScreen *screen = data;
+    UkuiRRScreenPrivate *priv = screen->priv;
     XEvent *e = xevent;
     int event_num;
 
@@ -617,7 +617,7 @@ screen_on_event (GdkXEvent *xevent,
 #if 0
     /* WHY THIS CODE IS DISABLED:
      *
-     * Note that in mate_rr_screen_new(), we only select for
+     * Note that in ukui_rr_screen_new(), we only select for
      * RRScreenChangeNotifyMask.  We used to select for other values in
      * RR*NotifyMask, but we weren't really doing anything useful with those
      * events.  We only care about "the screens changed in some way or another"
@@ -658,11 +658,11 @@ screen_on_event (GdkXEvent *xevent,
 }
 
 static gboolean
-mate_rr_screen_initable_init (GInitable *initable, GCancellable *canc, GError **error)
+ukui_rr_screen_initable_init (GInitable *initable, GCancellable *canc, GError **error)
 
 {
-    MateRRScreen *self = MATE_RR_SCREEN (initable);
-    MateRRScreenPrivate *priv = self->priv;
+    UkuiRRScreen *self = UKUI_RR_SCREEN (initable);
+    UkuiRRScreenPrivate *priv = self->priv;
     Display *dpy = GDK_SCREEN_XDISPLAY (self->priv->gdk_screen);
     int event_base;
     int ignore;
@@ -676,7 +676,7 @@ mate_rr_screen_initable_init (GInitable *initable, GCancellable *canc, GError **
 
         XRRQueryVersion (dpy, &priv->rr_major_version, &priv->rr_minor_version);
         if (priv->rr_major_version < 1 || (priv->rr_major_version == 1 && priv->rr_minor_version < 3)) {
-            g_set_error (error, MATE_RR_ERROR, MATE_RR_ERROR_NO_RANDR_EXTENSION,
+            g_set_error (error, UKUI_RR_ERROR, UKUI_RR_ERROR_NO_RANDR_EXTENSION,
                 "RANDR extension is too old (must be at least 1.3)");
             return FALSE;
         }
@@ -700,7 +700,7 @@ mate_rr_screen_initable_init (GInitable *initable, GCancellable *canc, GError **
     else
     {
 #endif /* HAVE_RANDR */
-    g_set_error (error, MATE_RR_ERROR, MATE_RR_ERROR_NO_RANDR_EXTENSION,
+    g_set_error (error, UKUI_RR_ERROR, UKUI_RR_ERROR_NO_RANDR_EXTENSION,
         _("RANDR extension is not present"));
 
     return FALSE;
@@ -711,29 +711,29 @@ mate_rr_screen_initable_init (GInitable *initable, GCancellable *canc, GError **
 }
 
 void
-mate_rr_screen_initable_iface_init (GInitableIface *iface)
+ukui_rr_screen_initable_iface_init (GInitableIface *iface)
 {
-    iface->init = mate_rr_screen_initable_init;
+    iface->init = ukui_rr_screen_initable_init;
 }
 
 void
-    mate_rr_screen_finalize (GObject *gobject)
+    ukui_rr_screen_finalize (GObject *gobject)
 {
-    MateRRScreen *screen = MATE_RR_SCREEN (gobject);
+    UkuiRRScreen *screen = UKUI_RR_SCREEN (gobject);
 
     gdk_window_remove_filter (screen->priv->gdk_root, screen_on_event, screen);
 
     if (screen->priv->info)
       screen_info_free (screen->priv->info);
 
-    G_OBJECT_CLASS (mate_rr_screen_parent_class)->finalize (gobject);
+    G_OBJECT_CLASS (ukui_rr_screen_parent_class)->finalize (gobject);
 }
 
 void
-mate_rr_screen_set_property (GObject *gobject, guint property_id, const GValue *value, GParamSpec *property)
+ukui_rr_screen_set_property (GObject *gobject, guint property_id, const GValue *value, GParamSpec *property)
 {
-    MateRRScreen *self = MATE_RR_SCREEN (gobject);
-    MateRRScreenPrivate *priv = self->priv;
+    UkuiRRScreen *self = UKUI_RR_SCREEN (gobject);
+    UkuiRRScreenPrivate *priv = self->priv;
 
     switch (property_id)
     {
@@ -751,10 +751,10 @@ mate_rr_screen_set_property (GObject *gobject, guint property_id, const GValue *
 }
 
 void
-mate_rr_screen_get_property (GObject *gobject, guint property_id, GValue *value, GParamSpec *property)
+ukui_rr_screen_get_property (GObject *gobject, guint property_id, GValue *value, GParamSpec *property)
 {
-    MateRRScreen *self = MATE_RR_SCREEN (gobject);
-    MateRRScreenPrivate *priv = self->priv;
+    UkuiRRScreen *self = UKUI_RR_SCREEN (gobject);
+    UkuiRRScreenPrivate *priv = self->priv;
 
     switch (property_id)
     {
@@ -768,14 +768,14 @@ mate_rr_screen_get_property (GObject *gobject, guint property_id, GValue *value,
 }
 
 void
-mate_rr_screen_class_init (MateRRScreenClass *klass)
+ukui_rr_screen_class_init (UkuiRRScreenClass *klass)
 {
     GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-    g_type_class_add_private (klass, sizeof (MateRRScreenPrivate));
+    g_type_class_add_private (klass, sizeof (UkuiRRScreenPrivate));
 
-    gobject_class->set_property = mate_rr_screen_set_property;
-    gobject_class->get_property = mate_rr_screen_get_property;
-    gobject_class->finalize = mate_rr_screen_finalize;
+    gobject_class->set_property = ukui_rr_screen_set_property;
+    gobject_class->get_property = ukui_rr_screen_get_property;
+    gobject_class->finalize = ukui_rr_screen_finalize;
 
     g_object_class_install_property(
         gobject_class,
@@ -783,7 +783,7 @@ mate_rr_screen_class_init (MateRRScreenClass *klass)
         g_param_spec_object (
             "gdk-screen",
             "GDK Screen",
-            "The GDK Screen represented by this MateRRScreen",
+            "The GDK Screen represented by this UkuiRRScreen",
             GDK_TYPE_SCREEN,
 	    G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS)
         );
@@ -791,7 +791,7 @@ mate_rr_screen_class_init (MateRRScreenClass *klass)
     screen_signals[SCREEN_CHANGED] = g_signal_new("changed",
         G_TYPE_FROM_CLASS (gobject_class),
         G_SIGNAL_RUN_FIRST | G_SIGNAL_NO_RECURSE | G_SIGNAL_NO_HOOKS,
-        G_STRUCT_OFFSET (MateRRScreenClass, changed),
+        G_STRUCT_OFFSET (UkuiRRScreenClass, changed),
         NULL,
         NULL,
         g_cclosure_marshal_VOID__VOID,
@@ -800,9 +800,9 @@ mate_rr_screen_class_init (MateRRScreenClass *klass)
 }
 
 void
-mate_rr_screen_init (MateRRScreen *self)
+ukui_rr_screen_init (UkuiRRScreen *self)
 {
-    MateRRScreenPrivate *priv = G_TYPE_INSTANCE_GET_PRIVATE (self, MATE_TYPE_RR_SCREEN, MateRRScreenPrivate);
+    UkuiRRScreenPrivate *priv = G_TYPE_INSTANCE_GET_PRIVATE (self, UKUI_TYPE_RR_SCREEN, UkuiRRScreenPrivate);
     self->priv = priv;
 
     priv->gdk_screen = NULL;
@@ -816,31 +816,31 @@ mate_rr_screen_init (MateRRScreen *self)
 }
 
 /**
- * mate_rr_screen_new:
+ * ukui_rr_screen_new:
  * @screen: the #GdkScreen on which to operate
  * @error: will be set if XRandR is not supported
  *
- * Creates a new #MateRRScreen instance
+ * Creates a new #UkuiRRScreen instance
  *
- * Returns: a new #MateRRScreen instance or NULL if screen could not be created,
+ * Returns: a new #UkuiRRScreen instance or NULL if screen could not be created,
  * for instance if the driver does not support Xrandr 1.2
  */
-MateRRScreen *
-mate_rr_screen_new (GdkScreen *screen,
+UkuiRRScreen *
+ukui_rr_screen_new (GdkScreen *screen,
                     GError **error)
 {
-    _mate_desktop_init_i18n ();
-    return g_initable_new (MATE_TYPE_RR_SCREEN, NULL, error, "gdk-screen", screen, NULL);
+    _ukui_desktop_init_i18n ();
+    return g_initable_new (UKUI_TYPE_RR_SCREEN, NULL, error, "gdk-screen", screen, NULL);
 }
 
 void
-mate_rr_screen_set_size (MateRRScreen *screen,
+ukui_rr_screen_set_size (UkuiRRScreen *screen,
 			  int	      width,
 			  int       height,
 			  int       mm_width,
 			  int       mm_height)
 {
-    g_return_if_fail (MATE_IS_RR_SCREEN (screen));
+    g_return_if_fail (UKUI_IS_RR_SCREEN (screen));
 
 #ifdef HAVE_RANDR
     gdk_error_trap_push ();
@@ -851,8 +851,8 @@ mate_rr_screen_set_size (MateRRScreen *screen,
 }
 
 /**
- * mate_rr_screen_get_ranges:
- * @screen: a #MateRRScreen
+ * ukui_rr_screen_get_ranges:
+ * @screen: a #UkuiRRScreen
  * @min_width: (out): the minimum width
  * @max_width: (out): the maximum width
  * @min_height: (out): the minimum height
@@ -861,15 +861,15 @@ mate_rr_screen_set_size (MateRRScreen *screen,
  * Get the ranges of the screen
  */
 void
-mate_rr_screen_get_ranges (MateRRScreen *screen,
+ukui_rr_screen_get_ranges (UkuiRRScreen *screen,
 			    int	          *min_width,
 			    int	          *max_width,
 			    int           *min_height,
 			    int	          *max_height)
 {
-    MateRRScreenPrivate *priv;
+    UkuiRRScreenPrivate *priv;
 
-    g_return_if_fail (MATE_IS_RR_SCREEN (screen));
+    g_return_if_fail (UKUI_IS_RR_SCREEN (screen));
 
     priv = screen->priv;
     
@@ -887,8 +887,8 @@ mate_rr_screen_get_ranges (MateRRScreen *screen,
 }
 
 /**
- * mate_rr_screen_get_timestamps:
- * @screen: a #MateRRScreen
+ * ukui_rr_screen_get_timestamps:
+ * @screen: a #UkuiRRScreen
  * @change_timestamp_ret: (out): Location in which to store the timestamp at which the RANDR configuration was last changed
  * @config_timestamp_ret: (out): Location in which to store the timestamp at which the RANDR configuration was last obtained
  *
@@ -899,13 +899,13 @@ mate_rr_screen_get_ranges (MateRRScreen *screen,
  * the latest change request.
  */
 void
-mate_rr_screen_get_timestamps (MateRRScreen *screen,
+ukui_rr_screen_get_timestamps (UkuiRRScreen *screen,
 				guint32       *change_timestamp_ret,
 				guint32       *config_timestamp_ret)
 {
-    MateRRScreenPrivate *priv;
+    UkuiRRScreenPrivate *priv;
 
-    g_return_if_fail (MATE_IS_RR_SCREEN (screen));
+    g_return_if_fail (UKUI_IS_RR_SCREEN (screen));
 
     priv = screen->priv;
 
@@ -919,11 +919,11 @@ mate_rr_screen_get_timestamps (MateRRScreen *screen,
 }
 
 static gboolean
-force_timestamp_update (MateRRScreen *screen)
+force_timestamp_update (UkuiRRScreen *screen)
 {
 #ifdef HAVE_RANDR
-    MateRRScreenPrivate *priv = screen->priv;
-    MateRRCrtc *crtc;
+    UkuiRRScreenPrivate *priv = screen->priv;
+    UkuiRRCrtc *crtc;
     XRRCrtcInfo *current_info;
     Status status;
     gboolean timestamp_updated;
@@ -970,8 +970,8 @@ out:
 }
 
 /**
- * mate_rr_screen_refresh:
- * @screen: a #MateRRScreen
+ * ukui_rr_screen_refresh:
+ * @screen: a #UkuiRRScreen
  * @error: location to store error, or %NULL
  *
  * Refreshes the screen configuration, and calls the screen's callback if it
@@ -983,7 +983,7 @@ out:
  * configuration.
  */
 gboolean
-mate_rr_screen_refresh (MateRRScreen *screen,
+ukui_rr_screen_refresh (UkuiRRScreen *screen,
 			 GError       **error)
 {
     gboolean refreshed;
@@ -1001,82 +1001,82 @@ mate_rr_screen_refresh (MateRRScreen *screen,
 }
 
 /**
- * mate_rr_screen_list_modes:
+ * ukui_rr_screen_list_modes:
  *
  * List available XRandR modes
  *
  * Returns: (array zero-terminated=1) (transfer none):
  */
-MateRRMode **
-mate_rr_screen_list_modes (MateRRScreen *screen)
+UkuiRRMode **
+ukui_rr_screen_list_modes (UkuiRRScreen *screen)
 {
-    g_return_val_if_fail (MATE_IS_RR_SCREEN (screen), NULL);
+    g_return_val_if_fail (UKUI_IS_RR_SCREEN (screen), NULL);
     g_return_val_if_fail (screen->priv->info != NULL, NULL);
     
     return screen->priv->info->modes;
 }
 
 /**
- * mate_rr_screen_list_clone_modes:
+ * ukui_rr_screen_list_clone_modes:
  *
  * List available XRandR clone modes
  *
  * Returns: (array zero-terminated=1) (transfer none):
  */
-MateRRMode **
-mate_rr_screen_list_clone_modes   (MateRRScreen *screen)
+UkuiRRMode **
+ukui_rr_screen_list_clone_modes   (UkuiRRScreen *screen)
 {
-    g_return_val_if_fail (MATE_IS_RR_SCREEN (screen), NULL);
+    g_return_val_if_fail (UKUI_IS_RR_SCREEN (screen), NULL);
     g_return_val_if_fail (screen->priv->info != NULL, NULL);
 
     return screen->priv->info->clone_modes;
 }
 
 /**
- * mate_rr_screen_list_crtcs:
+ * ukui_rr_screen_list_crtcs:
  *
  * List all CRTCs
  *
  * Returns: (array zero-terminated=1) (transfer none):
  */
-MateRRCrtc **
-mate_rr_screen_list_crtcs (MateRRScreen *screen)
+UkuiRRCrtc **
+ukui_rr_screen_list_crtcs (UkuiRRScreen *screen)
 {
-    g_return_val_if_fail (MATE_IS_RR_SCREEN (screen), NULL);
+    g_return_val_if_fail (UKUI_IS_RR_SCREEN (screen), NULL);
     g_return_val_if_fail (screen->priv->info != NULL, NULL);
     
     return screen->priv->info->crtcs;
 }
 
 /**
- * mate_rr_screen_list_outputs:
+ * ukui_rr_screen_list_outputs:
  *
  * List all outputs
  *
  * Returns: (array zero-terminated=1) (transfer none):
  */
-MateRROutput **
-mate_rr_screen_list_outputs (MateRRScreen *screen)
+UkuiRROutput **
+ukui_rr_screen_list_outputs (UkuiRRScreen *screen)
 {
-    g_return_val_if_fail (MATE_IS_RR_SCREEN (screen), NULL);
+    g_return_val_if_fail (UKUI_IS_RR_SCREEN (screen), NULL);
     g_return_val_if_fail (screen->priv->info != NULL, NULL);
     
     return screen->priv->info->outputs;
 }
 
 /**
- * mate_rr_screen_get_crtc_by_id:
+ * ukui_rr_screen_get_crtc_by_id:
  *
  * Returns: (transfer none): the CRTC identified by @id
  */
-MateRRCrtc *
-mate_rr_screen_get_crtc_by_id (MateRRScreen *screen,
+UkuiRRCrtc *
+ukui_rr_screen_get_crtc_by_id (UkuiRRScreen *screen,
 				guint32        id)
 {
-    MateRRCrtc **crtcs;
+    UkuiRRCrtc **crtcs;
     int i;
     
-    g_return_val_if_fail (MATE_IS_RR_SCREEN (screen), NULL);
+    g_return_val_if_fail (UKUI_IS_RR_SCREEN (screen), NULL);
     g_return_val_if_fail (screen->priv->info != NULL, NULL);
 
     crtcs = screen->priv->info->crtcs;
@@ -1091,18 +1091,18 @@ mate_rr_screen_get_crtc_by_id (MateRRScreen *screen,
 }
 
 /**
- * mate_rr_screen_get_output_by_id:
+ * ukui_rr_screen_get_output_by_id:
  *
  * Returns: (transfer none): the output identified by @id
  */
-MateRROutput *
-mate_rr_screen_get_output_by_id (MateRRScreen *screen,
+UkuiRROutput *
+ukui_rr_screen_get_output_by_id (UkuiRRScreen *screen,
 				  guint32        id)
 {
-    MateRROutput **outputs;
+    UkuiRROutput **outputs;
     int i;
     
-    g_return_val_if_fail (MATE_IS_RR_SCREEN (screen), NULL);
+    g_return_val_if_fail (UKUI_IS_RR_SCREEN (screen), NULL);
     g_return_val_if_fail (screen->priv->info != NULL, NULL);
 
     outputs = screen->priv->info->outputs;
@@ -1116,11 +1116,11 @@ mate_rr_screen_get_output_by_id (MateRRScreen *screen,
     return NULL;
 }
 
-/* MateRROutput */
-static MateRROutput *
+/* UkuiRROutput */
+static UkuiRROutput *
 output_new (ScreenInfo *info, RROutput id)
 {
-    MateRROutput *output = g_slice_new0 (MateRROutput);
+    UkuiRROutput *output = g_slice_new0 (UkuiRROutput);
     
     output->id = id;
     output->info = info;
@@ -1167,7 +1167,7 @@ get_property (Display *dpy,
 }
 
 static guint8 *
-read_edid_data (MateRROutput *output, int *len)
+read_edid_data (UkuiRROutput *output, int *len)
 {
     Atom edid_atom;
     guint8 *result;
@@ -1195,7 +1195,7 @@ read_edid_data (MateRROutput *output, int *len)
 }
 
 static char *
-get_connector_type_string (MateRROutput *output)
+get_connector_type_string (UkuiRROutput *output)
 {
 #ifdef HAVE_RANDR
     char *result;
@@ -1238,7 +1238,7 @@ out:
 
 #ifdef HAVE_RANDR
 static gboolean
-output_initialize (MateRROutput *output, XRRScreenResources *res, GError **error)
+output_initialize (UkuiRROutput *output, XRRScreenResources *res, GError **error)
 {
     XRROutputInfo *info = XRRGetOutputInfo (
 	DISPLAY (output), res, output->id);
@@ -1253,7 +1253,7 @@ output_initialize (MateRROutput *output, XRRScreenResources *res, GError **error
     {
 	/* FIXME: see the comment in crtc_initialize() */
 	/* Translators: here, an "output" is a video output */
-	g_set_error (error, MATE_RR_ERROR, MATE_RR_ERROR_RANDR_ERROR,
+	g_set_error (error, UKUI_RR_ERROR, UKUI_RR_ERROR_RANDR_ERROR,
 		     _("could not get information about output %d"),
 		     (int) output->id);
 	return FALSE;
@@ -1271,37 +1271,37 @@ output_initialize (MateRROutput *output, XRRScreenResources *res, GError **error
     
     for (i = 0; i < info->ncrtc; ++i)
     {
-	MateRRCrtc *crtc = crtc_by_id (output->info, info->crtcs[i]);
+	UkuiRRCrtc *crtc = crtc_by_id (output->info, info->crtcs[i]);
 	
 	if (crtc)
 	    g_ptr_array_add (a, crtc);
     }
     g_ptr_array_add (a, NULL);
-    output->possible_crtcs = (MateRRCrtc **)g_ptr_array_free (a, FALSE);
+    output->possible_crtcs = (UkuiRRCrtc **)g_ptr_array_free (a, FALSE);
     
     /* Clones */
     a = g_ptr_array_new ();
     for (i = 0; i < info->nclone; ++i)
     {
-	MateRROutput *mate_rr_output = mate_rr_output_by_id (output->info, info->clones[i]);
+	UkuiRROutput *ukui_rr_output = ukui_rr_output_by_id (output->info, info->clones[i]);
 	
-	if (mate_rr_output)
-	    g_ptr_array_add (a, mate_rr_output);
+	if (ukui_rr_output)
+	    g_ptr_array_add (a, ukui_rr_output);
     }
     g_ptr_array_add (a, NULL);
-    output->clones = (MateRROutput **)g_ptr_array_free (a, FALSE);
+    output->clones = (UkuiRROutput **)g_ptr_array_free (a, FALSE);
     
     /* Modes */
     a = g_ptr_array_new ();
     for (i = 0; i < info->nmode; ++i)
     {
-	MateRRMode *mode = mode_by_id (output->info, info->modes[i]);
+	UkuiRRMode *mode = mode_by_id (output->info, info->modes[i]);
 	
 	if (mode)
 	    g_ptr_array_add (a, mode);
     }
     g_ptr_array_add (a, NULL);
-    output->modes = (MateRRMode **)g_ptr_array_free (a, FALSE);
+    output->modes = (UkuiRRMode **)g_ptr_array_free (a, FALSE);
     
     output->n_preferred = info->npreferred;
     
@@ -1314,14 +1314,14 @@ output_initialize (MateRROutput *output, XRRScreenResources *res, GError **error
 }
 #endif /* HAVE_RANDR */
 
-static MateRROutput*
-output_copy (const MateRROutput *from)
+static UkuiRROutput*
+output_copy (const UkuiRROutput *from)
 {
     GPtrArray *array;
-    MateRRCrtc **p_crtc;
-    MateRROutput **p_output;
-    MateRRMode **p_mode;
-    MateRROutput *output = g_slice_new0 (MateRROutput);
+    UkuiRRCrtc **p_crtc;
+    UkuiRROutput **p_output;
+    UkuiRRMode **p_mode;
+    UkuiRROutput *output = g_slice_new0 (UkuiRROutput);
 
     output->id = from->id;
     output->info = from->info;
@@ -1338,21 +1338,21 @@ output_copy (const MateRROutput *from)
     {
         g_ptr_array_add (array, *p_crtc);
     }
-    output->possible_crtcs = (MateRRCrtc**) g_ptr_array_free (array, FALSE);
+    output->possible_crtcs = (UkuiRRCrtc**) g_ptr_array_free (array, FALSE);
 
     array = g_ptr_array_new ();
     for (p_output = from->clones; *p_output != NULL; p_output++)
     {
         g_ptr_array_add (array, *p_output);
     }
-    output->clones = (MateRROutput**) g_ptr_array_free (array, FALSE);
+    output->clones = (UkuiRROutput**) g_ptr_array_free (array, FALSE);
 
     array = g_ptr_array_new ();
     for (p_mode = from->modes; *p_mode != NULL; p_mode++)
     {
         g_ptr_array_add (array, *p_mode);
     }
-    output->modes = (MateRRMode**) g_ptr_array_free (array, FALSE);
+    output->modes = (UkuiRRMode**) g_ptr_array_free (array, FALSE);
 
     output->edid_size = from->edid_size;
     output->edid_data = g_memdup (from->edid_data, from->edid_size);
@@ -1361,7 +1361,7 @@ output_copy (const MateRROutput *from)
 }
 
 static void
-output_free (MateRROutput *output)
+output_free (UkuiRROutput *output)
 {
     g_free (output->clones);
     g_free (output->modes);
@@ -1369,11 +1369,11 @@ output_free (MateRROutput *output)
     g_free (output->edid_data);
     g_free (output->name);
     g_free (output->connector_type);
-    g_slice_free (MateRROutput, output);
+    g_slice_free (UkuiRROutput, output);
 }
 
 guint32
-mate_rr_output_get_id (MateRROutput *output)
+ukui_rr_output_get_id (UkuiRROutput *output)
 {
     g_assert(output != NULL);
     
@@ -1381,7 +1381,7 @@ mate_rr_output_get_id (MateRROutput *output)
 }
 
 const guint8 *
-mate_rr_output_get_edid_data (MateRROutput *output)
+ukui_rr_output_get_edid_data (UkuiRROutput *output)
 {
     g_return_val_if_fail (output != NULL, NULL);
     
@@ -1389,22 +1389,22 @@ mate_rr_output_get_edid_data (MateRROutput *output)
 }
 
 /**
- * mate_rr_screen_get_output_by_name:
+ * ukui_rr_screen_get_output_by_name:
  *
  * Returns: (transfer none): the output identified by @name
  */
-MateRROutput *
-mate_rr_screen_get_output_by_name (MateRRScreen *screen,
+UkuiRROutput *
+ukui_rr_screen_get_output_by_name (UkuiRRScreen *screen,
 				    const char    *name)
 {
     int i;
     
-    g_return_val_if_fail (MATE_IS_RR_SCREEN (screen), NULL);
+    g_return_val_if_fail (UKUI_IS_RR_SCREEN (screen), NULL);
     g_return_val_if_fail (screen->priv->info != NULL, NULL);
     
     for (i = 0; screen->priv->info->outputs[i] != NULL; ++i)
     {
-	MateRROutput *output = screen->priv->info->outputs[i];
+	UkuiRROutput *output = screen->priv->info->outputs[i];
 	
 	if (strcmp (output->name, name) == 0)
 	    return output;
@@ -1414,12 +1414,12 @@ mate_rr_screen_get_output_by_name (MateRRScreen *screen,
 }
 
 /**
- * mate_rr_output_get_crtc:
- * @output: a #MateRROutput
+ * ukui_rr_output_get_crtc:
+ * @output: a #UkuiRROutput
  * Returns: (transfer none):
  */
-MateRRCrtc *
-mate_rr_output_get_crtc (MateRROutput *output)
+UkuiRRCrtc *
+ukui_rr_output_get_crtc (UkuiRROutput *output)
 {
     g_return_val_if_fail (output != NULL, NULL);
     
@@ -1427,12 +1427,12 @@ mate_rr_output_get_crtc (MateRROutput *output)
 }
 
 /**
- * mate_rr_output_get_possible_crtcs:
- * @output: a #MateRROutput
+ * ukui_rr_output_get_possible_crtcs:
+ * @output: a #UkuiRROutput
  * Returns: (array zero-terminated=1) (transfer none):
  */
-MateRRCrtc **
-mate_rr_output_get_possible_crtcs (MateRROutput *output)
+UkuiRRCrtc **
+ukui_rr_output_get_possible_crtcs (UkuiRROutput *output)
 {
     g_return_val_if_fail (output != NULL, NULL);
 
@@ -1441,7 +1441,7 @@ mate_rr_output_get_possible_crtcs (MateRROutput *output)
 
 /* Returns NULL if the ConnectorType property is not available */
 const char *
-mate_rr_output_get_connector_type (MateRROutput *output)
+ukui_rr_output_get_connector_type (UkuiRROutput *output)
 {
     g_return_val_if_fail (output != NULL, NULL);
 
@@ -1449,7 +1449,7 @@ mate_rr_output_get_connector_type (MateRROutput *output)
 }
 
 gboolean
-_mate_rr_output_name_is_laptop (const char *name)
+_ukui_rr_output_name_is_laptop (const char *name)
 {
     if (!name)
         return FALSE;
@@ -1465,85 +1465,85 @@ _mate_rr_output_name_is_laptop (const char *name)
 }
 
 gboolean
-mate_rr_output_is_laptop (MateRROutput *output)
+ukui_rr_output_is_laptop (UkuiRROutput *output)
 {
     g_return_val_if_fail (output != NULL, FALSE);
 
     if (!output->connected)
         return FALSE;
 
-    if (g_strcmp0 (output->connector_type, MATE_RR_CONNECTOR_TYPE_PANEL) == 0)
+    if (g_strcmp0 (output->connector_type, UKUI_RR_CONNECTOR_TYPE_PANEL) == 0)
         return TRUE;
 
     /* Fallback (see https://bugs.freedesktop.org/show_bug.cgi?id=26736) */
-    return _mate_rr_output_name_is_laptop (output->name);
+    return _ukui_rr_output_name_is_laptop (output->name);
 }
 
 /**
- * mate_rr_output_get_current_mode:
- * @output: a #MateRROutput
+ * ukui_rr_output_get_current_mode:
+ * @output: a #UkuiRROutput
  * Returns: (transfer none): the current mode of this output
  */
-MateRRMode *
-mate_rr_output_get_current_mode (MateRROutput *output)
+UkuiRRMode *
+ukui_rr_output_get_current_mode (UkuiRROutput *output)
 {
-    MateRRCrtc *crtc;
+    UkuiRRCrtc *crtc;
     
     g_return_val_if_fail (output != NULL, NULL);
     
-    if ((crtc = mate_rr_output_get_crtc (output)))
-	return mate_rr_crtc_get_current_mode (crtc);
+    if ((crtc = ukui_rr_output_get_crtc (output)))
+	return ukui_rr_crtc_get_current_mode (crtc);
     
     return NULL;
 }
 
 /**
- * mate_rr_output_get_position:
- * @output: a #MateRROutput
+ * ukui_rr_output_get_position:
+ * @output: a #UkuiRROutput
  * @x: (out) (allow-none):
  * @y: (out) (allow-none):
  */
 void
-mate_rr_output_get_position (MateRROutput   *output,
+ukui_rr_output_get_position (UkuiRROutput   *output,
 			      int             *x,
 			      int             *y)
 {
-    MateRRCrtc *crtc;
+    UkuiRRCrtc *crtc;
     
     g_return_if_fail (output != NULL);
     
-    if ((crtc = mate_rr_output_get_crtc (output)))
-	mate_rr_crtc_get_position (crtc, x, y);
+    if ((crtc = ukui_rr_output_get_crtc (output)))
+	ukui_rr_crtc_get_position (crtc, x, y);
 }
 
 const char *
-mate_rr_output_get_name (MateRROutput *output)
+ukui_rr_output_get_name (UkuiRROutput *output)
 {
     g_assert (output != NULL);
     return output->name;
 }
 
 int
-mate_rr_output_get_width_mm (MateRROutput *output)
+ukui_rr_output_get_width_mm (UkuiRROutput *output)
 {
     g_assert (output != NULL);
     return output->width_mm;
 }
 
 int
-mate_rr_output_get_height_mm (MateRROutput *output)
+ukui_rr_output_get_height_mm (UkuiRROutput *output)
 {
     g_assert (output != NULL);
     return output->height_mm;
 }
 
 /**
- * mate_rr_output_get_preferred_mode:
- * @output: a #MateRROutput
+ * ukui_rr_output_get_preferred_mode:
+ * @output: a #UkuiRROutput
  * Returns: (transfer none):
  */
-MateRRMode *
-mate_rr_output_get_preferred_mode (MateRROutput *output)
+UkuiRRMode *
+ukui_rr_output_get_preferred_mode (UkuiRROutput *output)
 {
     g_return_val_if_fail (output != NULL, NULL);
     if (output->n_preferred)
@@ -1553,28 +1553,28 @@ mate_rr_output_get_preferred_mode (MateRROutput *output)
 }
 
 /**
- * mate_rr_output_list_modes:
- * @output: a #MateRROutput
+ * ukui_rr_output_list_modes:
+ * @output: a #UkuiRROutput
  * Returns: (array zero-terminated=1) (transfer none):
  */
 
-MateRRMode **
-mate_rr_output_list_modes (MateRROutput *output)
+UkuiRRMode **
+ukui_rr_output_list_modes (UkuiRROutput *output)
 {
     g_return_val_if_fail (output != NULL, NULL);
     return output->modes;
 }
 
 gboolean
-mate_rr_output_is_connected (MateRROutput *output)
+ukui_rr_output_is_connected (UkuiRROutput *output)
 {
     g_return_val_if_fail (output != NULL, FALSE);
     return output->connected;
 }
 
 gboolean
-mate_rr_output_supports_mode (MateRROutput *output,
-			       MateRRMode   *mode)
+ukui_rr_output_supports_mode (UkuiRROutput *output,
+			       UkuiRRMode   *mode)
 {
     int i;
     
@@ -1591,8 +1591,8 @@ mate_rr_output_supports_mode (MateRROutput *output,
 }
 
 gboolean
-mate_rr_output_can_clone (MateRROutput *output,
-			   MateRROutput *clone)
+ukui_rr_output_can_clone (UkuiRROutput *output,
+			   UkuiRROutput *clone)
 {
     int i;
     
@@ -1609,7 +1609,7 @@ mate_rr_output_can_clone (MateRROutput *output,
 }
 
 gboolean
-mate_rr_output_get_is_primary (MateRROutput *output)
+ukui_rr_output_get_is_primary (UkuiRROutput *output)
 {
 #ifdef HAVE_RANDR
     return output->info->primary == output->id;
@@ -1619,13 +1619,13 @@ mate_rr_output_get_is_primary (MateRROutput *output)
 }
 
 void
-mate_rr_screen_set_primary_output (MateRRScreen *screen,
-                                    MateRROutput *output)
+ukui_rr_screen_set_primary_output (UkuiRRScreen *screen,
+                                    UkuiRROutput *output)
 {
 #ifdef HAVE_RANDR
-    MateRRScreenPrivate *priv;
+    UkuiRRScreenPrivate *priv;
 
-    g_return_if_fail (MATE_IS_RR_SCREEN (screen));
+    g_return_if_fail (UKUI_IS_RR_SCREEN (screen));
 
     priv = screen->priv;
 
@@ -1640,28 +1640,28 @@ mate_rr_screen_set_primary_output (MateRRScreen *screen,
 #endif
 }
 
-/* MateRRCrtc */
+/* UkuiRRCrtc */
 typedef struct
 {
     Rotation xrot;
-    MateRRRotation rot;
+    UkuiRRRotation rot;
 } RotationMap;
 
 static const RotationMap rotation_map[] =
 {
-    { RR_Rotate_0, MATE_RR_ROTATION_0 },
-    { RR_Rotate_90, MATE_RR_ROTATION_90 },
-    { RR_Rotate_180, MATE_RR_ROTATION_180 },
-    { RR_Rotate_270, MATE_RR_ROTATION_270 },
-    { RR_Reflect_X, MATE_RR_REFLECT_X },
-    { RR_Reflect_Y, MATE_RR_REFLECT_Y },
+    { RR_Rotate_0, UKUI_RR_ROTATION_0 },
+    { RR_Rotate_90, UKUI_RR_ROTATION_90 },
+    { RR_Rotate_180, UKUI_RR_ROTATION_180 },
+    { RR_Rotate_270, UKUI_RR_ROTATION_270 },
+    { RR_Reflect_X, UKUI_RR_REFLECT_X },
+    { RR_Reflect_Y, UKUI_RR_REFLECT_Y },
 };
 
-static MateRRRotation
-mate_rr_rotation_from_xrotation (Rotation r)
+static UkuiRRRotation
+ukui_rr_rotation_from_xrotation (Rotation r)
 {
     int i;
-    MateRRRotation result = 0;
+    UkuiRRRotation result = 0;
     
     for (i = 0; i < G_N_ELEMENTS (rotation_map); ++i)
     {
@@ -1673,7 +1673,7 @@ mate_rr_rotation_from_xrotation (Rotation r)
 }
 
 static Rotation
-xrotation_from_rotation (MateRRRotation r)
+xrotation_from_rotation (UkuiRRRotation r)
 {
     int i;
     Rotation result = 0;
@@ -1687,29 +1687,29 @@ xrotation_from_rotation (MateRRRotation r)
     return result;
 }
 
-#ifndef MATE_DISABLE_DEPRECATED_SOURCE
+#ifndef UKUI_DISABLE_DEPRECATED_SOURCE
 gboolean
-mate_rr_crtc_set_config (MateRRCrtc      *crtc,
+ukui_rr_crtc_set_config (UkuiRRCrtc      *crtc,
 			  int               x,
 			  int               y,
-			  MateRRMode      *mode,
-			  MateRRRotation   rotation,
-			  MateRROutput   **outputs,
+			  UkuiRRMode      *mode,
+			  UkuiRRRotation   rotation,
+			  UkuiRROutput   **outputs,
 			  int               n_outputs,
 			  GError          **error)
 {
-    return mate_rr_crtc_set_config_with_time (crtc, GDK_CURRENT_TIME, x, y, mode, rotation, outputs, n_outputs, error);
+    return ukui_rr_crtc_set_config_with_time (crtc, GDK_CURRENT_TIME, x, y, mode, rotation, outputs, n_outputs, error);
 }
 #endif
 
 gboolean
-mate_rr_crtc_set_config_with_time (MateRRCrtc      *crtc,
+ukui_rr_crtc_set_config_with_time (UkuiRRCrtc      *crtc,
 				    guint32           timestamp,
 				    int               x,
 				    int               y,
-				    MateRRMode      *mode,
-				    MateRRRotation   rotation,
-				    MateRROutput   **outputs,
+				    UkuiRRMode      *mode,
+				    UkuiRRRotation   rotation,
+				    UkuiRROutput   **outputs,
 				    int               n_outputs,
 				    GError          **error)
 {
@@ -1731,7 +1731,7 @@ mate_rr_crtc_set_config_with_time (MateRRCrtc      *crtc,
 	if (x + mode->width > info->max_width
 	    || y + mode->height > info->max_height)
 	{
-	    g_set_error (error, MATE_RR_ERROR, MATE_RR_ERROR_BOUNDS_ERROR,
+	    g_set_error (error, UKUI_RR_ERROR, UKUI_RR_ERROR_BOUNDS_ERROR,
 			 /* Translators: the "position", "size", and "maximum"
 			  * words here are not keywords; please translate them
 			  * as usual.  A CRTC is a CRT Controller (this is X terminology) */
@@ -1768,7 +1768,7 @@ mate_rr_crtc_set_config_with_time (MateRRCrtc      *crtc,
         /* Translators: CRTC is a CRT Controller (this is X terminology).
          * It is *very* unlikely that you'll ever get this error, so it is
          * only listed for completeness. */
-        g_set_error (error, MATE_RR_ERROR, MATE_RR_ERROR_RANDR_ERROR,
+        g_set_error (error, UKUI_RR_ERROR, UKUI_RR_ERROR_RANDR_ERROR,
                      _("could not set the configuration for CRTC %d"),
                      (int) crtc->id);
         return FALSE;
@@ -1783,12 +1783,12 @@ mate_rr_crtc_set_config_with_time (MateRRCrtc      *crtc,
 }
 
 /**
- * mate_rr_crtc_get_current_mode:
- * @crtc: a #MateRRCrtc
+ * ukui_rr_crtc_get_current_mode:
+ * @crtc: a #UkuiRRCrtc
  * Returns: (transfer none): the current mode of this crtc
  */
-MateRRMode *
-mate_rr_crtc_get_current_mode (MateRRCrtc *crtc)
+UkuiRRMode *
+ukui_rr_crtc_get_current_mode (UkuiRRCrtc *crtc)
 {
     g_return_val_if_fail (crtc != NULL, NULL);
     
@@ -1796,7 +1796,7 @@ mate_rr_crtc_get_current_mode (MateRRCrtc *crtc)
 }
 
 guint32
-mate_rr_crtc_get_id (MateRRCrtc *crtc)
+ukui_rr_crtc_get_id (UkuiRRCrtc *crtc)
 {
     g_return_val_if_fail (crtc != NULL, 0);
     
@@ -1804,8 +1804,8 @@ mate_rr_crtc_get_id (MateRRCrtc *crtc)
 }
 
 gboolean
-mate_rr_crtc_can_drive_output (MateRRCrtc   *crtc,
-				MateRROutput *output)
+ukui_rr_crtc_can_drive_output (UkuiRRCrtc   *crtc,
+				UkuiRROutput *output)
 {
     int i;
     
@@ -1824,13 +1824,13 @@ mate_rr_crtc_can_drive_output (MateRRCrtc   *crtc,
 /* FIXME: merge with get_mode()? */
 
 /**
- * mate_rr_crtc_get_position:
- * @crtc: a #MateRRCrtc
+ * ukui_rr_crtc_get_position:
+ * @crtc: a #UkuiRRCrtc
  * @x: (out) (allow-none):
  * @y: (out) (allow-none):
  */
 void
-mate_rr_crtc_get_position (MateRRCrtc *crtc,
+ukui_rr_crtc_get_position (UkuiRRCrtc *crtc,
 			    int         *x,
 			    int         *y)
 {
@@ -1844,32 +1844,32 @@ mate_rr_crtc_get_position (MateRRCrtc *crtc,
 }
 
 /* FIXME: merge with get_mode()? */
-MateRRRotation
-mate_rr_crtc_get_current_rotation (MateRRCrtc *crtc)
+UkuiRRRotation
+ukui_rr_crtc_get_current_rotation (UkuiRRCrtc *crtc)
 {
     g_assert(crtc != NULL);
     return crtc->current_rotation;
 }
 
-MateRRRotation
-mate_rr_crtc_get_rotations (MateRRCrtc *crtc)
+UkuiRRRotation
+ukui_rr_crtc_get_rotations (UkuiRRCrtc *crtc)
 {
     g_assert(crtc != NULL);
     return crtc->rotations;
 }
 
 gboolean
-mate_rr_crtc_supports_rotation (MateRRCrtc *   crtc,
-				 MateRRRotation rotation)
+ukui_rr_crtc_supports_rotation (UkuiRRCrtc *   crtc,
+				 UkuiRRRotation rotation)
 {
     g_return_val_if_fail (crtc != NULL, FALSE);
     return (crtc->rotations & rotation);
 }
 
-static MateRRCrtc *
+static UkuiRRCrtc *
 crtc_new (ScreenInfo *info, RROutput id)
 {
-    MateRRCrtc *crtc = g_slice_new0 (MateRRCrtc);
+    UkuiRRCrtc *crtc = g_slice_new0 (UkuiRRCrtc);
     
     crtc->id = id;
     crtc->info = info;
@@ -1877,12 +1877,12 @@ crtc_new (ScreenInfo *info, RROutput id)
     return crtc;
 }
 
-static MateRRCrtc *
-crtc_copy (const MateRRCrtc *from)
+static UkuiRRCrtc *
+crtc_copy (const UkuiRRCrtc *from)
 {
-    MateRROutput **p_output;
+    UkuiRROutput **p_output;
     GPtrArray *array;
-    MateRRCrtc *to = g_slice_new0 (MateRRCrtc);
+    UkuiRRCrtc *to = g_slice_new0 (UkuiRRCrtc);
 
     to->info = from->info;
     to->id = from->id;
@@ -1898,21 +1898,21 @@ crtc_copy (const MateRRCrtc *from)
     {
         g_ptr_array_add (array, *p_output);
     }
-    to->current_outputs = (MateRROutput**) g_ptr_array_free (array, FALSE);
+    to->current_outputs = (UkuiRROutput**) g_ptr_array_free (array, FALSE);
 
     array = g_ptr_array_new ();
     for (p_output = from->possible_outputs; *p_output != NULL; p_output++)
     {
         g_ptr_array_add (array, *p_output);
     }
-    to->possible_outputs = (MateRROutput**) g_ptr_array_free (array, FALSE);
+    to->possible_outputs = (UkuiRROutput**) g_ptr_array_free (array, FALSE);
 
     return to;
 }
 
 #ifdef HAVE_RANDR
 static gboolean
-crtc_initialize (MateRRCrtc        *crtc,
+crtc_initialize (UkuiRRCrtc        *crtc,
 		 XRRScreenResources *res,
 		 GError            **error)
 {
@@ -1932,13 +1932,13 @@ crtc_initialize (MateRRCrtc        *crtc,
 	/* Translators: CRTC is a CRT Controller (this is X terminology).
 	 * It is *very* unlikely that you'll ever get this error, so it is
 	 * only listed for completeness. */
-	g_set_error (error, MATE_RR_ERROR, MATE_RR_ERROR_RANDR_ERROR,
+	g_set_error (error, UKUI_RR_ERROR, UKUI_RR_ERROR_RANDR_ERROR,
 		     _("could not get information about CRTC %d"),
 		     (int) crtc->id);
 	return FALSE;
     }
     
-    /* MateRRMode */
+    /* UkuiRRMode */
     crtc->current_mode = mode_by_id (crtc->info, info->mode);
     
     crtc->x = info->x;
@@ -1948,29 +1948,29 @@ crtc_initialize (MateRRCrtc        *crtc,
     a = g_ptr_array_new ();
     for (i = 0; i < info->noutput; ++i)
     {
-	MateRROutput *output = mate_rr_output_by_id (crtc->info, info->outputs[i]);
+	UkuiRROutput *output = ukui_rr_output_by_id (crtc->info, info->outputs[i]);
 	
 	if (output)
 	    g_ptr_array_add (a, output);
     }
     g_ptr_array_add (a, NULL);
-    crtc->current_outputs = (MateRROutput **)g_ptr_array_free (a, FALSE);
+    crtc->current_outputs = (UkuiRROutput **)g_ptr_array_free (a, FALSE);
     
     /* Possible outputs */
     a = g_ptr_array_new ();
     for (i = 0; i < info->npossible; ++i)
     {
-	MateRROutput *output = mate_rr_output_by_id (crtc->info, info->possible[i]);
+	UkuiRROutput *output = ukui_rr_output_by_id (crtc->info, info->possible[i]);
 	
 	if (output)
 	    g_ptr_array_add (a, output);
     }
     g_ptr_array_add (a, NULL);
-    crtc->possible_outputs = (MateRROutput **)g_ptr_array_free (a, FALSE);
+    crtc->possible_outputs = (UkuiRROutput **)g_ptr_array_free (a, FALSE);
     
     /* Rotations */
-    crtc->current_rotation = mate_rr_rotation_from_xrotation (info->rotation);
-    crtc->rotations = mate_rr_rotation_from_xrotation (info->rotations);
+    crtc->current_rotation = ukui_rr_rotation_from_xrotation (info->rotation);
+    crtc->rotations = ukui_rr_rotation_from_xrotation (info->rotations);
     
     XRRFreeCrtcInfo (info);
 
@@ -1982,18 +1982,18 @@ crtc_initialize (MateRRCrtc        *crtc,
 #endif
 
 static void
-crtc_free (MateRRCrtc *crtc)
+crtc_free (UkuiRRCrtc *crtc)
 {
     g_free (crtc->current_outputs);
     g_free (crtc->possible_outputs);
-    g_slice_free (MateRRCrtc, crtc);
+    g_slice_free (UkuiRRCrtc, crtc);
 }
 
-/* MateRRMode */
-static MateRRMode *
+/* UkuiRRMode */
+static UkuiRRMode *
 mode_new (ScreenInfo *info, RRMode id)
 {
-    MateRRMode *mode = g_slice_new0 (MateRRMode);
+    UkuiRRMode *mode = g_slice_new0 (UkuiRRMode);
     
     mode->id = id;
     mode->info = info;
@@ -2002,28 +2002,28 @@ mode_new (ScreenInfo *info, RRMode id)
 }
 
 guint32
-mate_rr_mode_get_id (MateRRMode *mode)
+ukui_rr_mode_get_id (UkuiRRMode *mode)
 {
     g_return_val_if_fail (mode != NULL, 0);
     return mode->id;
 }
 
 guint
-mate_rr_mode_get_width (MateRRMode *mode)
+ukui_rr_mode_get_width (UkuiRRMode *mode)
 {
     g_return_val_if_fail (mode != NULL, 0);
     return mode->width;
 }
 
 int
-mate_rr_mode_get_freq (MateRRMode *mode)
+ukui_rr_mode_get_freq (UkuiRRMode *mode)
 {
     g_return_val_if_fail (mode != NULL, 0);
     return (mode->freq) / 1000;
 }
 
 guint
-mate_rr_mode_get_height (MateRRMode *mode)
+ukui_rr_mode_get_height (UkuiRRMode *mode)
 {
     g_return_val_if_fail (mode != NULL, 0);
     return mode->height;
@@ -2031,7 +2031,7 @@ mate_rr_mode_get_height (MateRRMode *mode)
 
 #ifdef HAVE_RANDR
 static void
-mode_initialize (MateRRMode *mode, XRRModeInfo *info)
+mode_initialize (UkuiRRMode *mode, XRRModeInfo *info)
 {
     g_assert (mode != NULL);
     g_assert (info != NULL);
@@ -2043,10 +2043,10 @@ mode_initialize (MateRRMode *mode, XRRModeInfo *info)
 }
 #endif /* HAVE_RANDR */
 
-static MateRRMode *
-mode_copy (const MateRRMode *from)
+static UkuiRRMode *
+mode_copy (const UkuiRRMode *from)
 {
-    MateRRMode *to = g_slice_new0 (MateRRMode);
+    UkuiRRMode *to = g_slice_new0 (UkuiRRMode);
 
     to->id = from->id;
     to->info = from->info;
@@ -2059,14 +2059,14 @@ mode_copy (const MateRRMode *from)
 }
 
 static void
-mode_free (MateRRMode *mode)
+mode_free (UkuiRRMode *mode)
 {
     g_free (mode->name);
-    g_slice_free (MateRRMode, mode);
+    g_slice_free (UkuiRRMode, mode);
 }
 
 void
-mate_rr_crtc_set_gamma (MateRRCrtc *crtc, int size,
+ukui_rr_crtc_set_gamma (UkuiRRCrtc *crtc, int size,
 			 unsigned short *red,
 			 unsigned short *green,
 			 unsigned short *blue)
@@ -2096,8 +2096,8 @@ mate_rr_crtc_set_gamma (MateRRCrtc *crtc, int size,
 }
 
 /**
- * mate_rr_crtc_get_gamma:
- * @crtc: a #MateRRCrtc
+ * ukui_rr_crtc_get_gamma:
+ * @crtc: a #UkuiRRCrtc
  * @size:
  * @red: (out): the minimum width
  * @green: (out): the maximum width
@@ -2106,7 +2106,7 @@ mate_rr_crtc_set_gamma (MateRRCrtc *crtc, int size,
  * Returns: %TRUE for success
  */
 gboolean
-mate_rr_crtc_get_gamma (MateRRCrtc *crtc, int *size,
+ukui_rr_crtc_get_gamma (UkuiRRCrtc *crtc, int *size,
 			 unsigned short **red, unsigned short **green,
 			 unsigned short **blue)
 {

@@ -20,7 +20,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#include <mate-desktop-item.h>
+#include <ukui-desktop-item.h>
 
 #include <locale.h>
 #include <stdlib.h>
@@ -28,66 +28,66 @@
 static void
 test_ditem (const char *file)
 {
-	MateDesktopItem *ditem;
-	MateDesktopItemType type;
+	UkuiDesktopItem *ditem;
+	UkuiDesktopItemType type;
 	const gchar *text;
 	char *uri;
 	char path[256];
 
-	ditem = mate_desktop_item_new_from_file (file,
-						  MATE_DESKTOP_ITEM_LOAD_ONLY_IF_EXISTS,
+	ditem = ukui_desktop_item_new_from_file (file,
+						  UKUI_DESKTOP_ITEM_LOAD_ONLY_IF_EXISTS,
 						  NULL);
 	if (ditem == NULL) {
 		g_print ("File %s is not an existing ditem\n", file);
 		return;
 	}
 
-	text = mate_desktop_item_get_location (ditem);
+	text = ukui_desktop_item_get_location (ditem);
 	g_print ("LOCATION: |%s|\n", text);
 
-	type = mate_desktop_item_get_entry_type (ditem);
+	type = ukui_desktop_item_get_entry_type (ditem);
 	g_print ("TYPE: |%u|\n", type);
 
-	text = mate_desktop_item_get_string
-		(ditem, MATE_DESKTOP_ITEM_TYPE);
+	text = ukui_desktop_item_get_string
+		(ditem, UKUI_DESKTOP_ITEM_TYPE);
 	g_print ("TYPE(string): |%s|\n", text);
 
-	text = mate_desktop_item_get_string
-		(ditem, MATE_DESKTOP_ITEM_EXEC);
+	text = ukui_desktop_item_get_string
+		(ditem, UKUI_DESKTOP_ITEM_EXEC);
 	g_print ("EXEC: |%s|\n", text);
 
-	text = mate_desktop_item_get_string
-		(ditem, MATE_DESKTOP_ITEM_ICON);
+	text = ukui_desktop_item_get_string
+		(ditem, UKUI_DESKTOP_ITEM_ICON);
 	g_print ("ICON: |%s|\n", text);
 
-	text = mate_desktop_item_get_localestring
-		(ditem, MATE_DESKTOP_ITEM_NAME);
+	text = ukui_desktop_item_get_localestring
+		(ditem, UKUI_DESKTOP_ITEM_NAME);
 	g_print ("NAME: |%s|\n", text);
 
-	text = mate_desktop_item_get_localestring_lang
-		(ditem, MATE_DESKTOP_ITEM_NAME,
+	text = ukui_desktop_item_get_localestring_lang
+		(ditem, UKUI_DESKTOP_ITEM_NAME,
 		 "cs_CZ");
 	g_print ("NAME(lang=cs_CZ): |%s|\n", text);
 
-	text = mate_desktop_item_get_localestring_lang
-		(ditem, MATE_DESKTOP_ITEM_NAME,
+	text = ukui_desktop_item_get_localestring_lang
+		(ditem, UKUI_DESKTOP_ITEM_NAME,
 		 "de");
 	g_print ("NAME(lang=de): |%s|\n", text);
 
 
-	text = mate_desktop_item_get_localestring_lang
-		(ditem, MATE_DESKTOP_ITEM_NAME,
+	text = ukui_desktop_item_get_localestring_lang
+		(ditem, UKUI_DESKTOP_ITEM_NAME,
 		 NULL);
 	g_print ("NAME(lang=null): |%s|\n", text);
 
-	text = mate_desktop_item_get_localestring
-		(ditem, MATE_DESKTOP_ITEM_COMMENT);
+	text = ukui_desktop_item_get_localestring
+		(ditem, UKUI_DESKTOP_ITEM_COMMENT);
 	g_print ("COMMENT: |%s|\n", text);
 
 	g_print ("Setting Name[de]=Neu gestzt! (I have no idea what that means)\n");
-	mate_desktop_item_set_localestring
+	ukui_desktop_item_set_localestring
 		(ditem,
-		 MATE_DESKTOP_ITEM_NAME,
+		 UKUI_DESKTOP_ITEM_NAME,
 		 "Neu gesetzt!");
 
 	getcwd (path, 255 - strlen ("/foo.desktop"));
@@ -96,19 +96,19 @@ test_ditem (const char *file)
 	g_print ("Saving to foo.desktop\n");
 	uri = g_filename_to_uri (path, NULL, NULL);
 	g_print ("URI: %s\n", uri);
-	mate_desktop_item_save (ditem, uri, FALSE, NULL);
+	ukui_desktop_item_save (ditem, uri, FALSE, NULL);
 	g_free (uri);
 }
 
 static void
 launch_item (const char *file)
 {
-	MateDesktopItem *ditem;
+	UkuiDesktopItem *ditem;
 	GList *file_list = NULL;
 	int ret;
 
-	ditem = mate_desktop_item_new_from_file (file,
-						  MATE_DESKTOP_ITEM_LOAD_ONLY_IF_EXISTS,
+	ditem = ukui_desktop_item_new_from_file (file,
+						  UKUI_DESKTOP_ITEM_LOAD_ONLY_IF_EXISTS,
 						  NULL);
 	if (ditem == NULL) {
 		g_print ("File %s is not an existing ditem\n", file);
@@ -123,7 +123,7 @@ launch_item (const char *file)
 	file_list = g_list_append (file_list, "http://slashdot.org");
 #endif
 
-	ret = mate_desktop_item_launch (ditem, file_list, 0, NULL);
+	ret = ukui_desktop_item_launch (ditem, file_list, 0, NULL);
 	g_print ("launch returned: %d\n", ret);
 }
 

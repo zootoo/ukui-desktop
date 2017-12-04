@@ -1,26 +1,26 @@
 /* -*- Mode: C; c-set-style: linux indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* mate-desktop-item.c - MATE Desktop File Representation
+/* ukui-desktop-item.c - UKUI Desktop File Representation
 
    Copyright (C) 1999, 2000 Red Hat Inc.
    Copyright (C) 2001 Sid Vicious
    All rights reserved.
 
-   This file is part of the Mate Library.
+   This file is part of the Ukui Library.
 
    Developed by Elliot Lee <sopwith@redhat.com> and Sid Vicious
 
-   The Mate Library is free software; you can redistribute it and/or
+   The Ukui Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
 
-   The Mate Library is distributed in the hope that it will be useful,
+   The Ukui Library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
 
    You should have received a copy of the GNU Library General Public
-   License along with the Mate Library; see the file COPYING.LIB.  If not,
+   License along with the Ukui Library; see the file COPYING.LIB.  If not,
    write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
    Boston, MA 02110-1301, USA.  */
 /*
@@ -54,20 +54,20 @@
 
 #define sure_string(s) ((s)!=NULL?(s):"")
 
-#define MATE_DESKTOP_USE_UNSTABLE_API
-#undef MATE_DISABLE_DEPRECATED
-#include <mate-desktop-item.h>
-#include <mate-desktop-utils.h>
+#define UKUI_DESKTOP_USE_UNSTABLE_API
+#undef UKUI_DISABLE_DEPRECATED
+#include <ukui-desktop-item.h>
+#include <ukui-desktop-utils.h>
 
 #include "private.h"
 
-struct _MateDesktopItem {
+struct _UkuiDesktopItem {
 	int refcount;
 
 	/* all languages used */
 	GList *languages;
 
-	MateDesktopItemType type;
+	UkuiDesktopItemType type;
 
 	/* `modified' means that the ditem has been
 	 * modified since the last save. */
@@ -122,18 +122,18 @@ typedef struct {
 	gsize pos;
 } ReadBuf;
 
-static MateDesktopItem *ditem_load (ReadBuf           *rb,
+static UkuiDesktopItem *ditem_load (ReadBuf           *rb,
 				     gboolean           no_translations,
 				     GError           **error);
-static gboolean          ditem_save (MateDesktopItem  *item,
+static gboolean          ditem_save (UkuiDesktopItem  *item,
 				     const char        *uri,
 				     GError           **error);
 
-static void mate_desktop_item_set_location_gfile (MateDesktopItem *item,
+static void ukui_desktop_item_set_location_gfile (UkuiDesktopItem *item,
 						   GFile            *file);
 
-static MateDesktopItem *mate_desktop_item_new_from_gfile (GFile *file,
-							    MateDesktopItemLoadFlags flags,
+static UkuiDesktopItem *ukui_desktop_item_new_from_gfile (GFile *file,
+							    UkuiDesktopItemLoadFlags flags,
 							    GError **error);
 
 static int
@@ -215,8 +215,8 @@ readbuf_open (GFile *file, GError **error)
 	if (stream == NULL) {
 		g_set_error (error,
 			     /* FIXME: better errors */
-			     MATE_DESKTOP_ITEM_ERROR,
-			     MATE_DESKTOP_ITEM_ERROR_CANNOT_OPEN,
+			     UKUI_DESKTOP_ITEM_ERROR,
+			     UKUI_DESKTOP_ITEM_ERROR_CANNOT_OPEN,
 			     _("Error reading file '%s': %s"),
 			     uri, local_error->message);
 		g_error_free (local_error);
@@ -283,8 +283,8 @@ readbuf_rewind (ReadBuf *rb, GError **error)
 
 	if (rb->stream == NULL) {
 		g_set_error (
-			error, MATE_DESKTOP_ITEM_ERROR,
-			MATE_DESKTOP_ITEM_ERROR_CANNOT_OPEN,
+			error, UKUI_DESKTOP_ITEM_ERROR,
+			UKUI_DESKTOP_ITEM_ERROR_CANNOT_OPEN,
 			_("Error rewinding file '%s': %s"),
 			rb->uri, local_error->message);
 		g_error_free (local_error);
@@ -308,62 +308,62 @@ readbuf_close (ReadBuf *rb)
 	g_free (rb);
 }
 
-static MateDesktopItemType
+static UkuiDesktopItemType
 type_from_string (const char *type)
 {
 	if (!type)
-		return MATE_DESKTOP_ITEM_TYPE_NULL;
+		return UKUI_DESKTOP_ITEM_TYPE_NULL;
 
 	switch (type [0]) {
 	case 'A':
 		if (!strcmp (type, "Application"))
-			return MATE_DESKTOP_ITEM_TYPE_APPLICATION;
+			return UKUI_DESKTOP_ITEM_TYPE_APPLICATION;
 		break;
 	case 'L':
 		if (!strcmp (type, "Link"))
-			return MATE_DESKTOP_ITEM_TYPE_LINK;
+			return UKUI_DESKTOP_ITEM_TYPE_LINK;
 		break;
 	case 'F':
 		if (!strcmp (type, "FSDevice"))
-			return MATE_DESKTOP_ITEM_TYPE_FSDEVICE;
+			return UKUI_DESKTOP_ITEM_TYPE_FSDEVICE;
 		break;
 	case 'M':
 		if (!strcmp (type, "MimeType"))
-			return MATE_DESKTOP_ITEM_TYPE_MIME_TYPE;
+			return UKUI_DESKTOP_ITEM_TYPE_MIME_TYPE;
 		break;
 	case 'D':
 		if (!strcmp (type, "Directory"))
-			return MATE_DESKTOP_ITEM_TYPE_DIRECTORY;
+			return UKUI_DESKTOP_ITEM_TYPE_DIRECTORY;
 		break;
 	case 'S':
 		if (!strcmp (type, "Service"))
-			return MATE_DESKTOP_ITEM_TYPE_SERVICE;
+			return UKUI_DESKTOP_ITEM_TYPE_SERVICE;
 
 		else if (!strcmp (type, "ServiceType"))
-			return MATE_DESKTOP_ITEM_TYPE_SERVICE_TYPE;
+			return UKUI_DESKTOP_ITEM_TYPE_SERVICE_TYPE;
 		break;
 	default:
 		break;
 	}
 
-	return MATE_DESKTOP_ITEM_TYPE_OTHER;
+	return UKUI_DESKTOP_ITEM_TYPE_OTHER;
 }
 
 /**
- * mate_desktop_item_new:
+ * ukui_desktop_item_new:
  *
- * Creates a MateDesktopItem object. The reference count on the returned value is set to '1'.
+ * Creates a UkuiDesktopItem object. The reference count on the returned value is set to '1'.
  *
- * Returns: The new MateDesktopItem
+ * Returns: The new UkuiDesktopItem
  */
-MateDesktopItem *
-mate_desktop_item_new (void)
+UkuiDesktopItem *
+ukui_desktop_item_new (void)
 {
-	MateDesktopItem *retval;
+	UkuiDesktopItem *retval;
 
-	_mate_desktop_init_i18n ();
+	_ukui_desktop_init_i18n ();
 
-	retval = g_new0 (MateDesktopItem, 1);
+	retval = g_new0 (UkuiDesktopItem, 1);
 
 	retval->refcount++;
 
@@ -372,17 +372,17 @@ mate_desktop_item_new (void)
 						   (GDestroyNotify) g_free);
 
 	/* These are guaranteed to be set */
-	mate_desktop_item_set_string (retval,
-				       MATE_DESKTOP_ITEM_NAME,
+	ukui_desktop_item_set_string (retval,
+				       UKUI_DESKTOP_ITEM_NAME,
 				       /* Translators: the "name" mentioned
 					* here is the name of an application or
 					* a document */
 				       _("No name"));
-	mate_desktop_item_set_string (retval,
-				       MATE_DESKTOP_ITEM_ENCODING,
+	ukui_desktop_item_set_string (retval,
+				       UKUI_DESKTOP_ITEM_ENCODING,
 				       "UTF-8");
-	mate_desktop_item_set_string (retval,
-				       MATE_DESKTOP_ITEM_VERSION,
+	ukui_desktop_item_set_string (retval,
+				       UKUI_DESKTOP_ITEM_VERSION,
 				       "1.0");
 
 	retval->launch_time = 0;
@@ -416,24 +416,24 @@ copy_string_hash (gpointer key, gpointer value, gpointer user_data)
 
 
 /**
- * mate_desktop_item_copy:
+ * ukui_desktop_item_copy:
  * @item: The item to be copied
  *
- * Creates a copy of a MateDesktopItem.  The new copy has a refcount of 1.
+ * Creates a copy of a UkuiDesktopItem.  The new copy has a refcount of 1.
  * Note: Section stack is NOT copied.
  *
  * Returns: The new copy
  */
-MateDesktopItem *
-mate_desktop_item_copy (const MateDesktopItem *item)
+UkuiDesktopItem *
+ukui_desktop_item_copy (const UkuiDesktopItem *item)
 {
 	GList *li;
-	MateDesktopItem *retval;
+	UkuiDesktopItem *retval;
 
 	g_return_val_if_fail (item != NULL, NULL);
 	g_return_val_if_fail (item->refcount > 0, NULL);
 
-	retval = mate_desktop_item_new ();
+	retval = ukui_desktop_item_new ();
 
 	retval->type = item->type;
 	retval->modified = item->modified;
@@ -468,7 +468,7 @@ mate_desktop_item_copy (const MateDesktopItem *item)
 }
 
 static void
-read_sort_order (MateDesktopItem *item, GFile *dir)
+read_sort_order (UkuiDesktopItem *item, GFile *dir)
 {
 	GFile *child;
 	char buf[BUFSIZ];
@@ -493,26 +493,26 @@ read_sort_order (MateDesktopItem *item, GFile *dir)
 	}
 	readbuf_close (rb);
 	if (str != NULL) {
-		mate_desktop_item_set_string (item, MATE_DESKTOP_ITEM_SORT_ORDER,
+		ukui_desktop_item_set_string (item, UKUI_DESKTOP_ITEM_SORT_ORDER,
 					       str->str);
 		g_string_free (str, TRUE);
 	}
 }
 
-static MateDesktopItem *
+static UkuiDesktopItem *
 make_fake_directory (GFile *dir)
 {
-	MateDesktopItem *item;
+	UkuiDesktopItem *item;
 	GFile *child;
 
-	item = mate_desktop_item_new ();
-	mate_desktop_item_set_entry_type (item,
-					   MATE_DESKTOP_ITEM_TYPE_DIRECTORY);
+	item = ukui_desktop_item_new ();
+	ukui_desktop_item_set_entry_type (item,
+					   UKUI_DESKTOP_ITEM_TYPE_DIRECTORY);
 
 
 	item->mtime = DONT_UPDATE_MTIME; /* it doesn't exist, we know that */
 	child = g_file_get_child (dir, ".directory");
-	mate_desktop_item_set_location_gfile (item, child);
+	ukui_desktop_item_set_location_gfile (item, child);
 	item->mtime = 0;
 	g_object_unref (child);
 
@@ -522,63 +522,63 @@ make_fake_directory (GFile *dir)
 }
 
 /**
- * mate_desktop_item_new_from_file:
- * @file: The filename or directory path to load the MateDesktopItem from
+ * ukui_desktop_item_new_from_file:
+ * @file: The filename or directory path to load the UkuiDesktopItem from
  * @flags: Flags to influence the loading process
  *
- * This function loads 'file' and turns it into a MateDesktopItem.
+ * This function loads 'file' and turns it into a UkuiDesktopItem.
  *
  * Returns: The newly loaded item.
  */
-MateDesktopItem *
-mate_desktop_item_new_from_file (const char *file,
-				  MateDesktopItemLoadFlags flags,
+UkuiDesktopItem *
+ukui_desktop_item_new_from_file (const char *file,
+				  UkuiDesktopItemLoadFlags flags,
 				  GError **error)
 {
-	MateDesktopItem *retval;
+	UkuiDesktopItem *retval;
 	GFile *gfile;
 
 	g_return_val_if_fail (file != NULL, NULL);
 
 	gfile = g_file_new_for_path (file);
-	retval = mate_desktop_item_new_from_gfile (gfile, flags, error);
+	retval = ukui_desktop_item_new_from_gfile (gfile, flags, error);
 	g_object_unref (gfile);
 
 	return retval;
 }
 
 /**
- * mate_desktop_item_new_from_uri:
- * @uri: URI to load the MateDesktopItem from
+ * ukui_desktop_item_new_from_uri:
+ * @uri: URI to load the UkuiDesktopItem from
  * @flags: Flags to influence the loading process
  *
- * This function loads 'uri' and turns it into a MateDesktopItem.
+ * This function loads 'uri' and turns it into a UkuiDesktopItem.
  *
  * Returns: The newly loaded item.
  */
-MateDesktopItem *
-mate_desktop_item_new_from_uri (const char *uri,
-				 MateDesktopItemLoadFlags flags,
+UkuiDesktopItem *
+ukui_desktop_item_new_from_uri (const char *uri,
+				 UkuiDesktopItemLoadFlags flags,
 				 GError **error)
 {
-	MateDesktopItem *retval;
+	UkuiDesktopItem *retval;
 	GFile *file;
 
 	g_return_val_if_fail (uri != NULL, NULL);
 
 	file = g_file_new_for_uri (uri);
-	retval = mate_desktop_item_new_from_gfile (file, flags, error);
+	retval = ukui_desktop_item_new_from_gfile (file, flags, error);
 	g_object_unref (file);
 
 	return retval;
 }
 
-static MateDesktopItem *
-mate_desktop_item_new_from_gfile (GFile *file,
-				   MateDesktopItemLoadFlags flags,
+static UkuiDesktopItem *
+ukui_desktop_item_new_from_gfile (GFile *file,
+				   UkuiDesktopItemLoadFlags flags,
 				   GError **error)
 {
-	MateDesktopItem *retval;
+	UkuiDesktopItem *retval;
 	GFile *subfn;
 	GFileInfo *info;
 	GFileType type;
@@ -602,8 +602,8 @@ mate_desktop_item_new_from_gfile (GFile *file,
 		uri = g_file_get_uri (file);
 		g_set_error (error,
 			     /* FIXME: better errors */
-			     MATE_DESKTOP_ITEM_ERROR,
-			     MATE_DESKTOP_ITEM_ERROR_INVALID_TYPE,
+			     UKUI_DESKTOP_ITEM_ERROR,
+			     UKUI_DESKTOP_ITEM_ERROR_INVALID_TYPE,
 			     _("File '%s' is not a regular file or directory."),
 			     uri);
 
@@ -631,7 +631,7 @@ mate_desktop_item_new_from_gfile (GFile *file,
 		if (child_info == NULL) {
 			g_object_unref (child);
 
-			if (flags & MATE_DESKTOP_ITEM_LOAD_ONLY_IF_EXISTS) {
+			if (flags & UKUI_DESKTOP_ITEM_LOAD_ONLY_IF_EXISTS) {
 				return NULL;
 			} else {
 				return make_fake_directory (file);
@@ -655,7 +655,7 @@ mate_desktop_item_new_from_gfile (GFile *file,
 	}
 
 	retval = ditem_load (rb,
-			     (flags & MATE_DESKTOP_ITEM_LOAD_NO_TRANSLATIONS) != 0,
+			     (flags & UKUI_DESKTOP_ITEM_LOAD_NO_TRANSLATIONS) != 0,
 			     error);
 
 	if (retval == NULL) {
@@ -663,15 +663,15 @@ mate_desktop_item_new_from_gfile (GFile *file,
 		return NULL;
 	}
 
-	if (flags & MATE_DESKTOP_ITEM_LOAD_ONLY_IF_EXISTS &&
-	    ! mate_desktop_item_exists (retval)) {
-		mate_desktop_item_unref (retval);
+	if (flags & UKUI_DESKTOP_ITEM_LOAD_ONLY_IF_EXISTS &&
+	    ! ukui_desktop_item_exists (retval)) {
+		ukui_desktop_item_unref (retval);
 		g_object_unref (subfn);
 		return NULL;
 	}
 
 	retval->mtime = DONT_UPDATE_MTIME;
-	mate_desktop_item_set_location_gfile (retval, subfn);
+	ukui_desktop_item_set_location_gfile (retval, subfn);
 	retval->mtime = mtime;
 
 	parent = g_file_get_parent (file);
@@ -686,24 +686,24 @@ mate_desktop_item_new_from_gfile (GFile *file,
 }
 
 /**
- * mate_desktop_item_new_from_string:
- * @string: string to load the MateDesktopItem from
+ * ukui_desktop_item_new_from_string:
+ * @string: string to load the UkuiDesktopItem from
  * @length: length of string, or -1 to use strlen
  * @flags: Flags to influence the loading process
  * @error: place to put errors
  *
- * This function turns the contents of the string into a MateDesktopItem.
+ * This function turns the contents of the string into a UkuiDesktopItem.
  *
  * Returns: The newly loaded item.
  */
-MateDesktopItem *
-mate_desktop_item_new_from_string (const char *uri,
+UkuiDesktopItem *
+ukui_desktop_item_new_from_string (const char *uri,
 				    const char *string,
 				    gssize length,
-				    MateDesktopItemLoadFlags flags,
+				    UkuiDesktopItemLoadFlags flags,
 				    GError **error)
 {
-	MateDesktopItem *retval;
+	UkuiDesktopItem *retval;
 	ReadBuf *rb;
 
 	g_return_val_if_fail (string != NULL, NULL);
@@ -716,7 +716,7 @@ mate_desktop_item_new_from_string (const char *uri,
 	rb = readbuf_new_from_string (uri, string, length);
 
 	retval = ditem_load (rb,
-			     (flags & MATE_DESKTOP_ITEM_LOAD_NO_TRANSLATIONS) != 0,
+			     (flags & UKUI_DESKTOP_ITEM_LOAD_NO_TRANSLATIONS) != 0,
 			     error);
 
 	if (retval == NULL) {
@@ -765,44 +765,44 @@ file_from_basename (const char *basename)
 }
 
 /**
- * mate_desktop_item_new_from_basename:
- * @basename: The basename of the MateDesktopItem to load.
+ * ukui_desktop_item_new_from_basename:
+ * @basename: The basename of the UkuiDesktopItem to load.
  * @flags: Flags to influence the loading process
  *
  * This function loads 'basename' from a system data directory and
- * returns its MateDesktopItem.
+ * returns its UkuiDesktopItem.
  *
  * Returns: The newly loaded item.
  */
-MateDesktopItem *
-mate_desktop_item_new_from_basename (const char *basename,
-                                      MateDesktopItemLoadFlags flags,
+UkuiDesktopItem *
+ukui_desktop_item_new_from_basename (const char *basename,
+                                      UkuiDesktopItemLoadFlags flags,
                                       GError **error)
 {
-	MateDesktopItem *retval;
+	UkuiDesktopItem *retval;
 	char *file;
 
 	g_return_val_if_fail (basename != NULL, NULL);
 
 	if (!(file = file_from_basename (basename))) {
 		g_set_error (error,
-			     MATE_DESKTOP_ITEM_ERROR,
-			     MATE_DESKTOP_ITEM_ERROR_CANNOT_OPEN,
+			     UKUI_DESKTOP_ITEM_ERROR,
+			     UKUI_DESKTOP_ITEM_ERROR_CANNOT_OPEN,
 			     _("Cannot find file '%s'"),
 			     basename);
 		return NULL;
 	}
 
-	retval = mate_desktop_item_new_from_file (file, flags, error);
+	retval = ukui_desktop_item_new_from_file (file, flags, error);
 	g_free (file);
 
 	return retval;
 }
 
 /**
- * mate_desktop_item_save:
+ * ukui_desktop_item_save:
  * @item: A desktop item
- * @under: A new uri (location) for this #MateDesktopItem
+ * @under: A new uri (location) for this #UkuiDesktopItem
  * @force: Save even if it wasn't modified
  * @error: #GError return
  *
@@ -813,7 +813,7 @@ mate_desktop_item_new_from_basename (const char *basename,
  * Returns: boolean. %TRUE if the file was saved, %FALSE otherwise
  */
 gboolean
-mate_desktop_item_save (MateDesktopItem *item,
+ukui_desktop_item_save (UkuiDesktopItem *item,
 			 const char *under,
 			 gboolean force,
 			 GError **error)
@@ -832,8 +832,8 @@ mate_desktop_item_save (MateDesktopItem *item,
 
 	if (uri == NULL) {
 		g_set_error (error,
-			     MATE_DESKTOP_ITEM_ERROR,
-			     MATE_DESKTOP_ITEM_ERROR_NO_FILENAME,
+			     UKUI_DESKTOP_ITEM_ERROR,
+			     UKUI_DESKTOP_ITEM_ERROR_NO_FILENAME,
 			     _("No filename to save to"));
 		return FALSE;
 	}
@@ -848,15 +848,15 @@ mate_desktop_item_save (MateDesktopItem *item,
 }
 
 /**
- * mate_desktop_item_ref:
+ * ukui_desktop_item_ref:
  * @item: A desktop item
  *
  * Description: Increases the reference count of the specified item.
  *
  * Returns: the newly referenced @item
  */
-MateDesktopItem *
-mate_desktop_item_ref (MateDesktopItem *item)
+UkuiDesktopItem *
+ukui_desktop_item_ref (UkuiDesktopItem *item)
 {
 	g_return_val_if_fail (item != NULL, NULL);
 
@@ -881,13 +881,13 @@ free_section (gpointer data, gpointer user_data)
 }
 
 /**
- * mate_desktop_item_unref:
+ * ukui_desktop_item_unref:
  * @item: A desktop item
  *
  * Decreases the reference count of the specified item, and destroys the item if there are no more references left.
  */
 void
-mate_desktop_item_unref (MateDesktopItem *item)
+ukui_desktop_item_unref (UkuiDesktopItem *item)
 {
 	g_return_if_fail (item != NULL);
 	g_return_if_fail (item->refcount > 0);
@@ -919,7 +919,7 @@ mate_desktop_item_unref (MateDesktopItem *item)
 }
 
 static Section *
-find_section (MateDesktopItem *item, const char *section)
+find_section (UkuiDesktopItem *item, const char *section)
 {
 	GList *li;
 	Section *sec;
@@ -948,7 +948,7 @@ find_section (MateDesktopItem *item, const char *section)
 }
 
 static Section *
-section_from_key (MateDesktopItem *item, const char *key)
+section_from_key (UkuiDesktopItem *item, const char *key)
 {
 	char *p;
 	char *name;
@@ -982,13 +982,13 @@ key_basename (const char *key)
 
 
 static const char *
-lookup (const MateDesktopItem *item, const char *key)
+lookup (const UkuiDesktopItem *item, const char *key)
 {
 	return g_hash_table_lookup (item->main_hash, key);
 }
 
 static const char *
-lookup_locale (const MateDesktopItem *item, const char *key, const char *locale)
+lookup_locale (const UkuiDesktopItem *item, const char *key, const char *locale)
 {
 	if (locale == NULL ||
 	    strcmp (locale, "C") == 0) {
@@ -1003,7 +1003,7 @@ lookup_locale (const MateDesktopItem *item, const char *key, const char *locale)
 }
 
 static const char *
-lookup_best_locale (const MateDesktopItem *item, const char *key)
+lookup_best_locale (const UkuiDesktopItem *item, const char *key)
 {
 	const char * const *langs_pointer;
 	int                 i;
@@ -1021,7 +1021,7 @@ lookup_best_locale (const MateDesktopItem *item, const char *key)
 }
 
 static void
-set (MateDesktopItem *item, const char *key, const char *value)
+set (UkuiDesktopItem *item, const char *key, const char *value)
 {
 	Section *sec = section_from_key (item, key);
 
@@ -1070,7 +1070,7 @@ set (MateDesktopItem *item, const char *key, const char *value)
 }
 
 static void
-set_locale (MateDesktopItem *item, const char *key,
+set_locale (UkuiDesktopItem *item, const char *key,
 	    const char *locale, const char *value)
 {
 	if (locale == NULL ||
@@ -1283,7 +1283,7 @@ append_first_converted (GString         *str,
 }
 
 static gboolean
-do_percent_subst (const MateDesktopItem  *item,
+do_percent_subst (const UkuiDesktopItem  *item,
 		  const char              *arg,
 		  GString                 *str,
 		  gboolean                 in_single_quotes,
@@ -1370,7 +1370,7 @@ do_percent_subst (const MateDesktopItem  *item,
 	case 'm':
 		/* Note: v0.9.4 of the spec says this is deprecated
 		 * and replace with --miniicon iconname */
-		cs = mate_desktop_item_get_string (item, MATE_DESKTOP_ITEM_MINI_ICON);
+		cs = ukui_desktop_item_get_string (item, UKUI_DESKTOP_ITEM_MINI_ICON);
 		if (cs != NULL) {
 			g_string_append (str, "--miniicon=");
 			esc = escape_single_quotes (cs, in_single_quotes, in_double_quotes);
@@ -1379,7 +1379,7 @@ do_percent_subst (const MateDesktopItem  *item,
 		break;
 	case 'i':
 		/* Note: v0.9.4 of the spec says replace with --icon iconname */
-		cs = mate_desktop_item_get_string (item, MATE_DESKTOP_ITEM_ICON);
+		cs = ukui_desktop_item_get_string (item, UKUI_DESKTOP_ITEM_ICON);
 		if (cs != NULL) {
 			g_string_append (str, "--icon=");
 			esc = escape_single_quotes (cs, in_single_quotes, in_double_quotes);
@@ -1387,7 +1387,7 @@ do_percent_subst (const MateDesktopItem  *item,
 		}
 		break;
 	case 'c':
-		cs = mate_desktop_item_get_localestring (item, MATE_DESKTOP_ITEM_NAME);
+		cs = ukui_desktop_item_get_localestring (item, UKUI_DESKTOP_ITEM_NAME);
 		if (cs != NULL) {
 			esc = escape_single_quotes (cs, in_single_quotes, in_double_quotes);
 			g_string_append (str, esc);
@@ -1402,7 +1402,7 @@ do_percent_subst (const MateDesktopItem  *item,
 		}
 		break;
 	case 'v':
-		cs = mate_desktop_item_get_localestring (item, MATE_DESKTOP_ITEM_DEV);
+		cs = ukui_desktop_item_get_localestring (item, UKUI_DESKTOP_ITEM_DEV);
 		if (cs != NULL) {
 			esc = escape_single_quotes (cs, in_single_quotes, in_double_quotes);
 			g_string_append (str, esc);
@@ -1420,7 +1420,7 @@ do_percent_subst (const MateDesktopItem  *item,
 }
 
 static char *
-expand_string (const MateDesktopItem  *item,
+expand_string (const UkuiDesktopItem  *item,
 	       const char              *s,
 	       GSList                  *args,
 	       GSList                 **arg_ptr,
@@ -1627,14 +1627,14 @@ add_startup_timeout (GdkScreen         *screen,
 {
 	StartupTimeoutData *data;
 
-	data = g_object_get_data (G_OBJECT (screen), "mate-startup-data");
+	data = g_object_get_data (G_OBJECT (screen), "ukui-startup-data");
 	if (data == NULL) {
 		data = g_new (StartupTimeoutData, 1);
 		data->screen = screen;
 		data->contexts = NULL;
 		data->timeout_id = 0;
 
-		g_object_set_data_full (G_OBJECT (screen), "mate-startup-data",
+		g_object_set_data_full (G_OBJECT (screen), "ukui-startup-data",
 					data, free_startup_timeout);
 	}
 
@@ -1735,7 +1735,7 @@ dummy_child_watch (GPid         pid,
 }
 
 static int
-ditem_execute (const MateDesktopItem *item,
+ditem_execute (const UkuiDesktopItem *item,
 	       const char *exec,
 	       GList *file_list,
 	       GdkScreen *screen,
@@ -1772,8 +1772,8 @@ ditem_execute (const MateDesktopItem *item,
 
 	g_return_val_if_fail (item, -1);
 
-	if (item->type == MATE_DESKTOP_ITEM_TYPE_APPLICATION) {
-		working_dir = mate_desktop_item_get_string (item, MATE_DESKTOP_ITEM_PATH);
+	if (item->type == UKUI_DESKTOP_ITEM_TYPE_APPLICATION) {
+		working_dir = ukui_desktop_item_get_string (item, UKUI_DESKTOP_ITEM_PATH);
 		if (working_dir &&
 		    !g_file_test (working_dir, G_FILE_TEST_IS_DIR))
 			working_dir = NULL;
@@ -1782,9 +1782,9 @@ ditem_execute (const MateDesktopItem *item,
 	if (working_dir == NULL && !use_current_dir)
 		working_dir = g_get_home_dir ();
 
-	if (mate_desktop_item_get_boolean (item, MATE_DESKTOP_ITEM_TERMINAL)) {
+	if (ukui_desktop_item_get_boolean (item, UKUI_DESKTOP_ITEM_TERMINAL)) {
 		const char *options =
-			mate_desktop_item_get_string (item, MATE_DESKTOP_ITEM_TERMINAL_OPTIONS);
+			ukui_desktop_item_get_string (item, UKUI_DESKTOP_ITEM_TERMINAL_OPTIONS);
 
 		if (options != NULL) {
 			g_shell_parse_argv (options,
@@ -1794,7 +1794,7 @@ ditem_execute (const MateDesktopItem *item,
 			/* ignore errors */
 		}
 
-		mate_desktop_prepend_terminal_to_vector (&term_argc, &term_argv);
+		ukui_desktop_prepend_terminal_to_vector (&term_argc, &term_argv);
 	}
 
 	args = make_args (file_list);
@@ -1816,10 +1816,10 @@ ditem_execute (const MateDesktopItem *item,
 	 * to initiate, but why bother)
 	 */
 
-	startup_class = mate_desktop_item_get_string (item,
+	startup_class = ukui_desktop_item_get_string (item,
 						       "StartupWMClass");
 	if (startup_class ||
-	    mate_desktop_item_get_boolean (item, "StartupNotify")) {
+	    ukui_desktop_item_get_boolean (item, "StartupNotify")) {
 		const char *name;
 		const char *icon;
 
@@ -1827,12 +1827,12 @@ ditem_execute (const MateDesktopItem *item,
 						      screen ? gdk_x11_screen_get_screen_number (screen) :
 						      DefaultScreen (GDK_DISPLAY_XDISPLAY (gdkdisplay)));
 
-		name = mate_desktop_item_get_localestring (item,
-							    MATE_DESKTOP_ITEM_NAME);
+		name = ukui_desktop_item_get_localestring (item,
+							    UKUI_DESKTOP_ITEM_NAME);
 
 		if (name == NULL)
-			name = mate_desktop_item_get_localestring (item,
-								    MATE_DESKTOP_ITEM_GENERIC_NAME);
+			name = ukui_desktop_item_get_localestring (item,
+								    UKUI_DESKTOP_ITEM_GENERIC_NAME);
 
 		if (name != NULL) {
 			char *description;
@@ -1846,8 +1846,8 @@ ditem_execute (const MateDesktopItem *item,
 			g_free (description);
 		}
 
-		icon = mate_desktop_item_get_string (item,
-						      MATE_DESKTOP_ITEM_ICON);
+		icon = ukui_desktop_item_get_string (item,
+						      UKUI_DESKTOP_ITEM_ICON);
 
 		if (icon != NULL)
 			sn_launcher_context_set_icon_name (sn_context, icon);
@@ -1955,7 +1955,7 @@ ditem_execute (const MateDesktopItem *item,
 						      launch_time);
 
 			/* Don't allow accidental reuse of same timestamp */
-			((MateDesktopItem *)item)->launch_time = 0;
+			((UkuiDesktopItem *)item)->launch_time = 0;
 
 			envp = make_spawn_environment_for_sn_context (sn_context, envp);
 			if (free_me)
@@ -2048,10 +2048,10 @@ strip_the_amp (char *exec)
 
 
 static int
-mate_desktop_item_launch_on_screen_with_env (
-		const MateDesktopItem       *item,
+ukui_desktop_item_launch_on_screen_with_env (
+		const UkuiDesktopItem       *item,
 		GList                        *file_list,
-		MateDesktopItemLaunchFlags   flags,
+		UkuiDesktopItemLaunchFlags   flags,
 		GdkScreen                    *screen,
 		int                           workspace,
 		char                        **envp,
@@ -2061,21 +2061,21 @@ mate_desktop_item_launch_on_screen_with_env (
 	char *the_exec;
 	int ret;
 
-	exec = mate_desktop_item_get_string (item, MATE_DESKTOP_ITEM_EXEC);
+	exec = ukui_desktop_item_get_string (item, UKUI_DESKTOP_ITEM_EXEC);
 	/* This is a URL, so launch it as a url */
-	if (item->type == MATE_DESKTOP_ITEM_TYPE_LINK) {
+	if (item->type == UKUI_DESKTOP_ITEM_TYPE_LINK) {
 		const char *url;
 		gboolean    retval;
 
-		url = mate_desktop_item_get_string (item, MATE_DESKTOP_ITEM_URL);
-		/* Mate panel used to put this in Exec */
+		url = ukui_desktop_item_get_string (item, UKUI_DESKTOP_ITEM_URL);
+		/* Ukui panel used to put this in Exec */
 		if (!(url && url[0] != '\0'))
 			url = exec;
 
 		if (!(url && url[0] != '\0')) {
 			g_set_error (error,
-				     MATE_DESKTOP_ITEM_ERROR,
-				     MATE_DESKTOP_ITEM_ERROR_NO_URL,
+				     UKUI_DESKTOP_ITEM_ERROR,
+				     UKUI_DESKTOP_ITEM_ERROR_NO_URL,
 				     _("No URL to launch"));
 			return -1;
 		}
@@ -2095,10 +2095,10 @@ mate_desktop_item_launch_on_screen_with_env (
 	}
 
 	/* check the type, if there is one set */
-	if (item->type != MATE_DESKTOP_ITEM_TYPE_APPLICATION) {
+	if (item->type != UKUI_DESKTOP_ITEM_TYPE_APPLICATION) {
 		g_set_error (error,
-			     MATE_DESKTOP_ITEM_ERROR,
-			     MATE_DESKTOP_ITEM_ERROR_NOT_LAUNCHABLE,
+			     UKUI_DESKTOP_ITEM_ERROR,
+			     UKUI_DESKTOP_ITEM_ERROR_NOT_LAUNCHABLE,
 			     _("Not a launchable item"));
 		return -1;
 	}
@@ -2107,8 +2107,8 @@ mate_desktop_item_launch_on_screen_with_env (
 	if (exec == NULL ||
 	    exec[0] == '\0') {
 		g_set_error (error,
-			     MATE_DESKTOP_ITEM_ERROR,
-			     MATE_DESKTOP_ITEM_ERROR_NO_EXEC_STRING,
+			     UKUI_DESKTOP_ITEM_ERROR,
+			     UKUI_DESKTOP_ITEM_ERROR_NO_EXEC_STRING,
 			     _("No command (Exec) to launch"));
 		return -1;
 	}
@@ -2120,25 +2120,25 @@ mate_desktop_item_launch_on_screen_with_env (
 
 	if ( ! strip_the_amp (the_exec)) {
 		g_set_error (error,
-			     MATE_DESKTOP_ITEM_ERROR,
-			     MATE_DESKTOP_ITEM_ERROR_BAD_EXEC_STRING,
+			     UKUI_DESKTOP_ITEM_ERROR,
+			     UKUI_DESKTOP_ITEM_ERROR_BAD_EXEC_STRING,
 			     _("Bad command (Exec) to launch"));
 		return -1;
 	}
 
 	ret = ditem_execute (item, the_exec, file_list, screen, workspace, envp,
-			     (flags & MATE_DESKTOP_ITEM_LAUNCH_ONLY_ONE),
-			     (flags & MATE_DESKTOP_ITEM_LAUNCH_USE_CURRENT_DIR),
-			     (flags & MATE_DESKTOP_ITEM_LAUNCH_APPEND_URIS),
-			     (flags & MATE_DESKTOP_ITEM_LAUNCH_APPEND_PATHS),
-			     (flags & MATE_DESKTOP_ITEM_LAUNCH_DO_NOT_REAP_CHILD),
+			     (flags & UKUI_DESKTOP_ITEM_LAUNCH_ONLY_ONE),
+			     (flags & UKUI_DESKTOP_ITEM_LAUNCH_USE_CURRENT_DIR),
+			     (flags & UKUI_DESKTOP_ITEM_LAUNCH_APPEND_URIS),
+			     (flags & UKUI_DESKTOP_ITEM_LAUNCH_APPEND_PATHS),
+			     (flags & UKUI_DESKTOP_ITEM_LAUNCH_DO_NOT_REAP_CHILD),
 			     error);
 
 	return ret;
 }
 
 /**
- * mate_desktop_item_launch:
+ * ukui_desktop_item_launch:
  * @item: A desktop item
  * @file_list:  Files/URIs to launch this item with, can be %NULL
  * @flags: FIXME
@@ -2148,7 +2148,7 @@ mate_desktop_item_launch_on_screen_with_env (
  * optionally appending additional arguments to its command line.  It uses
  * #g_shell_parse_argv to parse the the exec string into a vector which is
  * then passed to #g_spawn_async for execution. This can return all
- * the errors from MateURL, #g_shell_parse_argv and #g_spawn_async,
+ * the errors from UkuiURL, #g_shell_parse_argv and #g_spawn_async,
  * in addition to it's own.  The files are
  * only added if the entry defines one of the standard % strings in it's
  * Exec field.
@@ -2158,24 +2158,24 @@ mate_desktop_item_launch_on_screen_with_env (
  * is returned and @error is set.
  */
 int
-mate_desktop_item_launch (const MateDesktopItem       *item,
+ukui_desktop_item_launch (const UkuiDesktopItem       *item,
 			   GList                        *file_list,
-			   MateDesktopItemLaunchFlags   flags,
+			   UkuiDesktopItemLaunchFlags   flags,
 			   GError                      **error)
 {
-	return mate_desktop_item_launch_on_screen_with_env (
+	return ukui_desktop_item_launch_on_screen_with_env (
 			item, file_list, flags, NULL, -1, NULL, error);
 }
 
 /**
- * mate_desktop_item_launch_with_env:
+ * ukui_desktop_item_launch_with_env:
  * @item: A desktop item
  * @file_list:  Files/URIs to launch this item with, can be %NULL
  * @flags: FIXME
  * @envp: child's environment, or %NULL to inherit parent's
  * @error: FIXME
  *
- * See mate_desktop_item_launch for a full description. This function
+ * See ukui_desktop_item_launch for a full description. This function
  * additionally passes an environment vector for the child process
  * which is to be launched.
  *
@@ -2184,19 +2184,19 @@ mate_desktop_item_launch (const MateDesktopItem       *item,
  * is returned and @error is set.
  */
 int
-mate_desktop_item_launch_with_env (const MateDesktopItem       *item,
+ukui_desktop_item_launch_with_env (const UkuiDesktopItem       *item,
 				    GList                        *file_list,
-				    MateDesktopItemLaunchFlags   flags,
+				    UkuiDesktopItemLaunchFlags   flags,
 				    char                        **envp,
 				    GError                      **error)
 {
-	return mate_desktop_item_launch_on_screen_with_env (
+	return ukui_desktop_item_launch_on_screen_with_env (
 			item, file_list, flags,
 			NULL, -1, envp, error);
 }
 
 /**
- * mate_desktop_item_launch_on_screen:
+ * ukui_desktop_item_launch_on_screen:
  * @item: A desktop item
  * @file_list:  Files/URIs to launch this item with, can be %NULL
  * @flags: FIXME
@@ -2204,7 +2204,7 @@ mate_desktop_item_launch_with_env (const MateDesktopItem       *item,
  * @workspace: the workspace on which the app should be launched (-1 for current)
  * @error: FIXME
  *
- * See mate_desktop_item_launch for a full description. This function
+ * See ukui_desktop_item_launch for a full description. This function
  * additionally attempts to launch the application on a given screen
  * and workspace.
  *
@@ -2213,20 +2213,20 @@ mate_desktop_item_launch_with_env (const MateDesktopItem       *item,
  * is returned and @error is set.
  */
 int
-mate_desktop_item_launch_on_screen (const MateDesktopItem       *item,
+ukui_desktop_item_launch_on_screen (const UkuiDesktopItem       *item,
 				     GList                        *file_list,
-				     MateDesktopItemLaunchFlags   flags,
+				     UkuiDesktopItemLaunchFlags   flags,
 				     GdkScreen                    *screen,
 				     int                           workspace,
 				     GError                      **error)
 {
-	return mate_desktop_item_launch_on_screen_with_env (
+	return ukui_desktop_item_launch_on_screen_with_env (
 			item, file_list, flags,
 			screen, workspace, NULL, error);
 }
 
 /**
- * mate_desktop_item_drop_uri_list:
+ * ukui_desktop_item_drop_uri_list:
  * @item: A desktop item
  * @uri_list: text as gotten from a text/uri-list
  * @flags: FIXME
@@ -2236,40 +2236,40 @@ mate_desktop_item_launch_on_screen (const MateDesktopItem       *item,
  * exec is run you can pass directly string that you got as the
  * text/uri-list.  This just parses the list and calls
  *
- * Returns: The value returned by #mate_execute_async() upon execution of
+ * Returns: The value returned by #ukui_execute_async() upon execution of
  * the specified item or -1 on error.  If multiple instances are run, the
  * return of the last one is returned.
  */
 int
-mate_desktop_item_drop_uri_list (const MateDesktopItem *item,
+ukui_desktop_item_drop_uri_list (const UkuiDesktopItem *item,
 				  const char *uri_list,
-				  MateDesktopItemLaunchFlags flags,
+				  UkuiDesktopItemLaunchFlags flags,
 				  GError **error)
 {
-	return mate_desktop_item_drop_uri_list_with_env (item, uri_list,
+	return ukui_desktop_item_drop_uri_list_with_env (item, uri_list,
 							  flags, NULL, error);
 }
 
 /**
-* mate_desktop_item_drop_uri_list_with_env:
+* ukui_desktop_item_drop_uri_list_with_env:
 * @item: A desktop item
 * @uri_list: text as gotten from a text/uri-list
 * @flags: FIXME
 * @envp: child's environment
 * @error: FIXME
 *
-* See mate_desktop_item_drop_uri_list for a full description. This function
+* See ukui_desktop_item_drop_uri_list for a full description. This function
 * additionally passes an environment vector for the child process
 * which is to be launched.
 *
-* Returns: The value returned by #mate_execute_async() upon execution of
+* Returns: The value returned by #ukui_execute_async() upon execution of
 * the specified item or -1 on error.  If multiple instances are run, the
 * return of the last one is returned.
 */
 int
-mate_desktop_item_drop_uri_list_with_env (const MateDesktopItem *item,
+ukui_desktop_item_drop_uri_list_with_env (const UkuiDesktopItem *item,
 					   const char *uri_list,
-					   MateDesktopItemLaunchFlags flags,
+					   UkuiDesktopItemLaunchFlags flags,
 					   char                        **envp,
 					   GError **error)
 {
@@ -2285,7 +2285,7 @@ mate_desktop_item_drop_uri_list_with_env (const MateDesktopItem *item,
 	}
 	list = g_list_reverse (list);
 
-	ret =  mate_desktop_item_launch_with_env (
+	ret =  ukui_desktop_item_launch_with_env (
 			item, list, flags, envp, error);
 
 	g_strfreev (uris);
@@ -2315,7 +2315,7 @@ exec_exists (const char *exec)
 }
 
 /**
- * mate_desktop_item_exists:
+ * ukui_desktop_item_exists:
  * @item: A desktop item
  *
  * Attempt to figure out if the program that can be executed by this item
@@ -2326,26 +2326,26 @@ exec_exists (const char *exec)
  * Returns: A boolean, %TRUE if it exists, %FALSE otherwise.
  */
 gboolean
-mate_desktop_item_exists (const MateDesktopItem *item)
+ukui_desktop_item_exists (const UkuiDesktopItem *item)
 {
 	const char *try_exec;
 	const char *exec;
 
 	g_return_val_if_fail (item != NULL, FALSE);
 
-	try_exec = lookup (item, MATE_DESKTOP_ITEM_TRY_EXEC);
+	try_exec = lookup (item, UKUI_DESKTOP_ITEM_TRY_EXEC);
 
 	if (try_exec != NULL &&
 	    ! exec_exists (try_exec)) {
 		return FALSE;
 	}
 
-	if (item->type == MATE_DESKTOP_ITEM_TYPE_APPLICATION) {
+	if (item->type == UKUI_DESKTOP_ITEM_TYPE_APPLICATION) {
 		int argc;
 		char **argv;
 		const char *exe;
 
-		exec = lookup (item, MATE_DESKTOP_ITEM_EXEC);
+		exec = lookup (item, UKUI_DESKTOP_ITEM_EXEC);
 		if (exec == NULL)
 			return FALSE;
 
@@ -2370,7 +2370,7 @@ mate_desktop_item_exists (const MateDesktopItem *item)
 }
 
 /**
- * mate_desktop_item_get_entry_type:
+ * ukui_desktop_item_get_entry_type:
  * @item: A desktop item
  *
  * Gets the type attribute (the 'Type' field) of the item.  This should
@@ -2380,10 +2380,10 @@ mate_desktop_item_exists (const MateDesktopItem *item)
  * how the 'Exec' field should be handeled.
  *
  * Returns: The type of the specified 'item'. The returned
- * memory remains owned by the MateDesktopItem and should not be freed.
+ * memory remains owned by the UkuiDesktopItem and should not be freed.
  */
-MateDesktopItemType
-mate_desktop_item_get_entry_type (const MateDesktopItem *item)
+UkuiDesktopItemType
+ukui_desktop_item_get_entry_type (const UkuiDesktopItem *item)
 {
 	g_return_val_if_fail (item != NULL, 0);
 	g_return_val_if_fail (item->refcount > 0, 0);
@@ -2392,8 +2392,8 @@ mate_desktop_item_get_entry_type (const MateDesktopItem *item)
 }
 
 void
-mate_desktop_item_set_entry_type (MateDesktopItem *item,
-				   MateDesktopItemType type)
+ukui_desktop_item_set_entry_type (UkuiDesktopItem *item,
+				   UkuiDesktopItemType type)
 {
 	g_return_if_fail (item != NULL);
 	g_return_if_fail (item->refcount > 0);
@@ -2401,29 +2401,29 @@ mate_desktop_item_set_entry_type (MateDesktopItem *item,
 	item->type = type;
 
 	switch (type) {
-	case MATE_DESKTOP_ITEM_TYPE_NULL:
-		set (item, MATE_DESKTOP_ITEM_TYPE, NULL);
+	case UKUI_DESKTOP_ITEM_TYPE_NULL:
+		set (item, UKUI_DESKTOP_ITEM_TYPE, NULL);
 		break;
-	case MATE_DESKTOP_ITEM_TYPE_APPLICATION:
-		set (item, MATE_DESKTOP_ITEM_TYPE, "Application");
+	case UKUI_DESKTOP_ITEM_TYPE_APPLICATION:
+		set (item, UKUI_DESKTOP_ITEM_TYPE, "Application");
 		break;
-	case MATE_DESKTOP_ITEM_TYPE_LINK:
-		set (item, MATE_DESKTOP_ITEM_TYPE, "Link");
+	case UKUI_DESKTOP_ITEM_TYPE_LINK:
+		set (item, UKUI_DESKTOP_ITEM_TYPE, "Link");
 		break;
-	case MATE_DESKTOP_ITEM_TYPE_FSDEVICE:
-		set (item, MATE_DESKTOP_ITEM_TYPE, "FSDevice");
+	case UKUI_DESKTOP_ITEM_TYPE_FSDEVICE:
+		set (item, UKUI_DESKTOP_ITEM_TYPE, "FSDevice");
 		break;
-	case MATE_DESKTOP_ITEM_TYPE_MIME_TYPE:
-		set (item, MATE_DESKTOP_ITEM_TYPE, "MimeType");
+	case UKUI_DESKTOP_ITEM_TYPE_MIME_TYPE:
+		set (item, UKUI_DESKTOP_ITEM_TYPE, "MimeType");
 		break;
-	case MATE_DESKTOP_ITEM_TYPE_DIRECTORY:
-		set (item, MATE_DESKTOP_ITEM_TYPE, "Directory");
+	case UKUI_DESKTOP_ITEM_TYPE_DIRECTORY:
+		set (item, UKUI_DESKTOP_ITEM_TYPE, "Directory");
 		break;
-	case MATE_DESKTOP_ITEM_TYPE_SERVICE:
-		set (item, MATE_DESKTOP_ITEM_TYPE, "Service");
+	case UKUI_DESKTOP_ITEM_TYPE_SERVICE:
+		set (item, UKUI_DESKTOP_ITEM_TYPE, "Service");
 		break;
-	case MATE_DESKTOP_ITEM_TYPE_SERVICE_TYPE:
-		set (item, MATE_DESKTOP_ITEM_TYPE, "ServiceType");
+	case UKUI_DESKTOP_ITEM_TYPE_SERVICE_TYPE:
+		set (item, UKUI_DESKTOP_ITEM_TYPE, "ServiceType");
 		break;
 	default:
 		break;
@@ -2433,7 +2433,7 @@ mate_desktop_item_set_entry_type (MateDesktopItem *item,
 
 
 /**
- * mate_desktop_item_get_file_status:
+ * ukui_desktop_item_get_file_status:
  * @item: A desktop item
  *
  * This function checks the modification time of the on-disk file to
@@ -2441,29 +2441,29 @@ mate_desktop_item_set_entry_type (MateDesktopItem *item,
  *
  * Returns: An enum value that specifies whether the item has changed since being loaded.
  */
-MateDesktopItemStatus
-mate_desktop_item_get_file_status (const MateDesktopItem *item)
+UkuiDesktopItemStatus
+ukui_desktop_item_get_file_status (const UkuiDesktopItem *item)
 {
-	MateDesktopItemStatus retval;
+	UkuiDesktopItemStatus retval;
 	GFile *file;
 	GFileInfo *info;
 
-	g_return_val_if_fail (item != NULL, MATE_DESKTOP_ITEM_DISAPPEARED);
-	g_return_val_if_fail (item->refcount > 0, MATE_DESKTOP_ITEM_DISAPPEARED);
+	g_return_val_if_fail (item != NULL, UKUI_DESKTOP_ITEM_DISAPPEARED);
+	g_return_val_if_fail (item->refcount > 0, UKUI_DESKTOP_ITEM_DISAPPEARED);
 
 	if (item->location == NULL)
-		return MATE_DESKTOP_ITEM_DISAPPEARED;
+		return UKUI_DESKTOP_ITEM_DISAPPEARED;
 
 	file = g_file_new_for_uri (item->location);
 	info = g_file_query_info (file, G_FILE_ATTRIBUTE_TIME_MODIFIED,
 				  G_FILE_QUERY_INFO_NONE, NULL, NULL);
 
-	retval = MATE_DESKTOP_ITEM_UNCHANGED;
+	retval = UKUI_DESKTOP_ITEM_UNCHANGED;
 
 	if (!g_file_info_has_attribute (info, G_FILE_ATTRIBUTE_TIME_MODIFIED))
-		retval = MATE_DESKTOP_ITEM_DISAPPEARED;
+		retval = UKUI_DESKTOP_ITEM_DISAPPEARED;
 	else if (item->mtime < g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_MODIFIED))
-		retval = MATE_DESKTOP_ITEM_CHANGED;
+		retval = UKUI_DESKTOP_ITEM_CHANGED;
 
 	g_object_unref (info);
 	g_object_unref (file);
@@ -2472,7 +2472,7 @@ mate_desktop_item_get_file_status (const MateDesktopItem *item)
 }
 
 /**
- * mate_desktop_item_find_icon:
+ * ukui_desktop_item_find_icon:
  * @icon_theme: a #GtkIconTheme
  * @icon: icon name, something you'd get out of the Icon key
  * @desired_size: FIXME
@@ -2485,7 +2485,7 @@ mate_desktop_item_get_file_status (const MateDesktopItem *item)
  * Returns: A newly allocated string
  */
 char *
-mate_desktop_item_find_icon (GtkIconTheme *icon_theme,
+ukui_desktop_item_find_icon (GtkIconTheme *icon_theme,
 			      const char *icon,
 			      int desired_size,
 			      int flags)
@@ -2539,7 +2539,7 @@ mate_desktop_item_find_icon (GtkIconTheme *icon_theme,
 }
 
 /**
- * mate_desktop_item_get_icon:
+ * ukui_desktop_item_get_icon:
  * @icon_theme: a #GtkIconTheme
  * @item: A desktop item
  *
@@ -2550,7 +2550,7 @@ mate_desktop_item_find_icon (GtkIconTheme *icon_theme,
  * Returns: A newly allocated string
  */
 char *
-mate_desktop_item_get_icon (const MateDesktopItem *item,
+ukui_desktop_item_get_icon (const UkuiDesktopItem *item,
 			     GtkIconTheme *icon_theme)
 {
 	/* maybe this function should be deprecated in favour of find icon
@@ -2560,22 +2560,22 @@ mate_desktop_item_get_icon (const MateDesktopItem *item,
 	g_return_val_if_fail (item != NULL, NULL);
 	g_return_val_if_fail (item->refcount > 0, NULL);
 
-	icon = mate_desktop_item_get_string (item, MATE_DESKTOP_ITEM_ICON);
+	icon = ukui_desktop_item_get_string (item, UKUI_DESKTOP_ITEM_ICON);
 
-	return mate_desktop_item_find_icon (icon_theme, icon,
+	return ukui_desktop_item_find_icon (icon_theme, icon,
 					     48 /* desired_size */,
 					     0 /* flags */);
 }
 
 /**
- * mate_desktop_item_get_location:
+ * ukui_desktop_item_get_location:
  * @item: A desktop item
  *
  * Returns: The file location associated with 'item'.
  *
  */
 const char *
-mate_desktop_item_get_location (const MateDesktopItem *item)
+ukui_desktop_item_get_location (const UkuiDesktopItem *item)
 {
 	g_return_val_if_fail (item != NULL, NULL);
 	g_return_val_if_fail (item->refcount > 0, NULL);
@@ -2584,14 +2584,14 @@ mate_desktop_item_get_location (const MateDesktopItem *item)
 }
 
 /**
- * mate_desktop_item_set_location:
+ * ukui_desktop_item_set_location:
  * @item: A desktop item
  * @location: A uri string specifying the file location of this particular item.
  *
  * Set's the 'location' uri of this item.
  */
 void
-mate_desktop_item_set_location (MateDesktopItem *item, const char *location)
+ukui_desktop_item_set_location (UkuiDesktopItem *item, const char *location)
 {
 	g_return_if_fail (item != NULL);
 	g_return_if_fail (item->refcount > 0);
@@ -2634,14 +2634,14 @@ mate_desktop_item_set_location (MateDesktopItem *item, const char *location)
 }
 
 /**
- * mate_desktop_item_set_location_file:
+ * ukui_desktop_item_set_location_file:
  * @item: A desktop item
  * @file: A local filename specifying the file location of this particular item.
  *
  * Set's the 'location' uri of this item to the given @file.
  */
 void
-mate_desktop_item_set_location_file (MateDesktopItem *item, const char *file)
+ukui_desktop_item_set_location_file (UkuiDesktopItem *item, const char *file)
 {
 	g_return_if_fail (item != NULL);
 	g_return_if_fail (item->refcount > 0);
@@ -2650,15 +2650,15 @@ mate_desktop_item_set_location_file (MateDesktopItem *item, const char *file)
 		GFile *gfile;
 
 		gfile = g_file_new_for_path (file);
-		mate_desktop_item_set_location_gfile (item, gfile);
+		ukui_desktop_item_set_location_gfile (item, gfile);
 		g_object_unref (gfile);
 	} else {
-		mate_desktop_item_set_location (item, NULL);
+		ukui_desktop_item_set_location (item, NULL);
 	}
 }
 
 static void
-mate_desktop_item_set_location_gfile (MateDesktopItem *item, GFile *file)
+ukui_desktop_item_set_location_gfile (UkuiDesktopItem *item, GFile *file)
 {
 	g_return_if_fail (item != NULL);
 	g_return_if_fail (item->refcount > 0);
@@ -2667,10 +2667,10 @@ mate_desktop_item_set_location_gfile (MateDesktopItem *item, GFile *file)
 		char *uri;
 
 		uri = g_file_get_uri (file);
-		mate_desktop_item_set_location (item, uri);
+		ukui_desktop_item_set_location (item, uri);
 		g_free (uri);
 	} else {
-		mate_desktop_item_set_location (item, NULL);
+		ukui_desktop_item_set_location (item, NULL);
 	}
 }
 
@@ -2679,7 +2679,7 @@ mate_desktop_item_set_location_gfile (MateDesktopItem *item, GFile *file)
  */
 
 gboolean
-mate_desktop_item_attr_exists (const MateDesktopItem *item,
+ukui_desktop_item_attr_exists (const UkuiDesktopItem *item,
 				const char *attr)
 {
 	g_return_val_if_fail (item != NULL, FALSE);
@@ -2693,7 +2693,7 @@ mate_desktop_item_attr_exists (const MateDesktopItem *item,
  * String type
  */
 const char *
-mate_desktop_item_get_string (const MateDesktopItem *item,
+ukui_desktop_item_get_string (const UkuiDesktopItem *item,
 			       const char *attr)
 {
 	g_return_val_if_fail (item != NULL, NULL);
@@ -2704,7 +2704,7 @@ mate_desktop_item_get_string (const MateDesktopItem *item,
 }
 
 void
-mate_desktop_item_set_string (MateDesktopItem *item,
+ukui_desktop_item_set_string (UkuiDesktopItem *item,
 			       const char *attr,
 			       const char *value)
 {
@@ -2714,14 +2714,14 @@ mate_desktop_item_set_string (MateDesktopItem *item,
 
 	set (item, attr, value);
 
-	if (strcmp (attr, MATE_DESKTOP_ITEM_TYPE) == 0)
+	if (strcmp (attr, UKUI_DESKTOP_ITEM_TYPE) == 0)
 		item->type = type_from_string (value);
 }
 
 /*
  * LocaleString type
  */
-const char* mate_desktop_item_get_localestring(const MateDesktopItem* item, const char* attr)
+const char* ukui_desktop_item_get_localestring(const UkuiDesktopItem* item, const char* attr)
 {
 	g_return_val_if_fail(item != NULL, NULL);
 	g_return_val_if_fail(item->refcount > 0, NULL);
@@ -2730,7 +2730,7 @@ const char* mate_desktop_item_get_localestring(const MateDesktopItem* item, cons
 	return lookup_best_locale(item, attr);
 }
 
-const char* mate_desktop_item_get_localestring_lang(const MateDesktopItem* item, const char* attr, const char* language)
+const char* ukui_desktop_item_get_localestring_lang(const UkuiDesktopItem* item, const char* attr, const char* language)
 {
 	g_return_val_if_fail(item != NULL, NULL);
 	g_return_val_if_fail(item->refcount > 0, NULL);
@@ -2740,7 +2740,7 @@ const char* mate_desktop_item_get_localestring_lang(const MateDesktopItem* item,
 }
 
 /**
- * mate_desktop_item_get_string_locale:
+ * ukui_desktop_item_get_string_locale:
  * @item: A desktop item
  * @attr: An attribute name
  *
@@ -2754,7 +2754,7 @@ const char* mate_desktop_item_get_localestring_lang(const MateDesktopItem* item,
  * if the attribute is invalid or there is no matching locale.
  */
 const char *
-mate_desktop_item_get_attr_locale (const MateDesktopItem *item,
+ukui_desktop_item_get_attr_locale (const UkuiDesktopItem *item,
 				    const char             *attr)
 {
 	const char * const *langs_pointer;
@@ -2773,7 +2773,7 @@ mate_desktop_item_get_attr_locale (const MateDesktopItem *item,
 }
 
 GList *
-mate_desktop_item_get_languages (const MateDesktopItem *item,
+ukui_desktop_item_get_languages (const UkuiDesktopItem *item,
 				  const char *attr)
 {
 	GList *li;
@@ -2810,7 +2810,7 @@ get_language (void)
 }
 
 void
-mate_desktop_item_set_localestring (MateDesktopItem *item,
+ukui_desktop_item_set_localestring (UkuiDesktopItem *item,
 				     const char *attr,
 				     const char *value)
 {
@@ -2822,7 +2822,7 @@ mate_desktop_item_set_localestring (MateDesktopItem *item,
 }
 
 void
-mate_desktop_item_set_localestring_lang (MateDesktopItem *item,
+ukui_desktop_item_set_localestring_lang (UkuiDesktopItem *item,
 					  const char *attr,
 					  const char *language,
 					  const char *value)
@@ -2835,7 +2835,7 @@ mate_desktop_item_set_localestring_lang (MateDesktopItem *item,
 }
 
 void
-mate_desktop_item_clear_localestring (MateDesktopItem *item,
+ukui_desktop_item_clear_localestring (UkuiDesktopItem *item,
 				       const char *attr)
 {
 	GList *l;
@@ -2855,7 +2855,7 @@ mate_desktop_item_clear_localestring (MateDesktopItem *item,
  */
 
 char **
-mate_desktop_item_get_strings (const MateDesktopItem *item,
+ukui_desktop_item_get_strings (const UkuiDesktopItem *item,
 				const char *attr)
 {
 	const char *value;
@@ -2873,7 +2873,7 @@ mate_desktop_item_get_strings (const MateDesktopItem *item,
 }
 
 void
-mate_desktop_item_set_strings (MateDesktopItem *item,
+ukui_desktop_item_set_strings (UkuiDesktopItem *item,
 				const char *attr,
 				char **strings)
 {
@@ -2895,7 +2895,7 @@ mate_desktop_item_set_strings (MateDesktopItem *item,
  * Boolean type
  */
 gboolean
-mate_desktop_item_get_boolean (const MateDesktopItem *item,
+ukui_desktop_item_get_boolean (const UkuiDesktopItem *item,
 				const char *attr)
 {
 	const char *value;
@@ -2916,7 +2916,7 @@ mate_desktop_item_get_boolean (const MateDesktopItem *item,
 }
 
 void
-mate_desktop_item_set_boolean (MateDesktopItem *item,
+ukui_desktop_item_set_boolean (UkuiDesktopItem *item,
 				const char *attr,
 				gboolean value)
 {
@@ -2928,7 +2928,7 @@ mate_desktop_item_set_boolean (MateDesktopItem *item,
 }
 
 void
-mate_desktop_item_set_launch_time (MateDesktopItem *item,
+ukui_desktop_item_set_launch_time (UkuiDesktopItem *item,
 				    guint32           timestamp)
 {
 	g_return_if_fail (item != NULL);
@@ -2940,7 +2940,7 @@ mate_desktop_item_set_launch_time (MateDesktopItem *item,
  * Clearing attributes
  */
 void
-mate_desktop_item_clear_section (MateDesktopItem *item,
+ukui_desktop_item_clear_section (UkuiDesktopItem *item,
 				  const char *section)
 {
 	Section *sec;
@@ -2987,17 +2987,17 @@ standard_is_boolean (const char * key)
 	if (bools == NULL) {
 		bools = g_hash_table_new (g_str_hash, g_str_equal);
 		g_hash_table_insert (bools,
-				     MATE_DESKTOP_ITEM_NO_DISPLAY,
-				     MATE_DESKTOP_ITEM_NO_DISPLAY);
+				     UKUI_DESKTOP_ITEM_NO_DISPLAY,
+				     UKUI_DESKTOP_ITEM_NO_DISPLAY);
 		g_hash_table_insert (bools,
-				     MATE_DESKTOP_ITEM_HIDDEN,
-				     MATE_DESKTOP_ITEM_HIDDEN);
+				     UKUI_DESKTOP_ITEM_HIDDEN,
+				     UKUI_DESKTOP_ITEM_HIDDEN);
 		g_hash_table_insert (bools,
-				     MATE_DESKTOP_ITEM_TERMINAL,
-				     MATE_DESKTOP_ITEM_TERMINAL);
+				     UKUI_DESKTOP_ITEM_TERMINAL,
+				     UKUI_DESKTOP_ITEM_TERMINAL);
 		g_hash_table_insert (bools,
-				     MATE_DESKTOP_ITEM_READ_ONLY,
-				     MATE_DESKTOP_ITEM_READ_ONLY);
+				     UKUI_DESKTOP_ITEM_READ_ONLY,
+				     UKUI_DESKTOP_ITEM_READ_ONLY);
 	}
 
 	return g_hash_table_lookup (bools, key) != NULL;
@@ -3011,20 +3011,20 @@ standard_is_strings (const char *key)
 	if (strings == NULL) {
 		strings = g_hash_table_new (g_str_hash, g_str_equal);
 		g_hash_table_insert (strings,
-				     MATE_DESKTOP_ITEM_FILE_PATTERN,
-				     MATE_DESKTOP_ITEM_FILE_PATTERN);
+				     UKUI_DESKTOP_ITEM_FILE_PATTERN,
+				     UKUI_DESKTOP_ITEM_FILE_PATTERN);
 		g_hash_table_insert (strings,
-				     MATE_DESKTOP_ITEM_ACTIONS,
-				     MATE_DESKTOP_ITEM_ACTIONS);
+				     UKUI_DESKTOP_ITEM_ACTIONS,
+				     UKUI_DESKTOP_ITEM_ACTIONS);
 		g_hash_table_insert (strings,
-				     MATE_DESKTOP_ITEM_MIME_TYPE,
-				     MATE_DESKTOP_ITEM_MIME_TYPE);
+				     UKUI_DESKTOP_ITEM_MIME_TYPE,
+				     UKUI_DESKTOP_ITEM_MIME_TYPE);
 		g_hash_table_insert (strings,
-				     MATE_DESKTOP_ITEM_PATTERNS,
-				     MATE_DESKTOP_ITEM_PATTERNS);
+				     UKUI_DESKTOP_ITEM_PATTERNS,
+				     UKUI_DESKTOP_ITEM_PATTERNS);
 		g_hash_table_insert (strings,
-				     MATE_DESKTOP_ITEM_SORT_ORDER,
-				     MATE_DESKTOP_ITEM_SORT_ORDER);
+				     UKUI_DESKTOP_ITEM_SORT_ORDER,
+				     UKUI_DESKTOP_ITEM_SORT_ORDER);
 	}
 
 	return g_hash_table_lookup (strings, key) != NULL;
@@ -3244,10 +3244,10 @@ get_encoding (ReadBuf *rb)
 	gboolean all_valid_utf8 = TRUE;
 
 	while (readbuf_gets (buf, sizeof (buf), rb) != NULL) {
-		if (strncmp (MATE_DESKTOP_ITEM_ENCODING,
+		if (strncmp (UKUI_DESKTOP_ITEM_ENCODING,
 			     buf,
-			     strlen (MATE_DESKTOP_ITEM_ENCODING)) == 0) {
-			char *p = &buf[strlen (MATE_DESKTOP_ITEM_ENCODING)];
+			     strlen (UKUI_DESKTOP_ITEM_ENCODING)) == 0) {
+			char *p = &buf[strlen (UKUI_DESKTOP_ITEM_ENCODING)];
 			if (*p == ' ')
 				p++;
 			if (*p != '=')
@@ -3277,8 +3277,8 @@ get_encoding (ReadBuf *rb)
 		return ENCODING_LEGACY_MIXED;
 
 	/* try to guess by location */
-	if (rb->uri != NULL && strstr (rb->uri, "mate/apps/") != NULL) {
-		/* old mate */
+	if (rb->uri != NULL && strstr (rb->uri, "ukui/apps/") != NULL) {
+		/* old ukui */
 		return ENCODING_LEGACY_MIXED;
 	}
 
@@ -3351,7 +3351,7 @@ snarf_locale_from_key (const char *key)
 }
 
 static void
-insert_key (MateDesktopItem *item,
+insert_key (UkuiDesktopItem *item,
 	    Section *cur_section,
 	    Encoding encoding,
 	    const char *key,
@@ -3363,7 +3363,7 @@ insert_key (MateDesktopItem *item,
 	char *val;
 	/* we always store everything in UTF-8 */
 	if (cur_section == NULL &&
-	    strcmp (key, MATE_DESKTOP_ITEM_ENCODING) == 0) {
+	    strcmp (key, UKUI_DESKTOP_ITEM_ENCODING) == 0) {
 		k = g_strdup (key);
 		val = g_strdup ("UTF-8");
 	} else {
@@ -3387,7 +3387,7 @@ insert_key (MateDesktopItem *item,
 		 * on sort order, so convert to semicolons */
 		if (old_kde &&
 		    cur_section == NULL &&
-		    strcmp (key, MATE_DESKTOP_ITEM_SORT_ORDER) == 0 &&
+		    strcmp (key, UKUI_DESKTOP_ITEM_SORT_ORDER) == 0 &&
 		    strchr (val, ';') == NULL) {
 			int i;
 			for (i = 0; val[i] != '\0'; i++) {
@@ -3467,23 +3467,23 @@ insert_key (MateDesktopItem *item,
 }
 
 static void
-setup_type (MateDesktopItem *item, const char *uri)
+setup_type (UkuiDesktopItem *item, const char *uri)
 {
 	const char *type = g_hash_table_lookup (item->main_hash,
-						MATE_DESKTOP_ITEM_TYPE);
+						UKUI_DESKTOP_ITEM_TYPE);
 	if (type == NULL && uri != NULL) {
 		char *base = g_path_get_basename (uri);
 		if (base != NULL &&
 		    strcmp (base, ".directory") == 0) {
 			/* This gotta be a directory */
 			g_hash_table_replace (item->main_hash,
-					      g_strdup (MATE_DESKTOP_ITEM_TYPE),
+					      g_strdup (UKUI_DESKTOP_ITEM_TYPE),
 					      g_strdup ("Directory"));
 			item->keys = g_list_prepend
-				(item->keys, g_strdup (MATE_DESKTOP_ITEM_TYPE));
-			item->type = MATE_DESKTOP_ITEM_TYPE_DIRECTORY;
+				(item->keys, g_strdup (UKUI_DESKTOP_ITEM_TYPE));
+			item->type = UKUI_DESKTOP_ITEM_TYPE_DIRECTORY;
 		} else {
-			item->type = MATE_DESKTOP_ITEM_TYPE_NULL;
+			item->type = UKUI_DESKTOP_ITEM_TYPE_NULL;
 		}
 		g_free (base);
 	} else {
@@ -3493,7 +3493,7 @@ setup_type (MateDesktopItem *item, const char *uri)
 
 /* fallback to find something suitable for C locale */
 static char *
-try_english_key (MateDesktopItem *item, const char *key)
+try_english_key (UkuiDesktopItem *item, const char *key)
 {
 	char *str;
 	char *locales[] = { "en_US", "en_GB", "en_AU", "en", NULL };
@@ -3517,56 +3517,56 @@ try_english_key (MateDesktopItem *item, const char *key)
 
 
 static void
-sanitize (MateDesktopItem *item, const char *uri)
+sanitize (UkuiDesktopItem *item, const char *uri)
 {
 	const char *type;
 
-	type = lookup (item, MATE_DESKTOP_ITEM_TYPE);
+	type = lookup (item, UKUI_DESKTOP_ITEM_TYPE);
 
-	/* understand old mate style url exec thingies */
+	/* understand old ukui style url exec thingies */
 	if (type != NULL && strcmp (type, "URL") == 0) {
-		const char *exec = lookup (item, MATE_DESKTOP_ITEM_EXEC);
-		set (item, MATE_DESKTOP_ITEM_TYPE, "Link");
+		const char *exec = lookup (item, UKUI_DESKTOP_ITEM_EXEC);
+		set (item, UKUI_DESKTOP_ITEM_TYPE, "Link");
 		if (exec != NULL) {
 			/* Note, this must be in this order */
-			set (item, MATE_DESKTOP_ITEM_URL, exec);
-			set (item, MATE_DESKTOP_ITEM_EXEC, NULL);
+			set (item, UKUI_DESKTOP_ITEM_URL, exec);
+			set (item, UKUI_DESKTOP_ITEM_EXEC, NULL);
 		}
 	}
 
 	/* we make sure we have Name, Encoding and Version */
-	if (lookup (item, MATE_DESKTOP_ITEM_NAME) == NULL) {
-		char *name = try_english_key (item, MATE_DESKTOP_ITEM_NAME);
+	if (lookup (item, UKUI_DESKTOP_ITEM_NAME) == NULL) {
+		char *name = try_english_key (item, UKUI_DESKTOP_ITEM_NAME);
 		/* If no name, use the basename */
 		if (name == NULL && uri != NULL)
 			name = g_path_get_basename (uri);
-		/* If no uri either, use same default as mate_desktop_item_new */
+		/* If no uri either, use same default as ukui_desktop_item_new */
 		if (name == NULL) {
 		       /* Translators: the "name" mentioned here is the name of
 			* an application or a document */
 			name = g_strdup (_("No name"));
 		}
 		g_hash_table_replace (item->main_hash,
-				      g_strdup (MATE_DESKTOP_ITEM_NAME),
+				      g_strdup (UKUI_DESKTOP_ITEM_NAME),
 				      name);
 		item->keys = g_list_prepend
-			(item->keys, g_strdup (MATE_DESKTOP_ITEM_NAME));
+			(item->keys, g_strdup (UKUI_DESKTOP_ITEM_NAME));
 	}
-	if (lookup (item, MATE_DESKTOP_ITEM_ENCODING) == NULL) {
+	if (lookup (item, UKUI_DESKTOP_ITEM_ENCODING) == NULL) {
 		/* We store everything in UTF-8 so write that down */
 		g_hash_table_replace (item->main_hash,
-				      g_strdup (MATE_DESKTOP_ITEM_ENCODING),
+				      g_strdup (UKUI_DESKTOP_ITEM_ENCODING),
 				      g_strdup ("UTF-8"));
 		item->keys = g_list_prepend
-			(item->keys, g_strdup (MATE_DESKTOP_ITEM_ENCODING));
+			(item->keys, g_strdup (UKUI_DESKTOP_ITEM_ENCODING));
 	}
-	if (lookup (item, MATE_DESKTOP_ITEM_VERSION) == NULL) {
+	if (lookup (item, UKUI_DESKTOP_ITEM_VERSION) == NULL) {
 		/* this is the version that we follow, so write it down */
 		g_hash_table_replace (item->main_hash,
-				      g_strdup (MATE_DESKTOP_ITEM_VERSION),
+				      g_strdup (UKUI_DESKTOP_ITEM_VERSION),
 				      g_strdup ("1.0"));
 		item->keys = g_list_prepend
-			(item->keys, g_strdup (MATE_DESKTOP_ITEM_VERSION));
+			(item->keys, g_strdup (UKUI_DESKTOP_ITEM_VERSION));
 	}
 }
 
@@ -3580,7 +3580,7 @@ enum {
 	KeyValue
 };
 
-static MateDesktopItem *
+static UkuiDesktopItem *
 ditem_load (ReadBuf *rb,
 	    gboolean no_translations,
 	    GError **error)
@@ -3590,7 +3590,7 @@ ditem_load (ReadBuf *rb,
 	char *next = CharBuffer;
 	int c;
 	Encoding encoding;
-	MateDesktopItem *item;
+	UkuiDesktopItem *item;
 	Section *cur_section = NULL;
 	char *key = NULL;
 	gboolean old_kde = FALSE;
@@ -3599,8 +3599,8 @@ ditem_load (ReadBuf *rb,
 	if (encoding == ENCODING_UNKNOWN) {
 		/* spec says, don't read this file */
 		g_set_error (error,
-			     MATE_DESKTOP_ITEM_ERROR,
-			     MATE_DESKTOP_ITEM_ERROR_UNKNOWN_ENCODING,
+			     UKUI_DESKTOP_ITEM_ERROR,
+			     UKUI_DESKTOP_ITEM_ERROR_UNKNOWN_ENCODING,
 			     _("Unknown encoding of: %s"),
 			     rb->uri);
 		readbuf_close (rb);
@@ -3614,7 +3614,7 @@ ditem_load (ReadBuf *rb,
 		return NULL;
 	}
 
-	item = mate_desktop_item_new ();
+	item = ukui_desktop_item_new ();
 	item->modified = FALSE;
 
 	/* Note: location and mtime are filled in by the new_from_file
@@ -3795,7 +3795,7 @@ stream_printf (GFileOutputStream *stream, const char *format, ...)
 }
 
 static void
-dump_section (MateDesktopItem *item, GFileOutputStream *stream, Section *section)
+dump_section (UkuiDesktopItem *item, GFileOutputStream *stream, Section *section)
 {
 	GList *li;
 
@@ -3814,7 +3814,7 @@ dump_section (MateDesktopItem *item, GFileOutputStream *stream, Section *section
 }
 
 static gboolean
-ditem_save (MateDesktopItem *item, const char *uri, GError **error)
+ditem_save (UkuiDesktopItem *item, const char *uri, GError **error)
 {
 	GList *li;
 	GFile *file;
@@ -3860,37 +3860,37 @@ ditem_save (MateDesktopItem *item, const char *uri, GError **error)
 }
 
 static gpointer
-_mate_desktop_item_copy (gpointer boxed)
+_ukui_desktop_item_copy (gpointer boxed)
 {
-	return mate_desktop_item_copy (boxed);
+	return ukui_desktop_item_copy (boxed);
 }
 
 static void
-_mate_desktop_item_free (gpointer boxed)
+_ukui_desktop_item_free (gpointer boxed)
 {
-	mate_desktop_item_unref (boxed);
+	ukui_desktop_item_unref (boxed);
 }
 
 GType
-mate_desktop_item_get_type (void)
+ukui_desktop_item_get_type (void)
 {
 	static GType type = 0;
 
 	if (type == 0) {
-		type = g_boxed_type_register_static ("MateDesktopItem",
-						     _mate_desktop_item_copy,
-						     _mate_desktop_item_free);
+		type = g_boxed_type_register_static ("UkuiDesktopItem",
+						     _ukui_desktop_item_copy,
+						     _ukui_desktop_item_free);
 	}
 
 	return type;
 }
 
 GQuark
-mate_desktop_item_error_quark (void)
+ukui_desktop_item_error_quark (void)
 {
 	static GQuark q = 0;
 	if (q == 0)
-		q = g_quark_from_static_string ("mate-desktop-item-error-quark");
+		q = g_quark_from_static_string ("ukui-desktop-item-error-quark");
 
 	return q;
 }

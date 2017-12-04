@@ -1,22 +1,22 @@
 /*
- * mate-thumbnail-pixbuf-utils.c: Utilities for handling pixbufs when thumbnailing
+ * ukui-thumbnail-pixbuf-utils.c: Utilities for handling pixbufs when thumbnailing
  *
  * Copyright (C) 2002 Red Hat, Inc.
  *
- * This file is part of the Mate Library.
+ * This file is part of the Ukui Library.
  *
- * The Mate Library is free software; you can redistribute it and/or
+ * The Ukui Library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
- * The Mate Library is distributed in the hope that it will be useful,
+ * The Ukui Library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Library General Public License for more details.
  *
  * You should have received a copy of the GNU Library General Public
- * License along with the Mate Library; see the file COPYING.LIB.  If not,
+ * License along with the Ukui Library; see the file COPYING.LIB.  If not,
  * write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  *
@@ -29,13 +29,13 @@
 #include <string.h>
 #include <glib.h>
 
-#define MATE_DESKTOP_USE_UNSTABLE_API
-#include "mate-desktop-thumbnail.h"
+#define UKUI_DESKTOP_USE_UNSTABLE_API
+#include "ukui-desktop-thumbnail.h"
 
 #define LOAD_BUFFER_SIZE 65536
 
 /**
- * mate_desktop_thumbnail_scale_down_pixbuf:
+ * ukui_desktop_thumbnail_scale_down_pixbuf:
  * @pixbuf: a #GdkPixbuf
  * @dest_width: the desired new width
  * @dest_height: the desired new height
@@ -49,7 +49,7 @@
  * Since: 2.2
  **/
 GdkPixbuf *
-mate_desktop_thumbnail_scale_down_pixbuf (GdkPixbuf *pixbuf,
+ukui_desktop_thumbnail_scale_down_pixbuf (GdkPixbuf *pixbuf,
 					   int dest_width,
 					   int dest_height)
 {

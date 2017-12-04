@@ -33,7 +33,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
-#include "mate-colorsel.h"
+#include "ukui-colorsel.h"
 
 #define DEFAULT_COLOR_PALETTE "#ef2929:#fcaf3e:#fce94f:#8ae234:#729fcf:#ad7fa8:#e9b96e:#888a85:#eeeeec:#cc0000:#f57900:#edd400:#73d216:#3465a4:#75507b:#c17d11:#555753:#d3d7cf:#a40000:#ce5c00:#c4a000:#4e9a06:#204a87:#5c3566:#8f5902:#2e3436:#babdb6:#000000:#2e3436:#555753:#888a85:#babdb6:#d3d7cf:#eeeeec:#f3f3f3:#ffffff"
 
@@ -131,25 +131,25 @@ struct _ColorSelectionPrivate
 };
 
 
-static void mate_color_selection_dispose		(GObject		 *object);
-static void mate_color_selection_finalize        (GObject		 *object);
-static void update_color			(MateColorSelection	 *colorsel);
-static void mate_color_selection_set_property    (GObject                 *object,
+static void ukui_color_selection_dispose		(GObject		 *object);
+static void ukui_color_selection_finalize        (GObject		 *object);
+static void update_color			(UkuiColorSelection	 *colorsel);
+static void ukui_color_selection_set_property    (GObject                 *object,
 					         guint                    prop_id,
 					         const GValue            *value,
 					         GParamSpec              *pspec);
-static void mate_color_selection_get_property    (GObject                 *object,
+static void ukui_color_selection_get_property    (GObject                 *object,
 					         guint                    prop_id,
 					         GValue                  *value,
 					         GParamSpec              *pspec);
 
-static void mate_color_selection_realize         (GtkWidget               *widget);
-static void mate_color_selection_unrealize       (GtkWidget               *widget);
-static void mate_color_selection_show_all        (GtkWidget               *widget);
-static gboolean mate_color_selection_grab_broken (GtkWidget               *widget,
+static void ukui_color_selection_realize         (GtkWidget               *widget);
+static void ukui_color_selection_unrealize       (GtkWidget               *widget);
+static void ukui_color_selection_show_all        (GtkWidget               *widget);
+static gboolean ukui_color_selection_grab_broken (GtkWidget               *widget,
 						 GdkEventGrabBroken      *event);
 
-static void     mate_color_selection_set_palette_color   (MateColorSelection *colorsel,
+static void     ukui_color_selection_set_palette_color   (UkuiColorSelection *colorsel,
                                                          gint               index,
                                                          GdkColor          *color);
 static void     set_focus_line_attributes               (GtkWidget         *drawing_area,
@@ -177,8 +177,8 @@ static void 	hex_changed                             (GtkWidget 	   *hex_entry,
 static gboolean hex_focus_out                           (GtkWidget     	   *hex_entry, 
 							 GdkEventFocus 	   *event,
 							 gpointer      	    data);
-static void 	color_sample_new                        (MateColorSelection *colorsel);
-static void 	make_label_spinbutton     		(MateColorSelection *colorsel,
+static void 	color_sample_new                        (UkuiColorSelection *colorsel);
+static void 	make_label_spinbutton     		(UkuiColorSelection *colorsel,
 	    				  		 GtkWidget        **spinbutton,
 	    				  		 gchar             *text,
 	    				  		 GtkWidget         *grid,
@@ -186,11 +186,11 @@ static void 	make_label_spinbutton     		(MateColorSelection *colorsel,
 	    				  		 gint               j,
 	    				  		 gint               channel_type,
 	    				  		 const gchar       *tooltip);
-static void 	make_palette_frame                      (MateColorSelection *colorsel,
+static void 	make_palette_frame                      (UkuiColorSelection *colorsel,
 							 GtkWidget         *grid,
 							 gint               i,
 							 gint               j);
-static void 	set_selected_palette                    (MateColorSelection *colorsel,
+static void 	set_selected_palette                    (UkuiColorSelection *colorsel,
 							 int                x,
 							 int                y);
 static void 	set_focus_line_attributes               (GtkWidget 	   *drawing_area,
@@ -202,13 +202,13 @@ static gboolean mouse_press 		     	       	(GtkWidget         *invisible,
 static void  palette_change_notify_instance (GObject    *object,
 					     GParamSpec *pspec,
 					     gpointer    data);
-static void update_palette (MateColorSelection *colorsel);
+static void update_palette (UkuiColorSelection *colorsel);
 static void shutdown_eyedropper (GtkWidget *widget);
 
 static guint color_selection_signals[LAST_SIGNAL] = { 0 };
 
-static MateColorSelectionChangePaletteFunc noscreen_change_palette_hook = default_noscreen_change_palette_func;
-static MateColorSelectionChangePaletteWithScreenFunc change_palette_hook = default_change_palette_func;
+static UkuiColorSelectionChangePaletteFunc noscreen_change_palette_hook = default_noscreen_change_palette_func;
+static UkuiColorSelectionChangePaletteWithScreenFunc change_palette_hook = default_change_palette_func;
 
 static const guchar dropper_bits[] = {
 "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
@@ -244,26 +244,26 @@ static const guchar dropper_bits[] = {
   "\0\0\0\0\0\0\0\0\0\3\0\0\0\2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
   "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"};
 
-G_DEFINE_TYPE (MateColorSelection, mate_color_selection, GTK_TYPE_BOX)
+G_DEFINE_TYPE (UkuiColorSelection, ukui_color_selection, GTK_TYPE_BOX)
 
 static void
-mate_color_selection_class_init (MateColorSelectionClass *klass)
+ukui_color_selection_class_init (UkuiColorSelectionClass *klass)
 {
   GObjectClass *gobject_class;
   GtkWidgetClass *widget_class;
   
   gobject_class = G_OBJECT_CLASS (klass);
-  gobject_class->finalize = mate_color_selection_finalize;
-  gobject_class->set_property = mate_color_selection_set_property;
-  gobject_class->get_property = mate_color_selection_get_property;
+  gobject_class->finalize = ukui_color_selection_finalize;
+  gobject_class->set_property = ukui_color_selection_set_property;
+  gobject_class->get_property = ukui_color_selection_get_property;
 
-  gobject_class->dispose = mate_color_selection_dispose;
+  gobject_class->dispose = ukui_color_selection_dispose;
 
   widget_class = GTK_WIDGET_CLASS (klass);
-  widget_class->realize = mate_color_selection_realize;
-  widget_class->unrealize = mate_color_selection_unrealize;
-  widget_class->show_all = mate_color_selection_show_all;
-  widget_class->grab_broken_event = mate_color_selection_grab_broken;
+  widget_class->realize = ukui_color_selection_realize;
+  widget_class->unrealize = ukui_color_selection_unrealize;
+  widget_class->show_all = ukui_color_selection_show_all;
+  widget_class->grab_broken_event = ukui_color_selection_grab_broken;
   
   g_object_class_install_property (gobject_class,
                                    PROP_HAS_OPACITY_CONTROL,
@@ -306,7 +306,7 @@ mate_color_selection_class_init (MateColorSelectionClass *klass)
     g_signal_new ("color-changed",
 		  G_OBJECT_CLASS_TYPE (gobject_class),
 		  G_SIGNAL_RUN_FIRST,
-		  G_STRUCT_OFFSET (MateColorSelectionClass, color_changed),
+		  G_STRUCT_OFFSET (UkuiColorSelectionClass, color_changed),
 		  NULL, NULL,
 		  g_cclosure_marshal_VOID__VOID,
 		  G_TYPE_NONE, 0);
@@ -315,7 +315,7 @@ mate_color_selection_class_init (MateColorSelectionClass *klass)
 }
 
 static void
-mate_color_selection_init (MateColorSelection *colorsel)
+ukui_color_selection_init (UkuiColorSelection *colorsel)
 {
   GtkWidget *top_hbox;
   GtkWidget *top_right_vbox;
@@ -327,9 +327,9 @@ mate_color_selection_init (MateColorSelection *colorsel)
   AtkObject *atk_obj;
   GList *focus_chain = NULL;
   
-  _mate_desktop_init_i18n ();
+  _ukui_desktop_init_i18n ();
 
-  priv = colorsel->private_data = G_TYPE_INSTANCE_GET_PRIVATE (colorsel, MATE_TYPE_COLOR_SELECTION, ColorSelectionPrivate);
+  priv = colorsel->private_data = G_TYPE_INSTANCE_GET_PRIVATE (colorsel, UKUI_TYPE_COLOR_SELECTION, ColorSelectionPrivate);
   priv->changing = FALSE;
   priv->default_set = FALSE;
   priv->default_alpha_set = FALSE;
@@ -510,34 +510,34 @@ mate_color_selection_init (MateColorSelection *colorsel)
 
 /* GObject methods */
 static void
-mate_color_selection_finalize (GObject *object)
+ukui_color_selection_finalize (GObject *object)
 {
-  G_OBJECT_CLASS (mate_color_selection_parent_class)->finalize (object);
+  G_OBJECT_CLASS (ukui_color_selection_parent_class)->finalize (object);
 }
 
 static void
-mate_color_selection_set_property (GObject         *object,
+ukui_color_selection_set_property (GObject         *object,
 				  guint            prop_id,
 				  const GValue    *value,
 				  GParamSpec      *pspec)
 {
-  MateColorSelection *colorsel = MATE_COLOR_SELECTION (object);
+  UkuiColorSelection *colorsel = UKUI_COLOR_SELECTION (object);
   
   switch (prop_id)
     {
     case PROP_HAS_OPACITY_CONTROL:
-      mate_color_selection_set_has_opacity_control (colorsel, 
+      ukui_color_selection_set_has_opacity_control (colorsel, 
 						   g_value_get_boolean (value));
       break;
     case PROP_HAS_PALETTE:
-      mate_color_selection_set_has_palette (colorsel, 
+      ukui_color_selection_set_has_palette (colorsel, 
 					   g_value_get_boolean (value));
       break;
     case PROP_CURRENT_COLOR:
-      mate_color_selection_set_current_color (colorsel, g_value_get_boxed (value));
+      ukui_color_selection_set_current_color (colorsel, g_value_get_boxed (value));
       break;
     case PROP_CURRENT_ALPHA:
-      mate_color_selection_set_current_alpha (colorsel, g_value_get_uint (value));
+      ukui_color_selection_set_current_alpha (colorsel, g_value_get_uint (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -547,29 +547,29 @@ mate_color_selection_set_property (GObject         *object,
 }
 
 static void
-mate_color_selection_get_property (GObject     *object,
+ukui_color_selection_get_property (GObject     *object,
 				  guint        prop_id,
 				  GValue      *value,
 				  GParamSpec  *pspec)
 {
-  MateColorSelection *colorsel = MATE_COLOR_SELECTION (object);
+  UkuiColorSelection *colorsel = UKUI_COLOR_SELECTION (object);
   ColorSelectionPrivate *priv = colorsel->private_data;
   GdkColor color;
   
   switch (prop_id)
     {
     case PROP_HAS_OPACITY_CONTROL:
-      g_value_set_boolean (value, mate_color_selection_get_has_opacity_control (colorsel));
+      g_value_set_boolean (value, ukui_color_selection_get_has_opacity_control (colorsel));
       break;
     case PROP_HAS_PALETTE:
-      g_value_set_boolean (value, mate_color_selection_get_has_palette (colorsel));
+      g_value_set_boolean (value, ukui_color_selection_get_has_palette (colorsel));
       break;
     case PROP_CURRENT_COLOR:
-      mate_color_selection_get_current_color (colorsel, &color);
+      ukui_color_selection_get_current_color (colorsel, &color);
       g_value_set_boxed (value, &color);
       break;
     case PROP_CURRENT_ALPHA:
-      g_value_set_uint (value, mate_color_selection_get_current_alpha (colorsel));
+      g_value_set_uint (value, ukui_color_selection_get_current_alpha (colorsel));
       break;
     case PROP_HEX_STRING:
       g_value_set_string (value, gtk_editable_get_chars (GTK_EDITABLE (priv->hex_entry), 0, -1));
@@ -581,9 +581,9 @@ mate_color_selection_get_property (GObject     *object,
 }
 
 static void
-mate_color_selection_dispose (GObject *object)
+ukui_color_selection_dispose (GObject *object)
 {
-  MateColorSelection *cselection = MATE_COLOR_SELECTION (object);
+  UkuiColorSelection *cselection = UKUI_COLOR_SELECTION (object);
   ColorSelectionPrivate *priv = cselection->private_data;
 
   if (priv->dropper_grab_widget)
@@ -592,15 +592,15 @@ mate_color_selection_dispose (GObject *object)
       priv->dropper_grab_widget = NULL;
     }
 
-  G_OBJECT_CLASS (mate_color_selection_parent_class)->dispose (object);
+  G_OBJECT_CLASS (ukui_color_selection_parent_class)->dispose (object);
 }
 
 /* GtkWidget methods */
 
 static void
-mate_color_selection_realize (GtkWidget *widget)
+ukui_color_selection_realize (GtkWidget *widget)
 {
-  MateColorSelection *colorsel = MATE_COLOR_SELECTION (widget);
+  UkuiColorSelection *colorsel = UKUI_COLOR_SELECTION (widget);
   ColorSelectionPrivate *priv = colorsel->private_data;
   GtkSettings *settings = gtk_widget_get_settings (widget);
 
@@ -610,19 +610,19 @@ mate_color_selection_realize (GtkWidget *widget)
 						 widget);
   update_palette (colorsel);
 
-  GTK_WIDGET_CLASS (mate_color_selection_parent_class)->realize (widget);
+  GTK_WIDGET_CLASS (ukui_color_selection_parent_class)->realize (widget);
 }
 
 static void
-mate_color_selection_unrealize (GtkWidget *widget)
+ukui_color_selection_unrealize (GtkWidget *widget)
 {
-  MateColorSelection *colorsel = MATE_COLOR_SELECTION (widget);
+  UkuiColorSelection *colorsel = UKUI_COLOR_SELECTION (widget);
   ColorSelectionPrivate *priv = colorsel->private_data;
   GtkSettings *settings = gtk_widget_get_settings (widget);
 
   g_signal_handler_disconnect (settings, priv->settings_connection);
 
-  GTK_WIDGET_CLASS (mate_color_selection_parent_class)->unrealize (widget);
+  GTK_WIDGET_CLASS (ukui_color_selection_parent_class)->unrealize (widget);
 }
 
 /* We override show-all since we have internal widgets that
@@ -630,13 +630,13 @@ mate_color_selection_unrealize (GtkWidget *widget)
  * palette and opacity sliders.
  */
 static void
-mate_color_selection_show_all (GtkWidget *widget)
+ukui_color_selection_show_all (GtkWidget *widget)
 {
   gtk_widget_show (widget);
 }
 
 static gboolean 
-mate_color_selection_grab_broken (GtkWidget          *widget,
+ukui_color_selection_grab_broken (GtkWidget          *widget,
 				 GdkEventGrabBroken *event)
 {
   shutdown_eyedropper (widget);
@@ -650,11 +650,11 @@ mate_color_selection_grab_broken (GtkWidget          *widget,
  *
  */
 
-static void color_sample_draw_sample (MateColorSelection *colorsel, cairo_t *cr, int which);
-static void color_sample_update_samples (MateColorSelection *colorsel);
+static void color_sample_draw_sample (UkuiColorSelection *colorsel, cairo_t *cr, int which);
+static void color_sample_update_samples (UkuiColorSelection *colorsel);
 
 static void
-set_color_internal (MateColorSelection *colorsel,
+set_color_internal (UkuiColorSelection *colorsel,
 		    gdouble           *color)
 {
   ColorSelectionPrivate *priv;
@@ -707,7 +707,7 @@ color_sample_drag_begin (GtkWidget      *widget,
 			 GdkDragContext *context,
 			 gpointer        data)
 {
-  MateColorSelection *colorsel = data;
+  UkuiColorSelection *colorsel = data;
   ColorSelectionPrivate *priv;
   gdouble *colsrc;
   
@@ -739,7 +739,7 @@ color_sample_drop_handle (GtkWidget        *widget,
 			  guint             time,
 			  gpointer          data)
 {
-  MateColorSelection *colorsel = data;
+  UkuiColorSelection *colorsel = data;
   ColorSelectionPrivate *priv;
   guint16 *vals;
   gdouble color[4];
@@ -785,7 +785,7 @@ color_sample_drag_handle (GtkWidget        *widget,
 			  guint             time,
 			  gpointer          data)
 {
-  MateColorSelection *colorsel = data;
+  UkuiColorSelection *colorsel = data;
   ColorSelectionPrivate *priv;
   guint16 vals[4];
   gdouble *colsrc;
@@ -809,7 +809,7 @@ color_sample_drag_handle (GtkWidget        *widget,
 
 /* which = 0 means draw old sample, which = 1 means draw new */
 static void
-color_sample_draw_sample (MateColorSelection *colorsel, cairo_t *cr, int which)
+color_sample_draw_sample (UkuiColorSelection *colorsel, cairo_t *cr, int which)
 {
   GtkWidget *da;
   gint x, y, wid, heig, goff;
@@ -882,7 +882,7 @@ color_sample_draw_sample (MateColorSelection *colorsel, cairo_t *cr, int which)
 
 
 static void
-color_sample_update_samples (MateColorSelection *colorsel)
+color_sample_update_samples (UkuiColorSelection *colorsel)
 {
   ColorSelectionPrivate *priv = colorsel->private_data;
   gtk_widget_queue_draw (priv->old_sample);
@@ -892,7 +892,7 @@ color_sample_update_samples (MateColorSelection *colorsel)
 static gboolean
 color_old_sample_draw (GtkWidget          *da,
                        cairo_t            *cr,
-                       MateColorSelection *colorsel)
+                       UkuiColorSelection *colorsel)
 {
   color_sample_draw_sample (colorsel, cr, 0);
   return FALSE;
@@ -902,14 +902,14 @@ color_old_sample_draw (GtkWidget          *da,
 static gboolean
 color_cur_sample_draw (GtkWidget          *da,
                        cairo_t            *cr,
-                       MateColorSelection *colorsel)
+                       UkuiColorSelection *colorsel)
 {
   color_sample_draw_sample (colorsel, cr, 1);
   return FALSE;
 }
 
 static void
-color_sample_setup_dnd (MateColorSelection *colorsel, GtkWidget *sample)
+color_sample_setup_dnd (UkuiColorSelection *colorsel, GtkWidget *sample)
 {
   static const GtkTargetEntry targets[] = {
     { "application/x-color", 0 }
@@ -950,7 +950,7 @@ color_sample_setup_dnd (MateColorSelection *colorsel, GtkWidget *sample)
 }
 
 static void
-update_tooltips (MateColorSelection *colorsel)
+update_tooltips (UkuiColorSelection *colorsel)
 {
   ColorSelectionPrivate *priv;
 
@@ -975,7 +975,7 @@ update_tooltips (MateColorSelection *colorsel)
 }
 
 static void
-color_sample_new (MateColorSelection *colorsel)
+color_sample_new (UkuiColorSelection *colorsel)
 {
   ColorSelectionPrivate *priv;
   
@@ -1160,12 +1160,12 @@ palette_drag_end (GtkWidget      *widget,
 }
 
 static GdkColor *
-get_current_colors (MateColorSelection *colorsel)
+get_current_colors (UkuiColorSelection *colorsel)
 {
   GdkColor *colors = NULL;
   gint n_colors = 0;
 
-  mate_color_selection_palette_from_string (DEFAULT_COLOR_PALETTE,
+  ukui_color_selection_palette_from_string (DEFAULT_COLOR_PALETTE,
                                             &colors,
                                             &n_colors);
 
@@ -1178,7 +1178,7 @@ get_current_colors (MateColorSelection *colorsel)
 /* Changes the model color */
 static void
 palette_change_color (GtkWidget         *drawing_area,
-                      MateColorSelection *colorsel,
+                      UkuiColorSelection *colorsel,
                       gdouble           *color)
 {
   gint x, y;
@@ -1187,7 +1187,7 @@ palette_change_color (GtkWidget         *drawing_area,
   GdkColor *current_colors;
   GdkScreen *screen;
 
-  g_return_if_fail (MATE_IS_COLOR_SELECTION (colorsel));
+  g_return_if_fail (UKUI_IS_COLOR_SELECTION (colorsel));
   g_return_if_fail (GTK_IS_DRAWING_AREA (drawing_area));
   
   priv = colorsel->private_data;
@@ -1227,7 +1227,7 @@ palette_change_color (GtkWidget         *drawing_area,
   else if (noscreen_change_palette_hook != default_noscreen_change_palette_func)
     {
       if (screen != gdk_screen_get_default ())
-	g_warning ("mate_color_selection_set_change_palette_hook used by widget is not on the default screen.");
+	g_warning ("ukui_color_selection_set_change_palette_hook used by widget is not on the default screen.");
       (* noscreen_change_palette_hook) (current_colors, 
 					GTK_CUSTOM_PALETTE_WIDTH * GTK_CUSTOM_PALETTE_HEIGHT);
     }
@@ -1241,7 +1241,7 @@ palette_change_color (GtkWidget         *drawing_area,
 /* Changes the view color */
 static void
 palette_set_color (GtkWidget         *drawing_area,
-		   MateColorSelection *colorsel,
+		   UkuiColorSelection *colorsel,
 		   gdouble           *color)
 {
   gdouble *new_color = g_new (double, 4);
@@ -1336,13 +1336,13 @@ static void
 save_color_selected (GtkWidget *menuitem,
                      gpointer   data)
 {
-  MateColorSelection *colorsel;
+  UkuiColorSelection *colorsel;
   GtkWidget *drawing_area;
   ColorSelectionPrivate *priv;
 
   drawing_area = GTK_WIDGET (data);
   
-  colorsel = MATE_COLOR_SELECTION (g_object_get_data (G_OBJECT (drawing_area),
+  colorsel = UKUI_COLOR_SELECTION (g_object_get_data (G_OBJECT (drawing_area),
                                                      "gtk-color-sel"));
 
   priv = colorsel->private_data;
@@ -1351,7 +1351,7 @@ save_color_selected (GtkWidget *menuitem,
 }
 
 static void
-do_popup (MateColorSelection *colorsel,
+do_popup (UkuiColorSelection *colorsel,
           GtkWidget         *drawing_area,
           guint32            timestamp)
 {
@@ -1430,7 +1430,7 @@ palette_press (GtkWidget      *drawing_area,
 	       GdkEventButton *event,
 	       gpointer        data)
 {
-  MateColorSelection *colorsel = MATE_COLOR_SELECTION (data);
+  UkuiColorSelection *colorsel = UKUI_COLOR_SELECTION (data);
 
   gtk_widget_grab_focus (drawing_area);
 
@@ -1448,7 +1448,7 @@ palette_release (GtkWidget      *drawing_area,
 		 GdkEventButton *event,
 		 gpointer        data)
 {
-  MateColorSelection *colorsel = MATE_COLOR_SELECTION (data);
+  UkuiColorSelection *colorsel = UKUI_COLOR_SELECTION (data);
 
   gtk_widget_grab_focus (drawing_area);
 
@@ -1477,7 +1477,7 @@ palette_drop_handle (GtkWidget        *widget,
 		     guint             time,
 		     gpointer          data)
 {
-  MateColorSelection *colorsel = MATE_COLOR_SELECTION (data);
+  UkuiColorSelection *colorsel = UKUI_COLOR_SELECTION (data);
   guint16 *vals;
   gdouble color[4];
   
@@ -1519,7 +1519,7 @@ palette_activate (GtkWidget   *widget,
         {
           gdouble color[4];
           palette_get_color (widget, color);
-          set_color_internal (MATE_COLOR_SELECTION (data), color);
+          set_color_internal (UKUI_COLOR_SELECTION (data), color);
         }
       return TRUE;
     }
@@ -1531,7 +1531,7 @@ static gboolean
 palette_popup (GtkWidget *widget,
                gpointer   data)
 {
-  MateColorSelection *colorsel = MATE_COLOR_SELECTION (data);
+  UkuiColorSelection *colorsel = UKUI_COLOR_SELECTION (data);
 
   do_popup (colorsel, widget, GDK_CURRENT_TIME);
   return TRUE;
@@ -1539,7 +1539,7 @@ palette_popup (GtkWidget *widget,
                
 
 static GtkWidget*
-palette_new (MateColorSelection *colorsel)
+palette_new (UkuiColorSelection *colorsel)
 {
   static const GtkTargetEntry targets[] = {
     { "application/x-color", 0 }
@@ -1591,7 +1591,7 @@ palette_new (MateColorSelection *colorsel)
 
 /*
  *
- * The actual MateColorSelection widget
+ * The actual UkuiColorSelection widget
  *
  */
 
@@ -1630,7 +1630,7 @@ grab_color_at_mouse (GdkScreen *screen,
 {
   GdkPixbuf *pixbuf;
   guchar *pixels;
-  MateColorSelection *colorsel = data;
+  UkuiColorSelection *colorsel = data;
   ColorSelectionPrivate *priv;
   GdkColor color;
   GdkWindow *root_window = gdk_screen_get_root_window (screen);
@@ -1676,11 +1676,11 @@ grab_color_at_mouse (GdkScreen *screen,
 static void
 shutdown_eyedropper (GtkWidget *widget)
 {
-  MateColorSelection *colorsel;
+  UkuiColorSelection *colorsel;
   ColorSelectionPrivate *priv;
   GdkDisplay *display = gtk_widget_get_display (widget);
 
-  colorsel = MATE_COLOR_SELECTION (widget);
+  colorsel = UKUI_COLOR_SELECTION (widget);
   priv = colorsel->private_data;    
 
   if (priv->has_grab)
@@ -1707,7 +1707,7 @@ mouse_release (GtkWidget      *invisible,
 	       GdkEventButton *event,
 	       gpointer        data)
 {
-  /* MateColorSelection *colorsel = data; */
+  /* UkuiColorSelection *colorsel = data; */
 
   if (event->button != 1)
     return FALSE;
@@ -1804,7 +1804,7 @@ mouse_press (GtkWidget      *invisible,
 	     GdkEventButton *event,
 	     gpointer        data)
 {
-  /* MateColorSelection *colorsel = data; */
+  /* UkuiColorSelection *colorsel = data; */
   
   if (event->type == GDK_BUTTON_PRESS &&
       event->button == 1)
@@ -1831,7 +1831,7 @@ mouse_press (GtkWidget      *invisible,
 static void
 get_screen_color (GtkWidget *button)
 {
-  MateColorSelection *colorsel = g_object_get_data (G_OBJECT (button), "COLORSEL");
+  UkuiColorSelection *colorsel = g_object_get_data (G_OBJECT (button), "COLORSEL");
   ColorSelectionPrivate *priv = colorsel->private_data;
   GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (button));
   GdkCursor *picker_cursor;
@@ -1896,12 +1896,12 @@ static void
 hex_changed (GtkWidget *hex_entry,
 	     gpointer   data)
 {
-  MateColorSelection *colorsel;
+  UkuiColorSelection *colorsel;
   ColorSelectionPrivate *priv;
   GdkColor color;
   gchar *text;
   
-  colorsel = MATE_COLOR_SELECTION (data);
+  colorsel = UKUI_COLOR_SELECTION (data);
   priv = colorsel->private_data;
   
   if (priv->changing)
@@ -1938,10 +1938,10 @@ static void
 hsv_changed (GtkWidget *hsv,
 	     gpointer   data)
 {
-  MateColorSelection *colorsel;
+  UkuiColorSelection *colorsel;
   ColorSelectionPrivate *priv;
   
-  colorsel = MATE_COLOR_SELECTION (data);
+  colorsel = UKUI_COLOR_SELECTION (data);
   priv = colorsel->private_data;
   
   if (priv->changing)
@@ -1964,11 +1964,11 @@ static void
 adjustment_changed (GtkAdjustment *adjustment,
 		    gpointer       data)
 {
-  MateColorSelection *colorsel;
+  UkuiColorSelection *colorsel;
   ColorSelectionPrivate *priv;
   gdouble value;
   
-  colorsel = MATE_COLOR_SELECTION (g_object_get_data (G_OBJECT (adjustment), "COLORSEL"));
+  colorsel = UKUI_COLOR_SELECTION (g_object_get_data (G_OBJECT (adjustment), "COLORSEL"));
   priv = colorsel->private_data;
   value = gtk_adjustment_get_value (adjustment);
   
@@ -2019,12 +2019,12 @@ static void
 opacity_entry_changed (GtkWidget *opacity_entry,
 		       gpointer   data)
 {
-  MateColorSelection *colorsel;
+  UkuiColorSelection *colorsel;
   ColorSelectionPrivate *priv;
   GtkAdjustment *adj;
   gchar *text;
   
-  colorsel = MATE_COLOR_SELECTION (data);
+  colorsel = UKUI_COLOR_SELECTION (data);
   priv = colorsel->private_data;
   
   if (priv->changing)
@@ -2040,7 +2040,7 @@ opacity_entry_changed (GtkWidget *opacity_entry,
 }
 
 static void
-make_label_spinbutton (MateColorSelection *colorsel,
+make_label_spinbutton (UkuiColorSelection *colorsel,
 		       GtkWidget        **spinbutton,
 		       gchar             *text,
 		       GtkWidget         *grid,
@@ -2086,7 +2086,7 @@ make_label_spinbutton (MateColorSelection *colorsel,
 }
 
 static void
-make_palette_frame (MateColorSelection *colorsel,
+make_palette_frame (UkuiColorSelection *colorsel,
 		    GtkWidget         *grid,
 		    gint               i,
 		    gint               j)
@@ -2106,7 +2106,7 @@ make_palette_frame (MateColorSelection *colorsel,
 
 /* Set the palette entry [x][y] to be the currently selected one. */
 static void 
-set_selected_palette (MateColorSelection *colorsel, int x, int y)
+set_selected_palette (UkuiColorSelection *colorsel, int x, int y)
 {
   ColorSelectionPrivate *priv = colorsel->private_data; 
 
@@ -2123,7 +2123,7 @@ scale_round (double val, double factor)
 }
 
 static void
-update_color (MateColorSelection *colorsel)
+update_color (UkuiColorSelection *colorsel)
 {
   ColorSelectionPrivate *priv = colorsel->private_data;
   gchar entryval[12];
@@ -2186,7 +2186,7 @@ update_color (MateColorSelection *colorsel)
 }
 
 static void
-update_palette (MateColorSelection *colorsel)
+update_palette (UkuiColorSelection *colorsel)
 {
   GdkColor *current_colors;
   gint i, j;
@@ -2201,7 +2201,7 @@ update_palette (MateColorSelection *colorsel)
 
           index = i * GTK_CUSTOM_PALETTE_WIDTH + j;
           
-          mate_color_selection_set_palette_color (colorsel,
+          ukui_color_selection_set_palette_color (colorsel,
                                                  index,
                                                  &current_colors[index]);
 	}
@@ -2215,7 +2215,7 @@ palette_change_notify_instance (GObject    *object,
                                 GParamSpec *pspec,
                                 gpointer    data)
 {
-  update_palette (MATE_COLOR_SELECTION (data));
+  update_palette (UKUI_COLOR_SELECTION (data));
 }
 
 static void
@@ -2232,27 +2232,27 @@ default_change_palette_func (GdkScreen	    *screen,
 {
   gchar *str;
   
-  str = mate_color_selection_palette_to_string (colors, n_colors);
+  str = ukui_color_selection_palette_to_string (colors, n_colors);
 
   gtk_settings_set_string_property (gtk_settings_get_for_screen (screen),
                                     "gtk-color-palette",
                                     str,
-                                    "mate_color_selection_palette_to_string");
+                                    "ukui_color_selection_palette_to_string");
 
   g_free (str);
 }
 
 /**
- * mate_color_selection_new:
+ * ukui_color_selection_new:
  * 
- * Creates a new MateColorSelection.
+ * Creates a new UkuiColorSelection.
  * 
- * Return value: a new #MateColorSelection
+ * Return value: a new #UkuiColorSelection
  **/
 GtkWidget *
-mate_color_selection_new (void)
+ukui_color_selection_new (void)
 {
-  MateColorSelection *colorsel;
+  UkuiColorSelection *colorsel;
   ColorSelectionPrivate *priv;
   gdouble color[4];
   color[0] = 1.0;
@@ -2260,10 +2260,10 @@ mate_color_selection_new (void)
   color[2] = 1.0;
   color[3] = 1.0;
   
-  colorsel = g_object_new (MATE_TYPE_COLOR_SELECTION, "orientation", GTK_ORIENTATION_VERTICAL, NULL);
+  colorsel = g_object_new (UKUI_TYPE_COLOR_SELECTION, "orientation", GTK_ORIENTATION_VERTICAL, NULL);
   priv = colorsel->private_data;
   set_color_internal (colorsel, color);
-  mate_color_selection_set_has_opacity_control (colorsel, TRUE);
+  ukui_color_selection_set_has_opacity_control (colorsel, TRUE);
   
   /* We want to make sure that default_set is FALSE */
   /* This way the user can still set it */
@@ -2274,19 +2274,19 @@ mate_color_selection_new (void)
 }
 
 /**
- * mate_color_selection_get_has_opacity_control:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_get_has_opacity_control:
+ * @colorsel: a #UkuiColorSelection.
  * 
  * Determines whether the colorsel has an opacity control.
  * 
  * Return value: %TRUE if the @colorsel has an opacity control.  %FALSE if it does't.
  **/
 gboolean
-mate_color_selection_get_has_opacity_control (MateColorSelection *colorsel)
+ukui_color_selection_get_has_opacity_control (UkuiColorSelection *colorsel)
 {
   ColorSelectionPrivate *priv;
   
-  g_return_val_if_fail (MATE_IS_COLOR_SELECTION (colorsel), FALSE);
+  g_return_val_if_fail (UKUI_IS_COLOR_SELECTION (colorsel), FALSE);
   
   priv = colorsel->private_data;
   
@@ -2294,20 +2294,20 @@ mate_color_selection_get_has_opacity_control (MateColorSelection *colorsel)
 }
 
 /**
- * mate_color_selection_set_has_opacity_control:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_set_has_opacity_control:
+ * @colorsel: a #UkuiColorSelection.
  * @has_opacity: %TRUE if @colorsel can set the opacity, %FALSE otherwise.
  *
  * Sets the @colorsel to use or not use opacity.
  * 
  **/
 void
-mate_color_selection_set_has_opacity_control (MateColorSelection *colorsel,
+ukui_color_selection_set_has_opacity_control (UkuiColorSelection *colorsel,
 					     gboolean           has_opacity)
 {
   ColorSelectionPrivate *priv;
   
-  g_return_if_fail (MATE_IS_COLOR_SELECTION (colorsel));
+  g_return_if_fail (UKUI_IS_COLOR_SELECTION (colorsel));
   
   priv = colorsel->private_data;
   has_opacity = has_opacity != FALSE;
@@ -2334,19 +2334,19 @@ mate_color_selection_set_has_opacity_control (MateColorSelection *colorsel,
 }
 
 /**
- * mate_color_selection_get_has_palette:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_get_has_palette:
+ * @colorsel: a #UkuiColorSelection.
  * 
  * Determines whether the color selector has a color palette.
  * 
  * Return value: %TRUE if the selector has a palette.  %FALSE if it hasn't.
  **/
 gboolean
-mate_color_selection_get_has_palette (MateColorSelection *colorsel)
+ukui_color_selection_get_has_palette (UkuiColorSelection *colorsel)
 {
   ColorSelectionPrivate *priv;
   
-  g_return_val_if_fail (MATE_IS_COLOR_SELECTION (colorsel), FALSE);
+  g_return_val_if_fail (UKUI_IS_COLOR_SELECTION (colorsel), FALSE);
   
   priv = colorsel->private_data;
   
@@ -2354,19 +2354,19 @@ mate_color_selection_get_has_palette (MateColorSelection *colorsel)
 }
 
 /**
- * mate_color_selection_set_has_palette:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_set_has_palette:
+ * @colorsel: a #UkuiColorSelection.
  * @has_palette: %TRUE if palette is to be visible, %FALSE otherwise.
  *
  * Shows and hides the palette based upon the value of @has_palette.
  * 
  **/
 void
-mate_color_selection_set_has_palette (MateColorSelection *colorsel,
+ukui_color_selection_set_has_palette (UkuiColorSelection *colorsel,
 				     gboolean           has_palette)
 {
   ColorSelectionPrivate *priv;
-  g_return_if_fail (MATE_IS_COLOR_SELECTION (colorsel));
+  g_return_if_fail (UKUI_IS_COLOR_SELECTION (colorsel));
   
   priv = colorsel->private_data;
   has_palette = has_palette != FALSE;
@@ -2386,21 +2386,21 @@ mate_color_selection_set_has_palette (MateColorSelection *colorsel,
 }
 
 /**
- * mate_color_selection_set_current_color:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_set_current_color:
+ * @colorsel: a #UkuiColorSelection.
  * @color: A #GdkColor to set the current color with.
  *
  * Sets the current color to be @color.  The first time this is called, it will
  * also set the original color to be @color too.
  **/
 void
-mate_color_selection_set_current_color (MateColorSelection *colorsel,
+ukui_color_selection_set_current_color (UkuiColorSelection *colorsel,
 				       const GdkColor    *color)
 {
   ColorSelectionPrivate *priv;
   gint i;
   
-  g_return_if_fail (MATE_IS_COLOR_SELECTION (colorsel));
+  g_return_if_fail (UKUI_IS_COLOR_SELECTION (colorsel));
   g_return_if_fail (color != NULL);
 
   priv = colorsel->private_data;
@@ -2424,21 +2424,21 @@ mate_color_selection_set_current_color (MateColorSelection *colorsel,
 }
 
 /**
- * mate_color_selection_set_current_alpha:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_set_current_alpha:
+ * @colorsel: a #UkuiColorSelection.
  * @alpha: an integer between 0 and 65535.
  *
  * Sets the current opacity to be @alpha.  The first time this is called, it will
  * also set the original opacity to be @alpha too.
  **/
 void
-mate_color_selection_set_current_alpha (MateColorSelection *colorsel,
+ukui_color_selection_set_current_alpha (UkuiColorSelection *colorsel,
 				       guint16            alpha)
 {
   ColorSelectionPrivate *priv;
   gint i;
   
-  g_return_if_fail (MATE_IS_COLOR_SELECTION (colorsel));
+  g_return_if_fail (UKUI_IS_COLOR_SELECTION (colorsel));
   
   priv = colorsel->private_data;
   priv->changing = TRUE;
@@ -2453,39 +2453,39 @@ mate_color_selection_set_current_alpha (MateColorSelection *colorsel,
 }
 
 /**
- * mate_color_selection_set_color:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_set_color:
+ * @colorsel: a #UkuiColorSelection.
  * @color: an array of 4 doubles specifying the red, green, blue and opacity 
  *   to set the current color to.
  *
  * Sets the current color to be @color.  The first time this is called, it will
  * also set the original color to be @color too.
  *
- * Deprecated: 2.0: Use mate_color_selection_set_current_color() instead.
+ * Deprecated: 2.0: Use ukui_color_selection_set_current_color() instead.
  **/
 void
-mate_color_selection_set_color (MateColorSelection    *colorsel,
+ukui_color_selection_set_color (UkuiColorSelection    *colorsel,
 			       gdouble              *color)
 {
-  g_return_if_fail (MATE_IS_COLOR_SELECTION (colorsel));
+  g_return_if_fail (UKUI_IS_COLOR_SELECTION (colorsel));
 
   set_color_internal (colorsel, color);
 }
 
 /**
- * mate_color_selection_get_current_color:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_get_current_color:
+ * @colorsel: a #UkuiColorSelection.
  * @color: (out): a #GdkColor to fill in with the current color.
  *
- * Sets @color to be the current color in the MateColorSelection widget.
+ * Sets @color to be the current color in the UkuiColorSelection widget.
  **/
 void
-mate_color_selection_get_current_color (MateColorSelection *colorsel,
+ukui_color_selection_get_current_color (UkuiColorSelection *colorsel,
 				       GdkColor          *color)
 {
   ColorSelectionPrivate *priv;
   
-  g_return_if_fail (MATE_IS_COLOR_SELECTION (colorsel));
+  g_return_if_fail (UKUI_IS_COLOR_SELECTION (colorsel));
   g_return_if_fail (color != NULL);
   
   priv = colorsel->private_data;
@@ -2495,40 +2495,40 @@ mate_color_selection_get_current_color (MateColorSelection *colorsel,
 }
 
 /**
- * mate_color_selection_get_current_alpha:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_get_current_alpha:
+ * @colorsel: a #UkuiColorSelection.
  *
  * Returns the current alpha value.
  *
  * Return value: an integer between 0 and 65535.
  **/
 guint16
-mate_color_selection_get_current_alpha (MateColorSelection *colorsel)
+ukui_color_selection_get_current_alpha (UkuiColorSelection *colorsel)
 {
   ColorSelectionPrivate *priv;
   
-  g_return_val_if_fail (MATE_IS_COLOR_SELECTION (colorsel), 0);
+  g_return_val_if_fail (UKUI_IS_COLOR_SELECTION (colorsel), 0);
   
   priv = colorsel->private_data;
   return priv->has_opacity ? UNSCALE (priv->color[COLORSEL_OPACITY]) : 65535;
 }
 
 /**
- * mate_color_selection_get_color:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_get_color:
+ * @colorsel: a #UkuiColorSelection.
  * @color: an array of 4 #gdouble to fill in with the current color.
  *
- * Sets @color to be the current color in the MateColorSelection widget.
+ * Sets @color to be the current color in the UkuiColorSelection widget.
  *
- * Deprecated: 2.0: Use mate_color_selection_get_current_color() instead.
+ * Deprecated: 2.0: Use ukui_color_selection_get_current_color() instead.
  **/
 void
-mate_color_selection_get_color (MateColorSelection *colorsel,
+ukui_color_selection_get_color (UkuiColorSelection *colorsel,
 			       gdouble           *color)
 {
   ColorSelectionPrivate *priv;
   
-  g_return_if_fail (MATE_IS_COLOR_SELECTION (colorsel));
+  g_return_if_fail (UKUI_IS_COLOR_SELECTION (colorsel));
   
   priv = colorsel->private_data;
   color[0] = priv->color[COLORSEL_RED];
@@ -2538,22 +2538,22 @@ mate_color_selection_get_color (MateColorSelection *colorsel,
 }
 
 /**
- * mate_color_selection_set_previous_color:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_set_previous_color:
+ * @colorsel: a #UkuiColorSelection.
  * @color: a #GdkColor to set the previous color with.
  *
  * Sets the 'previous' color to be @color.  This function should be called with
  * some hesitations, as it might seem confusing to have that color change.
- * Calling mate_color_selection_set_current_color() will also set this color the first
+ * Calling ukui_color_selection_set_current_color() will also set this color the first
  * time it is called.
  **/
 void
-mate_color_selection_set_previous_color (MateColorSelection *colorsel,
+ukui_color_selection_set_previous_color (UkuiColorSelection *colorsel,
 					const GdkColor    *color)
 {
   ColorSelectionPrivate *priv;
   
-  g_return_if_fail (MATE_IS_COLOR_SELECTION (colorsel));
+  g_return_if_fail (UKUI_IS_COLOR_SELECTION (colorsel));
   g_return_if_fail (color != NULL);
   
   priv = colorsel->private_data;
@@ -2573,20 +2573,20 @@ mate_color_selection_set_previous_color (MateColorSelection *colorsel,
 }
 
 /**
- * mate_color_selection_set_previous_alpha:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_set_previous_alpha:
+ * @colorsel: a #UkuiColorSelection.
  * @alpha: an integer between 0 and 65535.
  *
  * Sets the 'previous' alpha to be @alpha.  This function should be called with
  * some hesitations, as it might seem confusing to have that alpha change.
  **/
 void
-mate_color_selection_set_previous_alpha (MateColorSelection *colorsel,
+ukui_color_selection_set_previous_alpha (UkuiColorSelection *colorsel,
 					guint16            alpha)
 {
   ColorSelectionPrivate *priv;
   
-  g_return_if_fail (MATE_IS_COLOR_SELECTION (colorsel));
+  g_return_if_fail (UKUI_IS_COLOR_SELECTION (colorsel));
   
   priv = colorsel->private_data;
   priv->changing = TRUE;
@@ -2598,19 +2598,19 @@ mate_color_selection_set_previous_alpha (MateColorSelection *colorsel,
 
 
 /**
- * mate_color_selection_get_previous_color:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_get_previous_color:
+ * @colorsel: a #UkuiColorSelection.
  * @color: (out): a #GdkColor to fill in with the original color value.
  *
  * Fills @color in with the original color value.
  **/
 void
-mate_color_selection_get_previous_color (MateColorSelection *colorsel,
+ukui_color_selection_get_previous_color (UkuiColorSelection *colorsel,
 					GdkColor           *color)
 {
   ColorSelectionPrivate *priv;
   
-  g_return_if_fail (MATE_IS_COLOR_SELECTION (colorsel));
+  g_return_if_fail (UKUI_IS_COLOR_SELECTION (colorsel));
   g_return_if_fail (color != NULL);
   
   priv = colorsel->private_data;
@@ -2620,27 +2620,27 @@ mate_color_selection_get_previous_color (MateColorSelection *colorsel,
 }
 
 /**
- * mate_color_selection_get_previous_alpha:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_get_previous_alpha:
+ * @colorsel: a #UkuiColorSelection.
  *
  * Returns the previous alpha value.
  *
  * Return value: an integer between 0 and 65535.
  **/
 guint16
-mate_color_selection_get_previous_alpha (MateColorSelection *colorsel)
+ukui_color_selection_get_previous_alpha (UkuiColorSelection *colorsel)
 {
   ColorSelectionPrivate *priv;
   
-  g_return_val_if_fail (MATE_IS_COLOR_SELECTION (colorsel), 0);
+  g_return_val_if_fail (UKUI_IS_COLOR_SELECTION (colorsel), 0);
   
   priv = colorsel->private_data;
   return priv->has_opacity ? UNSCALE (priv->old_color[COLORSEL_OPACITY]) : 65535;
 }
 
 /**
- * mate_color_selection_set_palette_color:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_set_palette_color:
+ * @colorsel: a #UkuiColorSelection.
  * @index: the color index of the palette.
  * @color: A #GdkColor to set the palette with.
  *
@@ -2648,7 +2648,7 @@ mate_color_selection_get_previous_alpha (MateColorSelection *colorsel)
  * 
  **/
 static void
-mate_color_selection_set_palette_color (MateColorSelection   *colorsel,
+ukui_color_selection_set_palette_color (UkuiColorSelection   *colorsel,
 				       gint                 index,
 				       GdkColor            *color)
 {
@@ -2656,7 +2656,7 @@ mate_color_selection_set_palette_color (MateColorSelection   *colorsel,
   gint x, y;
   gdouble col[3];
   
-  g_return_if_fail (MATE_IS_COLOR_SELECTION (colorsel));
+  g_return_if_fail (UKUI_IS_COLOR_SELECTION (colorsel));
   g_return_if_fail (index >= 0  && index < GTK_CUSTOM_PALETTE_WIDTH*GTK_CUSTOM_PALETTE_HEIGHT);
 
   x = index % GTK_CUSTOM_PALETTE_WIDTH;
@@ -2671,8 +2671,8 @@ mate_color_selection_set_palette_color (MateColorSelection   *colorsel,
 }
 
 /**
- * mate_color_selection_is_adjusting:
- * @colorsel: a #MateColorSelection.
+ * ukui_color_selection_is_adjusting:
+ * @colorsel: a #UkuiColorSelection.
  *
  * Gets the current state of the @colorsel.
  *
@@ -2680,11 +2680,11 @@ mate_color_selection_set_palette_color (MateColorSelection   *colorsel,
  * if the selection has stopped.
  **/
 gboolean
-mate_color_selection_is_adjusting (MateColorSelection *colorsel)
+ukui_color_selection_is_adjusting (UkuiColorSelection *colorsel)
 {
   ColorSelectionPrivate *priv;
   
-  g_return_val_if_fail (MATE_IS_COLOR_SELECTION (colorsel), FALSE);
+  g_return_val_if_fail (UKUI_IS_COLOR_SELECTION (colorsel), FALSE);
   
   priv = colorsel->private_data;
   
@@ -2693,7 +2693,7 @@ mate_color_selection_is_adjusting (MateColorSelection *colorsel)
 
 
 /**
- * mate_color_selection_palette_from_string:
+ * ukui_color_selection_palette_from_string:
  * @str: a string encoding a color palette.
  * @colors: (out) (array length=n_colors): return location for allocated
  *          array of #GdkColor.
@@ -2705,7 +2705,7 @@ mate_color_selection_is_adjusting (MateColorSelection *colorsel)
  * Return value: %TRUE if a palette was successfully parsed.
  **/
 gboolean
-mate_color_selection_palette_from_string (const gchar *str,
+ukui_color_selection_palette_from_string (const gchar *str,
                                          GdkColor   **colors,
                                          gint        *n_colors)
 {
@@ -2780,7 +2780,7 @@ mate_color_selection_palette_from_string (const gchar *str,
 }
 
 /**
- * mate_color_selection_palette_to_string:
+ * ukui_color_selection_palette_to_string:
  * @colors: (array length=n_colors): an array of colors.
  * @n_colors: length of the array.
  * 
@@ -2789,7 +2789,7 @@ mate_color_selection_palette_from_string (const gchar *str,
  * Return value: allocated string encoding the palette.
  **/
 gchar*
-mate_color_selection_palette_to_string (const GdkColor *colors,
+ukui_color_selection_palette_to_string (const GdkColor *colors,
                                        gint            n_colors)
 {
   gint i;
@@ -2827,24 +2827,24 @@ mate_color_selection_palette_to_string (const GdkColor *colors,
 }
 
 /**
- * mate_color_selection_set_change_palette_hook:
+ * ukui_color_selection_set_change_palette_hook:
  * @func: a function to call when the custom palette needs saving.
  * 
  * Installs a global function to be called whenever the user tries to
  * modify the palette in a color selection. This function should save
  * the new palette contents, and update the GtkSettings property
- * "gtk-color-palette" so all MateColorSelection widgets will be modified.
+ * "gtk-color-palette" so all UkuiColorSelection widgets will be modified.
  *
  * Return value: the previous change palette hook (that was replaced).
  *
  * Deprecated: 2.4: This function does not work in multihead environments.
- *     Use mate_color_selection_set_change_palette_with_screen_hook() instead. 
+ *     Use ukui_color_selection_set_change_palette_with_screen_hook() instead. 
  * 
  **/
-MateColorSelectionChangePaletteFunc
-mate_color_selection_set_change_palette_hook (MateColorSelectionChangePaletteFunc func)
+UkuiColorSelectionChangePaletteFunc
+ukui_color_selection_set_change_palette_hook (UkuiColorSelectionChangePaletteFunc func)
 {
-  MateColorSelectionChangePaletteFunc old;
+  UkuiColorSelectionChangePaletteFunc old;
 
   old = noscreen_change_palette_hook;
 
@@ -2854,22 +2854,22 @@ mate_color_selection_set_change_palette_hook (MateColorSelectionChangePaletteFun
 }
 
 /**
- * mate_color_selection_set_change_palette_with_screen_hook:
+ * ukui_color_selection_set_change_palette_with_screen_hook:
  * @func: a function to call when the custom palette needs saving.
  * 
  * Installs a global function to be called whenever the user tries to
  * modify the palette in a color selection. This function should save
  * the new palette contents, and update the GtkSettings property
- * "gtk-color-palette" so all MateColorSelection widgets will be modified.
+ * "gtk-color-palette" so all UkuiColorSelection widgets will be modified.
  * 
  * Return value: the previous change palette hook (that was replaced).
  *
  * Since: 1.9.1
  **/
-MateColorSelectionChangePaletteWithScreenFunc
-mate_color_selection_set_change_palette_with_screen_hook (MateColorSelectionChangePaletteWithScreenFunc func)
+UkuiColorSelectionChangePaletteWithScreenFunc
+ukui_color_selection_set_change_palette_with_screen_hook (UkuiColorSelectionChangePaletteWithScreenFunc func)
 {
-  MateColorSelectionChangePaletteWithScreenFunc old;
+  UkuiColorSelectionChangePaletteWithScreenFunc old;
 
   old = change_palette_hook;
 

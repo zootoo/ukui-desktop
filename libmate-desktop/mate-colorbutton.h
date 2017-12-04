@@ -14,7 +14,7 @@
  * Library General Public License for more details.
  *
  * You should have received a copy of the GNU Library General Public
- * License along with the Mate Library; see the file COPYING.LIB. If not,
+ * License along with the Ukui Library; see the file COPYING.LIB. If not,
  * write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
@@ -29,8 +29,8 @@
  * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
-#ifndef __MATE_COLOR_BUTTON_H__
-#define __MATE_COLOR_BUTTON_H__
+#ifndef __UKUI_COLOR_BUTTON_H__
+#define __UKUI_COLOR_BUTTON_H__
 
 #include <glib.h>
 #include <gtk/gtk.h>
@@ -38,35 +38,35 @@
 G_BEGIN_DECLS
 
 
-/* The MateColorButton widget is a simple color picker in a button.
+/* The UkuiColorButton widget is a simple color picker in a button.
  * The button displays a sample of the currently selected color.  When
  * the user clicks on the button, a color selection dialog pops up.
  * The color picker emits the "color_set" signal when the color is set.
  */
 
-#define MATE_TYPE_COLOR_BUTTON             (mate_color_button_get_type ())
-#define MATE_COLOR_BUTTON(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_COLOR_BUTTON, MateColorButton))
-#define MATE_COLOR_BUTTON_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), MATE_TYPE_COLOR_BUTTON, MateColorButtonClass))
-#define MATE_IS_COLOR_BUTTON(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MATE_TYPE_COLOR_BUTTON))
-#define MATE_IS_COLOR_BUTTON_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), MATE_TYPE_COLOR_BUTTON))
-#define MATE_COLOR_BUTTON_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS ((obj), MATE_TYPE_COLOR_BUTTON, MateColorButtonClass))
+#define UKUI_TYPE_COLOR_BUTTON             (ukui_color_button_get_type ())
+#define UKUI_COLOR_BUTTON(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), UKUI_TYPE_COLOR_BUTTON, UkuiColorButton))
+#define UKUI_COLOR_BUTTON_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), UKUI_TYPE_COLOR_BUTTON, UkuiColorButtonClass))
+#define UKUI_IS_COLOR_BUTTON(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), UKUI_TYPE_COLOR_BUTTON))
+#define UKUI_IS_COLOR_BUTTON_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), UKUI_TYPE_COLOR_BUTTON))
+#define UKUI_COLOR_BUTTON_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS ((obj), UKUI_TYPE_COLOR_BUTTON, UkuiColorButtonClass))
 
-typedef struct _MateColorButton          MateColorButton;
-typedef struct _MateColorButtonClass     MateColorButtonClass;
-typedef struct _MateColorButtonPrivate   MateColorButtonPrivate;
+typedef struct _UkuiColorButton          UkuiColorButton;
+typedef struct _UkuiColorButtonClass     UkuiColorButtonClass;
+typedef struct _UkuiColorButtonPrivate   UkuiColorButtonPrivate;
 
-struct _MateColorButton {
+struct _UkuiColorButton {
   GtkButton button;
 
   /*< private >*/
 
-  MateColorButtonPrivate *priv;
+  UkuiColorButtonPrivate *priv;
 };
 
-struct _MateColorButtonClass {
+struct _UkuiColorButtonClass {
   GtkButtonClass parent_class;
 
-  void (* color_set) (MateColorButton *cp);
+  void (* color_set) (UkuiColorButton *cp);
 
   /* Padding for future expansion */
   void (*_gtk_reserved1) (void);
@@ -76,28 +76,28 @@ struct _MateColorButtonClass {
 };
 
 
-GType      mate_color_button_get_type       (void) G_GNUC_CONST;
-GtkWidget *mate_color_button_new            (void);
-GtkWidget *mate_color_button_new_with_color (const GdkColor *color);
-void       mate_color_button_set_color      (MateColorButton *color_button,
+GType      ukui_color_button_get_type       (void) G_GNUC_CONST;
+GtkWidget *ukui_color_button_new            (void);
+GtkWidget *ukui_color_button_new_with_color (const GdkColor *color);
+void       ukui_color_button_set_color      (UkuiColorButton *color_button,
 					    const GdkColor *color);
-void       mate_color_button_set_rgba       (MateColorButton *color_button,
+void       ukui_color_button_set_rgba       (UkuiColorButton *color_button,
 					     const GdkRGBA   *color);
-void       mate_color_button_set_alpha      (MateColorButton *color_button,
+void       ukui_color_button_set_alpha      (UkuiColorButton *color_button,
 					    guint16         alpha);
-void       mate_color_button_get_color      (MateColorButton *color_button,
+void       ukui_color_button_get_color      (UkuiColorButton *color_button,
 					    GdkColor       *color);
-void       mate_color_button_get_rgba       (MateColorButton *color_button,
+void       ukui_color_button_get_rgba       (UkuiColorButton *color_button,
 					     GdkRGBA         *color);
-guint16    mate_color_button_get_alpha      (MateColorButton *color_button);
-void       mate_color_button_set_use_alpha  (MateColorButton *color_button,
+guint16    ukui_color_button_get_alpha      (UkuiColorButton *color_button);
+void       ukui_color_button_set_use_alpha  (UkuiColorButton *color_button,
 					    gboolean        use_alpha);
-gboolean   mate_color_button_get_use_alpha  (MateColorButton *color_button);
-void       mate_color_button_set_title      (MateColorButton *color_button,
+gboolean   ukui_color_button_get_use_alpha  (UkuiColorButton *color_button);
+void       ukui_color_button_set_title      (UkuiColorButton *color_button,
 					    const gchar    *title);
-const gchar *mate_color_button_get_title (MateColorButton *color_button);
+const gchar *ukui_color_button_get_title (UkuiColorButton *color_button);
 
 
 G_END_DECLS
 
-#endif  /* __MATE_COLOR_BUTTON_H__ */
+#endif  /* __UKUI_COLOR_BUTTON_H__ */

@@ -25,34 +25,34 @@
  * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
-#ifndef __MATE_COLOR_SELECTION_H__
-#define __MATE_COLOR_SELECTION_H__
+#ifndef __UKUI_COLOR_SELECTION_H__
+#define __UKUI_COLOR_SELECTION_H__
 
 #include <glib.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
-#define MATE_TYPE_COLOR_SELECTION			(mate_color_selection_get_type ())
-#define MATE_COLOR_SELECTION(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_COLOR_SELECTION, MateColorSelection))
-#define MATE_COLOR_SELECTION_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), MATE_TYPE_COLOR_SELECTION, MateColorSelectionClass))
-#define MATE_IS_COLOR_SELECTION(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), MATE_TYPE_COLOR_SELECTION))
-#define MATE_IS_COLOR_SELECTION_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((klass), MATE_TYPE_COLOR_SELECTION))
-#define MATE_COLOR_SELECTION_GET_CLASS(obj)              (G_TYPE_INSTANCE_GET_CLASS ((obj), MATE_TYPE_COLOR_SELECTION, MateColorSelectionClass))
+#define UKUI_TYPE_COLOR_SELECTION			(ukui_color_selection_get_type ())
+#define UKUI_COLOR_SELECTION(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), UKUI_TYPE_COLOR_SELECTION, UkuiColorSelection))
+#define UKUI_COLOR_SELECTION_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), UKUI_TYPE_COLOR_SELECTION, UkuiColorSelectionClass))
+#define UKUI_IS_COLOR_SELECTION(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), UKUI_TYPE_COLOR_SELECTION))
+#define UKUI_IS_COLOR_SELECTION_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((klass), UKUI_TYPE_COLOR_SELECTION))
+#define UKUI_COLOR_SELECTION_GET_CLASS(obj)              (G_TYPE_INSTANCE_GET_CLASS ((obj), UKUI_TYPE_COLOR_SELECTION, UkuiColorSelectionClass))
 
 
-typedef struct _MateColorSelection       MateColorSelection;
-typedef struct _MateColorSelectionClass  MateColorSelectionClass;
+typedef struct _UkuiColorSelection       UkuiColorSelection;
+typedef struct _UkuiColorSelectionClass  UkuiColorSelectionClass;
 typedef struct _ColorSelectionPrivate    ColorSelectionPrivate;
 
 
-typedef void (* MateColorSelectionChangePaletteFunc) (const GdkColor    *colors,
+typedef void (* UkuiColorSelectionChangePaletteFunc) (const GdkColor    *colors,
                                                      gint               n_colors);
-typedef void (* MateColorSelectionChangePaletteWithScreenFunc) (GdkScreen         *screen,
+typedef void (* UkuiColorSelectionChangePaletteWithScreenFunc) (GdkScreen         *screen,
 							       const GdkColor    *colors,
 							       gint               n_colors);
 
-struct _MateColorSelection
+struct _UkuiColorSelection
 {
   GtkBox parent_instance;
 
@@ -60,11 +60,11 @@ struct _MateColorSelection
   ColorSelectionPrivate *private_data;
 };
 
-struct _MateColorSelectionClass
+struct _UkuiColorSelectionClass
 {
   GtkBoxClass parent_class;
 
-  void (*color_changed)	(MateColorSelection *color_selection);
+  void (*color_changed)	(UkuiColorSelection *color_selection);
 
   /* Padding for future expansion */
   void (*_gtk_reserved1) (void);
@@ -76,55 +76,55 @@ struct _MateColorSelectionClass
 
 /* ColorSelection */
 
-GType      mate_color_selection_get_type                (void) G_GNUC_CONST;
-GtkWidget *mate_color_selection_new                     (void);
-gboolean   mate_color_selection_get_has_opacity_control (MateColorSelection *colorsel);
-void       mate_color_selection_set_has_opacity_control (MateColorSelection *colorsel,
+GType      ukui_color_selection_get_type                (void) G_GNUC_CONST;
+GtkWidget *ukui_color_selection_new                     (void);
+gboolean   ukui_color_selection_get_has_opacity_control (UkuiColorSelection *colorsel);
+void       ukui_color_selection_set_has_opacity_control (UkuiColorSelection *colorsel,
 							gboolean           has_opacity);
-gboolean   mate_color_selection_get_has_palette         (MateColorSelection *colorsel);
-void       mate_color_selection_set_has_palette         (MateColorSelection *colorsel,
+gboolean   ukui_color_selection_get_has_palette         (UkuiColorSelection *colorsel);
+void       ukui_color_selection_set_has_palette         (UkuiColorSelection *colorsel,
 							gboolean           has_palette);
 
 
-void     mate_color_selection_set_current_color   (MateColorSelection *colorsel,
+void     ukui_color_selection_set_current_color   (UkuiColorSelection *colorsel,
 						  const GdkColor    *color);
-void     mate_color_selection_set_current_alpha   (MateColorSelection *colorsel,
+void     ukui_color_selection_set_current_alpha   (UkuiColorSelection *colorsel,
 						  guint16            alpha);
-void     mate_color_selection_get_current_color   (MateColorSelection *colorsel,
+void     ukui_color_selection_get_current_color   (UkuiColorSelection *colorsel,
 						  GdkColor          *color);
-guint16  mate_color_selection_get_current_alpha   (MateColorSelection *colorsel);
-void     mate_color_selection_set_previous_color  (MateColorSelection *colorsel,
+guint16  ukui_color_selection_get_current_alpha   (UkuiColorSelection *colorsel);
+void     ukui_color_selection_set_previous_color  (UkuiColorSelection *colorsel,
 						  const GdkColor    *color);
-void     mate_color_selection_set_previous_alpha  (MateColorSelection *colorsel,
+void     ukui_color_selection_set_previous_alpha  (UkuiColorSelection *colorsel,
 						  guint16            alpha);
-void     mate_color_selection_get_previous_color  (MateColorSelection *colorsel,
+void     ukui_color_selection_get_previous_color  (UkuiColorSelection *colorsel,
 						  GdkColor          *color);
-guint16  mate_color_selection_get_previous_alpha  (MateColorSelection *colorsel);
+guint16  ukui_color_selection_get_previous_alpha  (UkuiColorSelection *colorsel);
 
-gboolean mate_color_selection_is_adjusting        (MateColorSelection *colorsel);
+gboolean ukui_color_selection_is_adjusting        (UkuiColorSelection *colorsel);
 
-gboolean mate_color_selection_palette_from_string (const gchar       *str,
+gboolean ukui_color_selection_palette_from_string (const gchar       *str,
                                                   GdkColor         **colors,
                                                   gint              *n_colors);
-gchar*   mate_color_selection_palette_to_string   (const GdkColor    *colors,
+gchar*   ukui_color_selection_palette_to_string   (const GdkColor    *colors,
                                                   gint               n_colors);
 
 #ifndef GTK_DISABLE_DEPRECATED
 #ifndef GDK_MULTIHEAD_SAFE
-MateColorSelectionChangePaletteFunc           mate_color_selection_set_change_palette_hook             (MateColorSelectionChangePaletteFunc           func);
+UkuiColorSelectionChangePaletteFunc           ukui_color_selection_set_change_palette_hook             (UkuiColorSelectionChangePaletteFunc           func);
 #endif
 #endif
 
-MateColorSelectionChangePaletteWithScreenFunc mate_color_selection_set_change_palette_with_screen_hook (MateColorSelectionChangePaletteWithScreenFunc func);
+UkuiColorSelectionChangePaletteWithScreenFunc ukui_color_selection_set_change_palette_with_screen_hook (UkuiColorSelectionChangePaletteWithScreenFunc func);
 
 #ifndef GTK_DISABLE_DEPRECATED
 /* Deprecated calls: */
-void mate_color_selection_set_color         (MateColorSelection *colorsel,
+void ukui_color_selection_set_color         (UkuiColorSelection *colorsel,
 					    gdouble           *color);
-void mate_color_selection_get_color         (MateColorSelection *colorsel,
+void ukui_color_selection_get_color         (UkuiColorSelection *colorsel,
 					    gdouble           *color);
 #endif /* GTK_DISABLE_DEPRECATED */
 
 G_END_DECLS
 
-#endif /* __MATE_COLOR_SELECTION_H__ */
+#endif /* __UKUI_COLOR_SELECTION_H__ */

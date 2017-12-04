@@ -1,23 +1,23 @@
 /* -*- Mode: C; c-set-style: linux indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* mate-desktop-utils.c - Utilities for the MATE Desktop
+/* ukui-desktop-utils.c - Utilities for the UKUI Desktop
 
    Copyright (C) 1998 Tom Tromey
    All rights reserved.
 
-   This file is part of the Mate Library.
+   This file is part of the Ukui Library.
 
-   The Mate Library is free software; you can redistribute it and/or
+   The Ukui Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
 
-   The Mate Library is distributed in the hope that it will be useful,
+   The Ukui Library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
 
    You should have received a copy of the GNU Library General Public
-   License along with the Mate Library; see the file COPYING.LIB.  If not,
+   License along with the Ukui Library; see the file COPYING.LIB.  If not,
    write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
    Boston, MA 02110-1301, USA.  */
 /*
@@ -31,8 +31,8 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
-#define MATE_DESKTOP_USE_UNSTABLE_API
-#include <mate-desktop-utils.h>
+#define UKUI_DESKTOP_USE_UNSTABLE_API
+#include <ukui-desktop-utils.h>
 
 #include "private.h"
 
@@ -52,21 +52,21 @@ hls_to_rgb (gdouble *h,
             gdouble *s);
 
 /**
- * mate_desktop_prepend_terminal_to_vector:
+ * ukui_desktop_prepend_terminal_to_vector:
  * @argc: a pointer to the vector size
  * @argv: a pointer to the vector
  *
  * Prepends a terminal (either the one configured as default in the user's
- * MATE setup, or one of the common xterm emulators) to the passed in vector,
+ * UKUI setup, or one of the common xterm emulators) to the passed in vector,
  * modifying it in the process.  The vector should be allocated with #g_malloc,
  * as this will #g_free the original vector.  Also all elements must have been
- * allocated separately.  That is the standard glib/MATE way of doing vectors
+ * allocated separately.  That is the standard glib/UKUI way of doing vectors
  * however.  If the integer that @argc points to is negative, the size will
  * first be computed.  Also note that passing in pointers to a vector that is
  * empty, will just create a new vector for you.
  **/
 void
-mate_desktop_prepend_terminal_to_vector (int *argc, char ***argv)
+ukui_desktop_prepend_terminal_to_vector (int *argc, char ***argv)
 {
         char **real_argv;
         int real_argc;
@@ -82,7 +82,7 @@ mate_desktop_prepend_terminal_to_vector (int *argc, char ***argv)
         g_return_if_fail (argc != NULL);
         g_return_if_fail (argv != NULL);
 
-        _mate_desktop_init_i18n ();
+        _ukui_desktop_init_i18n ();
 
 	/* sanity */
         if(*argv == NULL)
@@ -97,7 +97,7 @@ mate_desktop_prepend_terminal_to_vector (int *argc, char ***argv)
 		*argc = i;
 	}
 
-	settings = g_settings_new ("org.mate.applications-terminal");
+	settings = g_settings_new ("org.ukui.applications-terminal");
 	terminal = g_settings_get_string (settings, "exec");
 
 	if (terminal) {
@@ -128,11 +128,11 @@ mate_desktop_prepend_terminal_to_vector (int *argc, char ***argv)
 		term_argc = 2;
 		term_argv = g_new0 (char *, 3);
 
-		check = g_find_program_in_path ("mate-terminal");
+		check = g_find_program_in_path ("ukui-terminal");
 		if (check != NULL) {
 			term_argv[0] = check;
-			/* Note that mate-terminal takes -x and
-			 * as -e in mate-terminal is broken we use that. */
+			/* Note that ukui-terminal takes -x and
+			 * as -e in ukui-terminal is broken we use that. */
 			term_argv[1] = g_strdup ("-x");
 		} else {
 			if (check == NULL)
@@ -176,7 +176,7 @@ mate_desktop_prepend_terminal_to_vector (int *argc, char ***argv)
 }
 
 /**
- * mate_gdk_spawn_command_line_on_screen:
+ * ukui_gdk_spawn_command_line_on_screen:
  * @screen: a GdkScreen
  * @command: a command line
  * @error: return location for errors
@@ -197,7 +197,7 @@ mate_desktop_prepend_terminal_to_vector (int *argc, char ***argv)
  * Since: 1.7.1
  **/
 gboolean
-mate_gdk_spawn_command_line_on_screen (GdkScreen *screen, const gchar *command, GError **error)
+ukui_gdk_spawn_command_line_on_screen (GdkScreen *screen, const gchar *command, GError **error)
 {
 	GAppInfo *appinfo = NULL;
 	GdkAppLaunchContext *context = NULL;
@@ -216,11 +216,11 @@ mate_gdk_spawn_command_line_on_screen (GdkScreen *screen, const gchar *command, 
 }
 
 void
-_mate_desktop_init_i18n (void) {
+_ukui_desktop_init_i18n (void) {
 	static gboolean initialized = FALSE;
 
 	if (!initialized) {
-		bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
+		bindtextdomain (GETTEXT_PACKAGE, UKUILOCALEDIR);
 #ifdef HAVE_BIND_TEXTDOMAIN_CODESET
 		bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif
@@ -442,7 +442,7 @@ hls_to_rgb (gdouble *h,
 #define LIGHTNESS_MULT 1.3
 #define DARKNESS_MULT  0.7
 void
-mate_desktop_gtk_style_get_light_color (GtkStyleContext *style,
+ukui_desktop_gtk_style_get_light_color (GtkStyleContext *style,
                                         GtkStateFlags    state,
                                         GdkRGBA         *color)
 {
@@ -451,7 +451,7 @@ mate_desktop_gtk_style_get_light_color (GtkStyleContext *style,
 }
 
 void
-mate_desktop_gtk_style_get_dark_color (GtkStyleContext *style,
+ukui_desktop_gtk_style_get_dark_color (GtkStyleContext *style,
                                        GtkStateFlags    state,
                                        GdkRGBA         *color)
 {

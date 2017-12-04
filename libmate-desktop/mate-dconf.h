@@ -1,5 +1,5 @@
 /*
- * mate-dconf.h: helper API for dconf
+ * ukui-dconf.h: helper API for dconf
  *
  * Copyright (C) 2011 Novell, Inc.
  * Copyright (C) 2013 Stefano Karapetsas
@@ -24,25 +24,25 @@
  *  Stefano Karapetsas <stefano@karapetsas.com>
  */
 
-#ifndef __MATE_DCONF_H__
-#define __MATE_DCONF_H__
+#ifndef __UKUI_DCONF_H__
+#define __UKUI_DCONF_H__
 
 #include <glib.h>
 
 G_BEGIN_DECLS
 
-gboolean mate_dconf_write_sync (const gchar  *key,
+gboolean ukui_dconf_write_sync (const gchar  *key,
                                 GVariant     *value,
                                 GError      **error);
 
-gboolean mate_dconf_recursive_reset (const gchar  *dir,
+gboolean ukui_dconf_recursive_reset (const gchar  *dir,
                                      GError     **error);
 
-gchar **mate_dconf_list_subdirs (const gchar *dir,
+gchar **ukui_dconf_list_subdirs (const gchar *dir,
                                  gboolean     remove_trailing_slash);
 
-void mate_dconf_sync (void);
+void ukui_dconf_sync (void);
 
 G_END_DECLS
 
-#endif /* __MATE_DCONF_H__ */
+#endif /* __UKUI_DCONF_H__ */

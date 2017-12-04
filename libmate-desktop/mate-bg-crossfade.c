@@ -1,4 +1,4 @@
-/* mate-bg-crossfade.h - fade window background between two surfaces
+/* ukui-bg-crossfade.h - fade window background between two surfaces
  *
  * Copyright (C) 2008 Red Hat, Inc.
  *
@@ -34,11 +34,11 @@
 #include <cairo.h>
 #include <cairo-xlib.h>
 
-#define MATE_DESKTOP_USE_UNSTABLE_API
-#include <mate-bg.h>
-#include "mate-bg-crossfade.h"
+#define UKUI_DESKTOP_USE_UNSTABLE_API
+#include <ukui-bg.h>
+#include "ukui-bg-crossfade.h"
 
-struct _MateBGCrossfadePrivate
+struct _UkuiBGCrossfadePrivate
 {
 	GdkWindow       *window;
 	GtkWidget       *widget;
@@ -66,22 +66,22 @@ enum {
 
 static guint signals[NUMBER_OF_SIGNALS] = { 0 };
 
-G_DEFINE_TYPE (MateBGCrossfade, mate_bg_crossfade, G_TYPE_OBJECT)
-#define MATE_BG_CROSSFADE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o),\
-			                   MATE_TYPE_BG_CROSSFADE,\
-			                   MateBGCrossfadePrivate))
+G_DEFINE_TYPE (UkuiBGCrossfade, ukui_bg_crossfade, G_TYPE_OBJECT)
+#define UKUI_BG_CROSSFADE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o),\
+			                   UKUI_TYPE_BG_CROSSFADE,\
+			                   UkuiBGCrossfadePrivate))
 
 static void
-mate_bg_crossfade_set_property (GObject      *object,
+ukui_bg_crossfade_set_property (GObject      *object,
 				 guint         property_id,
 				 const GValue *value,
 				 GParamSpec   *pspec)
 {
-	MateBGCrossfade *fade;
+	UkuiBGCrossfade *fade;
 
-	g_assert (MATE_IS_BG_CROSSFADE (object));
+	g_assert (UKUI_IS_BG_CROSSFADE (object));
 
-	fade = MATE_BG_CROSSFADE (object);
+	fade = UKUI_BG_CROSSFADE (object);
 
 	switch (property_id)
 	{
@@ -98,16 +98,16 @@ mate_bg_crossfade_set_property (GObject      *object,
 }
 
 static void
-mate_bg_crossfade_get_property (GObject    *object,
+ukui_bg_crossfade_get_property (GObject    *object,
 			     guint       property_id,
 			     GValue     *value,
 			     GParamSpec *pspec)
 {
-	MateBGCrossfade *fade;
+	UkuiBGCrossfade *fade;
 
-	g_assert (MATE_IS_BG_CROSSFADE (object));
+	g_assert (UKUI_IS_BG_CROSSFADE (object));
 
-	fade = MATE_BG_CROSSFADE (object);
+	fade = UKUI_BG_CROSSFADE (object);
 
 	switch (property_id)
 	{
@@ -125,13 +125,13 @@ mate_bg_crossfade_get_property (GObject    *object,
 }
 
 static void
-mate_bg_crossfade_finalize (GObject *object)
+ukui_bg_crossfade_finalize (GObject *object)
 {
-	MateBGCrossfade *fade;
+	UkuiBGCrossfade *fade;
 
-	fade = MATE_BG_CROSSFADE (object);
+	fade = UKUI_BG_CROSSFADE (object);
 
-	mate_bg_crossfade_stop (fade);
+	ukui_bg_crossfade_stop (fade);
 
 	if (fade->priv->fading_surface != NULL) {
 		cairo_surface_destroy (fade->priv->fading_surface);
@@ -150,18 +150,18 @@ mate_bg_crossfade_finalize (GObject *object)
 }
 
 static void
-mate_bg_crossfade_class_init (MateBGCrossfadeClass *fade_class)
+ukui_bg_crossfade_class_init (UkuiBGCrossfadeClass *fade_class)
 {
 	GObjectClass *gobject_class;
 
 	gobject_class = G_OBJECT_CLASS (fade_class);
 
-	gobject_class->get_property = mate_bg_crossfade_get_property;
-	gobject_class->set_property = mate_bg_crossfade_set_property;
-	gobject_class->finalize = mate_bg_crossfade_finalize;
+	gobject_class->get_property = ukui_bg_crossfade_get_property;
+	gobject_class->set_property = ukui_bg_crossfade_set_property;
+	gobject_class->finalize = ukui_bg_crossfade_finalize;
 
 	/**
-	 * MateBGCrossfade:width:
+	 * UkuiBGCrossfade:width:
 	 *
 	 * When a crossfade is running, this is width of the fading
 	 * surface.
@@ -175,7 +175,7 @@ mate_bg_crossfade_class_init (MateBGCrossfadeClass *fade_class)
 							    G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 
 	/**
-	 * MateBGCrossfade:height:
+	 * UkuiBGCrossfade:height:
 	 *
 	 * When a crossfade is running, this is height of the fading
 	 * surface.
@@ -188,8 +188,8 @@ mate_bg_crossfade_class_init (MateBGCrossfadeClass *fade_class)
 							   G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 
 	/**
-	 * MateBGCrossfade::finished:
-	 * @fade: the #MateBGCrossfade that received the signal
+	 * UkuiBGCrossfade::finished:
+	 * @fade: the #UkuiBGCrossfade that received the signal
 	 * @window: the #GdkWindow the crossfade happend on.
 	 *
 	 * When a crossfade finishes, @window will have a copy
@@ -202,13 +202,13 @@ mate_bg_crossfade_class_init (MateBGCrossfadeClass *fade_class)
 					  g_cclosure_marshal_VOID__OBJECT,
 					  G_TYPE_NONE, 1, G_TYPE_OBJECT);
 
-	g_type_class_add_private (gobject_class, sizeof (MateBGCrossfadePrivate));
+	g_type_class_add_private (gobject_class, sizeof (UkuiBGCrossfadePrivate));
 }
 
 static void
-mate_bg_crossfade_init (MateBGCrossfade *fade)
+ukui_bg_crossfade_init (UkuiBGCrossfade *fade)
 {
-	fade->priv = MATE_BG_CROSSFADE_GET_PRIVATE (fade);
+	fade->priv = UKUI_BG_CROSSFADE_GET_PRIVATE (fade);
 
 	fade->priv->window = NULL;
 	fade->priv->widget = NULL;
@@ -219,25 +219,25 @@ mate_bg_crossfade_init (MateBGCrossfade *fade)
 }
 
 /**
- * mate_bg_crossfade_new:
+ * ukui_bg_crossfade_new:
  * @width: The width of the crossfading window
  * @height: The height of the crossfading window
  *
  * Creates a new object to manage crossfading a
  * window background between two #cairo_surface_ts.
  *
- * Return value: the new #MateBGCrossfade
+ * Return value: the new #UkuiBGCrossfade
  **/
-MateBGCrossfade* mate_bg_crossfade_new (int width, int height)
+UkuiBGCrossfade* ukui_bg_crossfade_new (int width, int height)
 {
 	GObject* object;
 
-	object = g_object_new(MATE_TYPE_BG_CROSSFADE,
+	object = g_object_new(UKUI_TYPE_BG_CROSSFADE,
 		"width", width,
 		"height", height,
 		NULL);
 
-	return (MateBGCrossfade*) object;
+	return (UkuiBGCrossfade*) object;
 }
 
 static cairo_surface_t *
@@ -297,11 +297,11 @@ tile_surface (cairo_surface_t *surface,
 }
 
 /**
- * mate_bg_crossfade_set_start_surface:
- * @fade: a #MateBGCrossfade
+ * ukui_bg_crossfade_set_start_surface:
+ * @fade: a #UkuiBGCrossfade
  * @surface: The cairo surface to fade from
  *
- * Before initiating a crossfade with mate_bg_crossfade_start()
+ * Before initiating a crossfade with ukui_bg_crossfade_start()
  * a start and end surface have to be set.  This function sets
  * the surface shown at the beginning of the crossfade effect.
  *
@@ -309,9 +309,9 @@ tile_surface (cairo_surface_t *surface,
  * could not be copied.
  **/
 gboolean
-mate_bg_crossfade_set_start_surface (MateBGCrossfade* fade, cairo_surface_t *surface)
+ukui_bg_crossfade_set_start_surface (UkuiBGCrossfade* fade, cairo_surface_t *surface)
 {
-	g_return_val_if_fail (MATE_IS_BG_CROSSFADE (fade), FALSE);
+	g_return_val_if_fail (UKUI_IS_BG_CROSSFADE (fade), FALSE);
 
 	if (fade->priv->start_surface != NULL)
 	{
@@ -342,11 +342,11 @@ get_current_time (void)
 }
 
 /**
- * mate_bg_crossfade_set_end_surface:
- * @fade: a #MateBGCrossfade
+ * ukui_bg_crossfade_set_end_surface:
+ * @fade: a #UkuiBGCrossfade
  * @surface: The cairo surface to fade to
  *
- * Before initiating a crossfade with mate_bg_crossfade_start()
+ * Before initiating a crossfade with ukui_bg_crossfade_start()
  * a start and end surface have to be set.  This function sets
  * the surface shown at the end of the crossfade effect.
  *
@@ -354,9 +354,9 @@ get_current_time (void)
  * could not be copied.
  **/
 gboolean
-mate_bg_crossfade_set_end_surface (MateBGCrossfade* fade, cairo_surface_t *surface)
+ukui_bg_crossfade_set_end_surface (UkuiBGCrossfade* fade, cairo_surface_t *surface)
 {
-	g_return_val_if_fail (MATE_IS_BG_CROSSFADE (fade), FALSE);
+	g_return_val_if_fail (UKUI_IS_BG_CROSSFADE (fade), FALSE);
 
 	if (fade->priv->end_surface != NULL) {
 		cairo_surface_destroy (fade->priv->end_surface);
@@ -374,7 +374,7 @@ mate_bg_crossfade_set_end_surface (MateBGCrossfade* fade, cairo_surface_t *surfa
 }
 
 static gboolean
-animations_are_disabled (MateBGCrossfade *fade)
+animations_are_disabled (UkuiBGCrossfade *fade)
 {
 	GtkSettings *settings;
 	GdkScreen *screen;
@@ -392,7 +392,7 @@ animations_are_disabled (MateBGCrossfade *fade)
 }
 
 static void
-send_root_property_change_notification (MateBGCrossfade *fade)
+send_root_property_change_notification (UkuiBGCrossfade *fade)
 {
         long zero_length_pixmap = 0;
 
@@ -406,7 +406,7 @@ send_root_property_change_notification (MateBGCrossfade *fade)
 }
 
 static void
-draw_background (MateBGCrossfade *fade)
+draw_background (UkuiBGCrossfade *fade)
 {
 	if (fade->priv->widget != NULL) {
 		gtk_widget_queue_draw (fade->priv->widget);
@@ -450,7 +450,7 @@ draw_background (MateBGCrossfade *fade)
 static gboolean
 on_widget_draw (GtkWidget       *widget,
                 cairo_t         *cr,
-                MateBGCrossfade *fade)
+                UkuiBGCrossfade *fade)
 {
 	g_assert (fade->priv->fading_surface != NULL);
 
@@ -462,13 +462,13 @@ on_widget_draw (GtkWidget       *widget,
 }
 
 static gboolean
-on_tick (MateBGCrossfade *fade)
+on_tick (UkuiBGCrossfade *fade)
 {
 	gdouble now, percent_done;
 	cairo_t *cr;
 	cairo_status_t status;
 
-	g_return_val_if_fail (MATE_IS_BG_CROSSFADE (fade), FALSE);
+	g_return_val_if_fail (UKUI_IS_BG_CROSSFADE (fade), FALSE);
 
 	now = get_current_time ();
 
@@ -518,7 +518,7 @@ on_tick (MateBGCrossfade *fade)
 }
 
 static void
-on_finished (MateBGCrossfade *fade)
+on_finished (UkuiBGCrossfade *fade)
 {
 	cairo_t *cr;
 
@@ -618,29 +618,29 @@ get_root_pixmap_id_surface (GdkDisplay *display)
 }
 
 /**
- * mate_bg_crossfade_start:
- * @fade: a #MateBGCrossfade
+ * ukui_bg_crossfade_start:
+ * @fade: a #UkuiBGCrossfade
  * @window: The #GdkWindow to draw crossfade on
  *
  * This function initiates a quick crossfade between two surfaces on
  * the background of @window. Before initiating the crossfade both
- * mate_bg_crossfade_set_start_surface() and
- * mate_bg_crossfade_set_end_surface() need to be called. If animations
+ * ukui_bg_crossfade_set_start_surface() and
+ * ukui_bg_crossfade_set_end_surface() need to be called. If animations
  * are disabled, the crossfade is skipped, and the window background is
  * set immediately to the end surface.
  **/
 void
-mate_bg_crossfade_start (MateBGCrossfade *fade,
+ukui_bg_crossfade_start (UkuiBGCrossfade *fade,
                          GdkWindow       *window)
 {
 	GSource *source;
 	GMainContext *context;
 
-	g_return_if_fail (MATE_IS_BG_CROSSFADE (fade));
+	g_return_if_fail (UKUI_IS_BG_CROSSFADE (fade));
 	g_return_if_fail (window != NULL);
 	g_return_if_fail (fade->priv->start_surface != NULL);
 	g_return_if_fail (fade->priv->end_surface != NULL);
-	g_return_if_fail (!mate_bg_crossfade_is_started (fade));
+	g_return_if_fail (!ukui_bg_crossfade_is_started (fade));
 	g_return_if_fail (gdk_window_get_window_type (window) != GDK_WINDOW_FOREIGN);
 
 	/* If drawing is done on the root window,
@@ -695,65 +695,65 @@ mate_bg_crossfade_start (MateBGCrossfade *fade,
 }
 
 /**
- * mate_bg_crossfade_start_widget:
- * @fade: a #MateBGCrossfade
+ * ukui_bg_crossfade_start_widget:
+ * @fade: a #UkuiBGCrossfade
  * @widget: The #GtkWidget to draw crossfade on
  *
  * This function initiates a quick crossfade between two surfaces on
  * the background of @widget. Before initiating the crossfade both
- * mate_bg_crossfade_set_start_surface() and
- * mate_bg_crossfade_set_end_surface() need to be called. If animations
+ * ukui_bg_crossfade_set_start_surface() and
+ * ukui_bg_crossfade_set_end_surface() need to be called. If animations
  * are disabled, the crossfade is skipped, and the window background is
  * set immediately to the end surface.
  **/
 void
-mate_bg_crossfade_start_widget (MateBGCrossfade *fade,
+ukui_bg_crossfade_start_widget (UkuiBGCrossfade *fade,
                                 GtkWidget       *widget)
 {
 	GdkWindow *window;
 
-	g_return_if_fail (MATE_IS_BG_CROSSFADE (fade));
+	g_return_if_fail (UKUI_IS_BG_CROSSFADE (fade));
 	g_return_if_fail (widget != NULL);
 
 	fade->priv->widget = widget;
 	gtk_widget_realize (fade->priv->widget);
 	window = gtk_widget_get_window (fade->priv->widget);
 
-	mate_bg_crossfade_start (fade, window);
+	ukui_bg_crossfade_start (fade, window);
 }
 
 /**
- * mate_bg_crossfade_is_started:
- * @fade: a #MateBGCrossfade
+ * ukui_bg_crossfade_is_started:
+ * @fade: a #UkuiBGCrossfade
  *
  * This function reveals whether or not @fade is currently
- * running on a window.  See mate_bg_crossfade_start() for
+ * running on a window.  See ukui_bg_crossfade_start() for
  * information on how to initiate a crossfade.
  *
  * Return value: %TRUE if fading, or %FALSE if not fading
  **/
 gboolean
-mate_bg_crossfade_is_started (MateBGCrossfade *fade)
+ukui_bg_crossfade_is_started (UkuiBGCrossfade *fade)
 {
-	g_return_val_if_fail (MATE_IS_BG_CROSSFADE (fade), FALSE);
+	g_return_val_if_fail (UKUI_IS_BG_CROSSFADE (fade), FALSE);
 
 	return fade->priv->timeout_id != 0;
 }
 
 /**
- * mate_bg_crossfade_stop:
- * @fade: a #MateBGCrossfade
+ * ukui_bg_crossfade_stop:
+ * @fade: a #UkuiBGCrossfade
  *
  * This function stops any in progress crossfades that may be
  * happening.  It's harmless to call this function if @fade is
  * already stopped.
  **/
 void
-mate_bg_crossfade_stop (MateBGCrossfade *fade)
+ukui_bg_crossfade_stop (UkuiBGCrossfade *fade)
 {
-	g_return_if_fail (MATE_IS_BG_CROSSFADE (fade));
+	g_return_if_fail (UKUI_IS_BG_CROSSFADE (fade));
 
-	if (!mate_bg_crossfade_is_started (fade))
+	if (!ukui_bg_crossfade_is_started (fade))
 		return;
 
 	g_assert (fade->priv->timeout_id != 0);

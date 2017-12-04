@@ -24,27 +24,27 @@
  * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
-#ifndef __MATE_COLOR_SELECTION_DIALOG_H__
-#define __MATE_COLOR_SELECTION_DIALOG_H__
+#ifndef __UKUI_COLOR_SELECTION_DIALOG_H__
+#define __UKUI_COLOR_SELECTION_DIALOG_H__
 
 #include <glib.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
-#define MATE_TYPE_COLOR_SELECTION_DIALOG            (mate_color_selection_dialog_get_type ())
-#define MATE_COLOR_SELECTION_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_COLOR_SELECTION_DIALOG, MateColorSelectionDialog))
-#define MATE_COLOR_SELECTION_DIALOG_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MATE_TYPE_COLOR_SELECTION_DIALOG, MateColorSelectionDialogClass))
-#define MATE_IS_COLOR_SELECTION_DIALOG(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MATE_TYPE_COLOR_SELECTION_DIALOG))
-#define MATE_IS_COLOR_SELECTION_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MATE_TYPE_COLOR_SELECTION_DIALOG))
-#define MATE_COLOR_SELECTION_DIALOG_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MATE_TYPE_COLOR_SELECTION_DIALOG, MateColorSelectionDialogClass))
+#define UKUI_TYPE_COLOR_SELECTION_DIALOG            (ukui_color_selection_dialog_get_type ())
+#define UKUI_COLOR_SELECTION_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), UKUI_TYPE_COLOR_SELECTION_DIALOG, UkuiColorSelectionDialog))
+#define UKUI_COLOR_SELECTION_DIALOG_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), UKUI_TYPE_COLOR_SELECTION_DIALOG, UkuiColorSelectionDialogClass))
+#define UKUI_IS_COLOR_SELECTION_DIALOG(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), UKUI_TYPE_COLOR_SELECTION_DIALOG))
+#define UKUI_IS_COLOR_SELECTION_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), UKUI_TYPE_COLOR_SELECTION_DIALOG))
+#define UKUI_COLOR_SELECTION_DIALOG_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), UKUI_TYPE_COLOR_SELECTION_DIALOG, UkuiColorSelectionDialogClass))
 
 
-typedef struct _MateColorSelectionDialog       MateColorSelectionDialog;
-typedef struct _MateColorSelectionDialogClass  MateColorSelectionDialogClass;
+typedef struct _UkuiColorSelectionDialog       UkuiColorSelectionDialog;
+typedef struct _UkuiColorSelectionDialogClass  UkuiColorSelectionDialogClass;
 
 
-struct _MateColorSelectionDialog
+struct _UkuiColorSelectionDialog
 {
   GtkDialog parent_instance;
 
@@ -54,7 +54,7 @@ struct _MateColorSelectionDialog
   GtkWidget *help_button;
 };
 
-struct _MateColorSelectionDialogClass
+struct _UkuiColorSelectionDialogClass
 {
   GtkDialogClass parent_class;
 
@@ -67,11 +67,11 @@ struct _MateColorSelectionDialogClass
 
 
 /* ColorSelectionDialog */
-GType      mate_color_selection_dialog_get_type            (void) G_GNUC_CONST;
-GtkWidget* mate_color_selection_dialog_new                 (const gchar *title);
-GtkWidget* mate_color_selection_dialog_get_color_selection (MateColorSelectionDialog *colorsel);
+GType      ukui_color_selection_dialog_get_type            (void) G_GNUC_CONST;
+GtkWidget* ukui_color_selection_dialog_new                 (const gchar *title);
+GtkWidget* ukui_color_selection_dialog_get_color_selection (UkuiColorSelectionDialog *colorsel);
 
 
 G_END_DECLS
 
-#endif /* __MATE_COLOR_SELECTION_DIALOG_H__ */
+#endif /* __UKUI_COLOR_SELECTION_DIALOG_H__ */

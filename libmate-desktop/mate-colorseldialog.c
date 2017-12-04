@@ -29,8 +29,8 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
-#include "mate-colorsel.h"
-#include "mate-colorseldialog.h"
+#include "ukui-colorsel.h"
+#include "ukui-colorseldialog.h"
 
 enum {
   PROP_0,
@@ -42,30 +42,30 @@ enum {
 
 
 /***************************/
-/* MateColorSelectionDialog */
+/* UkuiColorSelectionDialog */
 /***************************/
 
-static void mate_color_selection_dialog_buildable_interface_init     (GtkBuildableIface *iface);
-static GObject * mate_color_selection_dialog_buildable_get_internal_child (GtkBuildable *buildable,
+static void ukui_color_selection_dialog_buildable_interface_init     (GtkBuildableIface *iface);
+static GObject * ukui_color_selection_dialog_buildable_get_internal_child (GtkBuildable *buildable,
 									  GtkBuilder   *builder,
 									  const gchar  *childname);
 
-G_DEFINE_TYPE_WITH_CODE (MateColorSelectionDialog, mate_color_selection_dialog,
+G_DEFINE_TYPE_WITH_CODE (UkuiColorSelectionDialog, ukui_color_selection_dialog,
            GTK_TYPE_DIALOG,
            G_IMPLEMENT_INTERFACE (GTK_TYPE_BUILDABLE,
-                      mate_color_selection_dialog_buildable_interface_init))
+                      ukui_color_selection_dialog_buildable_interface_init))
 
 static GtkBuildableIface *parent_buildable_iface;
 
 static void
-mate_color_selection_dialog_get_property (GObject         *object,
+ukui_color_selection_dialog_get_property (GObject         *object,
 					 guint            prop_id,
 					 GValue          *value,
 					 GParamSpec      *pspec)
 {
-  MateColorSelectionDialog *colorsel;
+  UkuiColorSelectionDialog *colorsel;
 
-  colorsel = MATE_COLOR_SELECTION_DIALOG (object);
+  colorsel = UKUI_COLOR_SELECTION_DIALOG (object);
 
   switch (prop_id)
     {
@@ -88,10 +88,10 @@ mate_color_selection_dialog_get_property (GObject         *object,
 }
 
 static void
-mate_color_selection_dialog_class_init (MateColorSelectionDialogClass *klass)
+ukui_color_selection_dialog_class_init (UkuiColorSelectionDialogClass *klass)
 {
   GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
-  gobject_class->get_property = mate_color_selection_dialog_get_property;
+  gobject_class->get_property = ukui_color_selection_dialog_get_property;
 
   g_object_class_install_property (gobject_class,
 				   PROP_COLOR_SELECTION,
@@ -124,21 +124,21 @@ mate_color_selection_dialog_class_init (MateColorSelectionDialogClass *klass)
 }
 
 static void
-mate_color_selection_dialog_init (MateColorSelectionDialog *colorseldiag)
+ukui_color_selection_dialog_init (UkuiColorSelectionDialog *colorseldiag)
 {
   GtkDialog *dialog = GTK_DIALOG (colorseldiag);
 
-  _mate_desktop_init_i18n ();
+  _ukui_desktop_init_i18n ();
 
   gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
   gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (dialog)), 2); /* 2 * 5 + 2 = 12 */
   gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_action_area (dialog)), 5);
   gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_action_area (dialog)), 6);
 
-  colorseldiag->colorsel = mate_color_selection_new ();
+  colorseldiag->colorsel = ukui_color_selection_new ();
   gtk_container_set_border_width (GTK_CONTAINER (colorseldiag->colorsel), 5);
-  mate_color_selection_set_has_palette (MATE_COLOR_SELECTION(colorseldiag->colorsel), FALSE); 
-  mate_color_selection_set_has_opacity_control (MATE_COLOR_SELECTION(colorseldiag->colorsel), FALSE);
+  ukui_color_selection_set_has_palette (UKUI_COLOR_SELECTION(colorseldiag->colorsel), FALSE); 
+  ukui_color_selection_set_has_opacity_control (UKUI_COLOR_SELECTION(colorseldiag->colorsel), FALSE);
   gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (colorseldiag))), colorseldiag->colorsel);
   gtk_widget_show (colorseldiag->colorsel);
   
@@ -165,11 +165,11 @@ mate_color_selection_dialog_init (MateColorSelectionDialog *colorseldiag)
 }
 
 GtkWidget*
-mate_color_selection_dialog_new (const gchar *title)
+ukui_color_selection_dialog_new (const gchar *title)
 {
-  MateColorSelectionDialog *colorseldiag;
+  UkuiColorSelectionDialog *colorseldiag;
   
-  colorseldiag = g_object_new (MATE_TYPE_COLOR_SELECTION_DIALOG, NULL);
+  colorseldiag = g_object_new (UKUI_TYPE_COLOR_SELECTION_DIALOG, NULL);
 
   if (title)
     gtk_window_set_title (GTK_WINDOW (colorseldiag), title);
@@ -180,43 +180,43 @@ mate_color_selection_dialog_new (const gchar *title)
 }
 
 /**
- * mate_color_selection_dialog_get_color_selection:
- * @colorsel: a #MateColorSelectionDialog
+ * ukui_color_selection_dialog_get_color_selection:
+ * @colorsel: a #UkuiColorSelectionDialog
  *
- * Retrieves the #MateColorSelection widget embedded in the dialog.
+ * Retrieves the #UkuiColorSelection widget embedded in the dialog.
  *
- * Returns: (transfer none): the embedded #MateColorSelection
+ * Returns: (transfer none): the embedded #UkuiColorSelection
  *
  * Since: 1.9.1
  **/
 GtkWidget*
-mate_color_selection_dialog_get_color_selection (MateColorSelectionDialog *colorsel)
+ukui_color_selection_dialog_get_color_selection (UkuiColorSelectionDialog *colorsel)
 {
-  g_return_val_if_fail (MATE_IS_COLOR_SELECTION_DIALOG (colorsel), NULL);
+  g_return_val_if_fail (UKUI_IS_COLOR_SELECTION_DIALOG (colorsel), NULL);
 
   return colorsel->colorsel;
 }
 
 static void
-mate_color_selection_dialog_buildable_interface_init (GtkBuildableIface *iface)
+ukui_color_selection_dialog_buildable_interface_init (GtkBuildableIface *iface)
 {
   parent_buildable_iface = g_type_interface_peek_parent (iface);
-  iface->get_internal_child = mate_color_selection_dialog_buildable_get_internal_child;
+  iface->get_internal_child = ukui_color_selection_dialog_buildable_get_internal_child;
 }
 
 static GObject *
-mate_color_selection_dialog_buildable_get_internal_child (GtkBuildable *buildable,
+ukui_color_selection_dialog_buildable_get_internal_child (GtkBuildable *buildable,
 							 GtkBuilder   *builder,
 							 const gchar  *childname)
 {
     if (strcmp(childname, "ok_button") == 0)
-	return G_OBJECT (MATE_COLOR_SELECTION_DIALOG (buildable)->ok_button);
+	return G_OBJECT (UKUI_COLOR_SELECTION_DIALOG (buildable)->ok_button);
     else if (strcmp(childname, "cancel_button") == 0)
-	return G_OBJECT (MATE_COLOR_SELECTION_DIALOG (buildable)->cancel_button);
+	return G_OBJECT (UKUI_COLOR_SELECTION_DIALOG (buildable)->cancel_button);
     else if (strcmp(childname, "help_button") == 0)
-	return G_OBJECT (MATE_COLOR_SELECTION_DIALOG(buildable)->help_button);
+	return G_OBJECT (UKUI_COLOR_SELECTION_DIALOG(buildable)->help_button);
     else if (strcmp(childname, "color_selection") == 0)
-	return G_OBJECT (MATE_COLOR_SELECTION_DIALOG(buildable)->colorsel);
+	return G_OBJECT (UKUI_COLOR_SELECTION_DIALOG(buildable)->colorsel);
 
     return parent_buildable_iface->get_internal_child (buildable, builder, childname);
 }

@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
 
-matebg.c: Object for the desktop background.
+ukuibg.c: Object for the desktop background.
 
 Copyright (C) 2000 Eazel, Inc.
 Copyright (C) 2007-2008 Red Hat, Inc.
@@ -43,13 +43,13 @@ Authors: Soren Sandmann <sandmann@redhat.com>
 
 #include <cairo.h>
 
-#define MATE_DESKTOP_USE_UNSTABLE_API
-#include <mate-bg.h>
-#include <mate-bg-crossfade.h>
+#define UKUI_DESKTOP_USE_UNSTABLE_API
+#include <ukui-bg.h>
+#include <ukui-bg-crossfade.h>
 
 # include <cairo-xlib.h>
 
-#define MATE_BG_CACHE_DIR "mate/background"
+#define UKUI_BG_CACHE_DIR "ukui/background"
 
 /* We keep the large pixbufs around if the next update
    in the slideshow is less than 60 seconds away */
@@ -83,13 +83,13 @@ typedef struct FileCacheEntry FileCacheEntry;
 #define CACHE_SIZE 4
 
 /*
- *   Implementation of the MateBG class
+ *   Implementation of the UkuiBG class
  */
-struct _MateBG {
+struct _UkuiBG {
 	GObject		 parent_instance;
 	char		*filename;
-	MateBGPlacement	 placement;
-	MateBGColorType	 color_type;
+	UkuiBGPlacement	 placement;
+	UkuiBGColorType	 color_type;
 	GdkRGBA	 	 primary;
 	GdkRGBA	 	 secondary;
 	gboolean	 is_enabled;
@@ -109,7 +109,7 @@ struct _MateBG {
 	GList* file_cache;
 };
 
-struct _MateBGClass {
+struct _UkuiBGClass {
 	GObjectClass parent_class;
 };
 
@@ -121,7 +121,7 @@ enum {
 
 static guint signals[N_SIGNALS] = {0};
 
-G_DEFINE_TYPE(MateBG, mate_bg, G_TYPE_OBJECT)
+G_DEFINE_TYPE(UkuiBG, ukui_bg, G_TYPE_OBJECT)
 
 static cairo_surface_t *make_root_pixmap     (GdkWindow  *window,
                                               gint        width,
@@ -156,28 +156,28 @@ static void       pixbuf_blend         (GdkPixbuf  *src,
 					double      alpha);
 
 /* Thumbnail utilities */
-static GdkPixbuf *create_thumbnail_for_filename (MateDesktopThumbnailFactory *factory,
+static GdkPixbuf *create_thumbnail_for_filename (UkuiDesktopThumbnailFactory *factory,
 						 const char            *filename);
 static gboolean   get_thumb_annotations (GdkPixbuf             *thumb,
 					 int                   *orig_width,
 					 int                   *orig_height);
 
 /* Cache */
-static GdkPixbuf *get_pixbuf_for_size  (MateBG               *bg,
+static GdkPixbuf *get_pixbuf_for_size  (UkuiBG               *bg,
 					gint                  num_monitor,
 					int                   width,
 					int                   height);
-static void       clear_cache          (MateBG               *bg);
-static gboolean   is_different         (MateBG               *bg,
+static void       clear_cache          (UkuiBG               *bg);
+static gboolean   is_different         (UkuiBG               *bg,
 					const char            *filename);
 static time_t     get_mtime            (const char            *filename);
-static GdkPixbuf *create_img_thumbnail (MateBG               *bg,
-					MateDesktopThumbnailFactory *factory,
+static GdkPixbuf *create_img_thumbnail (UkuiBG               *bg,
+					UkuiDesktopThumbnailFactory *factory,
 					GdkScreen             *screen,
 					int                    dest_width,
 					int                    dest_height,
 					int		       frame_num);
-static SlideShow * get_as_slideshow    (MateBG               *bg,
+static SlideShow * get_as_slideshow    (UkuiBG               *bg,
 					const char 	      *filename);
 static Slide *     get_current_slide   (SlideShow 	      *show,
 		   			double    	      *alpha);
@@ -215,7 +215,7 @@ color_to_string (const GdkRGBA *color)
 }
 
 static gboolean
-do_changed (MateBG *bg)
+do_changed (UkuiBG *bg)
 {
 	bg->changed_id = 0;
 
@@ -225,7 +225,7 @@ do_changed (MateBG *bg)
 }
 
 static void
-queue_changed (MateBG *bg)
+queue_changed (UkuiBG *bg)
 {
 	if (bg->changed_id > 0) {
 		g_source_remove (bg->changed_id);
@@ -239,7 +239,7 @@ queue_changed (MateBG *bg)
 }
 
 static gboolean
-do_transitioned (MateBG *bg)
+do_transitioned (UkuiBG *bg)
 {
 	bg->transitioned_id = 0;
 
@@ -254,7 +254,7 @@ do_transitioned (MateBG *bg)
 }
 
 static void
-queue_transitioned (MateBG *bg)
+queue_transitioned (UkuiBG *bg)
 {
 	if (bg->transitioned_id > 0) {
 		g_source_remove (bg->transitioned_id);
@@ -269,18 +269,18 @@ queue_transitioned (MateBG *bg)
 
 /* This function loads the user's preferences */
 void
-mate_bg_load_from_preferences (MateBG *bg)
+ukui_bg_load_from_preferences (UkuiBG *bg)
 {
 	GSettings *settings;
-	settings = g_settings_new (MATE_BG_SCHEMA);
+	settings = g_settings_new (UKUI_BG_SCHEMA);
 
-	mate_bg_load_from_gsettings (bg, settings);
+	ukui_bg_load_from_gsettings (bg, settings);
 	g_object_unref (settings);
 }
 
 /* This function loads default system settings */
 void
-mate_bg_load_from_system_preferences (MateBG *bg)
+ukui_bg_load_from_system_preferences (UkuiBG *bg)
 {
 	GSettings *settings;
 
@@ -288,23 +288,23 @@ mate_bg_load_from_system_preferences (MateBG *bg)
 	* that's currently impossible, not implemented yet.
 	* Hence, reset to system default values.
 	*/
-	settings = g_settings_new (MATE_BG_SCHEMA);
+	settings = g_settings_new (UKUI_BG_SCHEMA);
 
-	mate_bg_load_from_system_gsettings (bg, settings, FALSE);
+	ukui_bg_load_from_system_gsettings (bg, settings, FALSE);
 
 	g_object_unref (settings);
 }
 
 /* This function loads (and optionally resets to) default system settings */
 void
-mate_bg_load_from_system_gsettings (MateBG    *bg,
+ukui_bg_load_from_system_gsettings (UkuiBG    *bg,
 				    GSettings *settings,
 				    gboolean   reset_apply)
 {
 	gchar **keys;
 	gchar **k;
 
-	g_return_if_fail (MATE_IS_BG (bg));
+	g_return_if_fail (UKUI_IS_BG (bg));
 	g_return_if_fail (G_IS_SETTINGS (settings));
 
 	g_settings_delay (settings);
@@ -319,29 +319,29 @@ mate_bg_load_from_system_gsettings (MateBG    *bg,
 		/* Apply changes atomically. */
 		g_settings_apply (settings);
 	} else {
-		mate_bg_load_from_gsettings (bg, settings);
+		ukui_bg_load_from_gsettings (bg, settings);
 		g_settings_revert (settings);
 	}
 }
 
 void
-mate_bg_load_from_gsettings (MateBG    *bg,
+ukui_bg_load_from_gsettings (UkuiBG    *bg,
 			     GSettings *settings)
 {
 	char    *tmp;
 	char    *filename;
-	MateBGColorType ctype;
+	UkuiBGColorType ctype;
 	GdkRGBA c1, c2;
-	MateBGPlacement placement;
+	UkuiBGPlacement placement;
 
-	g_return_if_fail (MATE_IS_BG (bg));
+	g_return_if_fail (UKUI_IS_BG (bg));
 	g_return_if_fail (G_IS_SETTINGS (settings));
 
-	bg->is_enabled = g_settings_get_boolean (settings, MATE_BG_KEY_DRAW_BACKGROUND);
+	bg->is_enabled = g_settings_get_boolean (settings, UKUI_BG_KEY_DRAW_BACKGROUND);
 
 	/* Filename */
 	filename = NULL;
-	tmp = g_settings_get_string (settings, MATE_BG_KEY_PICTURE_FILENAME);
+	tmp = g_settings_get_string (settings, UKUI_BG_KEY_PICTURE_FILENAME);
 	if (tmp && *tmp != '\0') {
 		/* FIXME: UTF-8 checks should go away.
 		 * picture-filename is of type string, which can only be used for
@@ -363,8 +363,8 @@ mate_bg_load_from_gsettings (MateBG    *bg,
 			g_free (filename);
 
 			g_settings_delay (settings);
-			g_settings_reset (settings, MATE_BG_KEY_PICTURE_FILENAME);
-			filename = g_settings_get_string (settings, MATE_BG_KEY_PICTURE_FILENAME);
+			g_settings_reset (settings, UKUI_BG_KEY_PICTURE_FILENAME);
+			filename = g_settings_get_string (settings, UKUI_BG_KEY_PICTURE_FILENAME);
 			g_settings_revert (settings);
 
 			//* Check if default background exists, also */
@@ -377,46 +377,46 @@ mate_bg_load_from_gsettings (MateBG    *bg,
 	g_free (tmp);
 
 	/* Colors */
-	tmp = g_settings_get_string (settings, MATE_BG_KEY_PRIMARY_COLOR);
+	tmp = g_settings_get_string (settings, UKUI_BG_KEY_PRIMARY_COLOR);
 	color_from_string (tmp, &c1);
 	g_free (tmp);
 
-	tmp = g_settings_get_string (settings, MATE_BG_KEY_SECONDARY_COLOR);
+	tmp = g_settings_get_string (settings, UKUI_BG_KEY_SECONDARY_COLOR);
 	color_from_string (tmp, &c2);
 	g_free (tmp);
 
 	/* Color type */
-	ctype = g_settings_get_enum (settings, MATE_BG_KEY_COLOR_TYPE);
+	ctype = g_settings_get_enum (settings, UKUI_BG_KEY_COLOR_TYPE);
 
 	/* Placement */
-	placement = g_settings_get_enum (settings, MATE_BG_KEY_PICTURE_PLACEMENT);
+	placement = g_settings_get_enum (settings, UKUI_BG_KEY_PICTURE_PLACEMENT);
 
-	mate_bg_set_color (bg, ctype, &c1, &c2);
-	mate_bg_set_placement (bg, placement);
-	mate_bg_set_filename (bg, filename);
+	ukui_bg_set_color (bg, ctype, &c1, &c2);
+	ukui_bg_set_placement (bg, placement);
+	ukui_bg_set_filename (bg, filename);
 
 	if (filename != NULL)
 		g_free (filename);
 }
 
 void
-mate_bg_save_to_preferences (MateBG *bg)
+ukui_bg_save_to_preferences (UkuiBG *bg)
 {
 	GSettings *settings;
-	settings = g_settings_new (MATE_BG_SCHEMA);
+	settings = g_settings_new (UKUI_BG_SCHEMA);
 
-	mate_bg_save_to_gsettings (bg, settings);
+	ukui_bg_save_to_gsettings (bg, settings);
 	g_object_unref (settings);
 }
 
 void
-mate_bg_save_to_gsettings (MateBG    *bg,
+ukui_bg_save_to_gsettings (UkuiBG    *bg,
 			   GSettings *settings)
 {
 	gchar *primary;
 	gchar *secondary;
 
-	g_return_if_fail (MATE_IS_BG (bg));
+	g_return_if_fail (UKUI_IS_BG (bg));
 	g_return_if_fail (G_IS_SETTINGS (settings));
 
 	primary = color_to_string (&bg->primary);
@@ -424,12 +424,12 @@ mate_bg_save_to_gsettings (MateBG    *bg,
 
 	g_settings_delay (settings);
 
-	g_settings_set_boolean (settings, MATE_BG_KEY_DRAW_BACKGROUND, bg->is_enabled);
-	g_settings_set_string (settings, MATE_BG_KEY_PICTURE_FILENAME, bg->filename);
-	g_settings_set_enum (settings, MATE_BG_KEY_PICTURE_PLACEMENT, bg->placement);
-	g_settings_set_string (settings, MATE_BG_KEY_PRIMARY_COLOR, primary);
-	g_settings_set_string (settings, MATE_BG_KEY_SECONDARY_COLOR, secondary);
-	g_settings_set_enum (settings, MATE_BG_KEY_COLOR_TYPE, bg->color_type);
+	g_settings_set_boolean (settings, UKUI_BG_KEY_DRAW_BACKGROUND, bg->is_enabled);
+	g_settings_set_string (settings, UKUI_BG_KEY_PICTURE_FILENAME, bg->filename);
+	g_settings_set_enum (settings, UKUI_BG_KEY_PICTURE_PLACEMENT, bg->placement);
+	g_settings_set_string (settings, UKUI_BG_KEY_PRIMARY_COLOR, primary);
+	g_settings_set_string (settings, UKUI_BG_KEY_SECONDARY_COLOR, secondary);
+	g_settings_set_enum (settings, UKUI_BG_KEY_COLOR_TYPE, bg->color_type);
 
 	/* Apply changes atomically. */
 	g_settings_apply (settings);
@@ -440,14 +440,14 @@ mate_bg_save_to_gsettings (MateBG    *bg,
 
 
 static void
-mate_bg_init (MateBG *bg)
+ukui_bg_init (UkuiBG *bg)
 {
 }
 
 static void
-mate_bg_dispose (GObject *object)
+ukui_bg_dispose (GObject *object)
 {
-	MateBG *bg = MATE_BG (object);
+	UkuiBG *bg = UKUI_BG (object);
 
 	if (bg->file_monitor) {
 		g_object_unref (bg->file_monitor);
@@ -456,13 +456,13 @@ mate_bg_dispose (GObject *object)
 
 	clear_cache (bg);
 
-	G_OBJECT_CLASS (mate_bg_parent_class)->dispose (object);
+	G_OBJECT_CLASS (ukui_bg_parent_class)->dispose (object);
 }
 
 static void
-mate_bg_finalize (GObject *object)
+ukui_bg_finalize (GObject *object)
 {
-	MateBG *bg = MATE_BG (object);
+	UkuiBG *bg = UKUI_BG (object);
 
 	if (bg->changed_id != 0) {
 		g_source_remove (bg->changed_id);
@@ -482,16 +482,16 @@ mate_bg_finalize (GObject *object)
 	g_free (bg->filename);
 	bg->filename = NULL;
 
-	G_OBJECT_CLASS (mate_bg_parent_class)->finalize (object);
+	G_OBJECT_CLASS (ukui_bg_parent_class)->finalize (object);
 }
 
 static void
-mate_bg_class_init (MateBGClass *klass)
+ukui_bg_class_init (UkuiBGClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	object_class->dispose = mate_bg_dispose;
-	object_class->finalize = mate_bg_finalize;
+	object_class->dispose = ukui_bg_dispose;
+	object_class->finalize = ukui_bg_finalize;
 
 	signals[CHANGED] = g_signal_new ("changed",
 					 G_OBJECT_CLASS_TYPE (object_class),
@@ -510,15 +510,15 @@ mate_bg_class_init (MateBGClass *klass)
 					 G_TYPE_NONE, 0);
 }
 
-MateBG *
-mate_bg_new (void)
+UkuiBG *
+ukui_bg_new (void)
 {
-	return g_object_new (MATE_TYPE_BG, NULL);
+	return g_object_new (UKUI_TYPE_BG, NULL);
 }
 
 void
-mate_bg_set_color (MateBG *bg,
-		    MateBGColorType type,
+ukui_bg_set_color (UkuiBG *bg,
+		    UkuiBGColorType type,
 		    GdkRGBA *primary,
 		    GdkRGBA *secondary)
 {
@@ -539,8 +539,8 @@ mate_bg_set_color (MateBG *bg,
 }
 
 void
-mate_bg_set_placement (MateBG		*bg,
-		       MateBGPlacement	 placement)
+ukui_bg_set_placement (UkuiBG		*bg,
+		       UkuiBGPlacement	 placement)
 {
 	g_return_if_fail (bg != NULL);
 
@@ -551,8 +551,8 @@ mate_bg_set_placement (MateBG		*bg,
 	}
 }
 
-MateBGPlacement
-mate_bg_get_placement (MateBG *bg)
+UkuiBGPlacement
+ukui_bg_get_placement (UkuiBG *bg)
 {
 	g_return_val_if_fail (bg != NULL, -1);
 
@@ -560,8 +560,8 @@ mate_bg_get_placement (MateBG *bg)
 }
 
 void
-mate_bg_get_color (MateBG		*bg,
-		   MateBGColorType	*type,
+ukui_bg_get_color (UkuiBG		*bg,
+		   UkuiBGColorType	*type,
 		   GdkRGBA		*primary,
 		   GdkRGBA		*secondary)
 {
@@ -578,7 +578,7 @@ mate_bg_get_color (MateBG		*bg,
 }
 
 void
-mate_bg_set_draw_background (MateBG	*bg,
+ukui_bg_set_draw_background (UkuiBG	*bg,
 			     gboolean	 draw_background)
 {
 	g_return_if_fail (bg != NULL);
@@ -591,7 +591,7 @@ mate_bg_set_draw_background (MateBG	*bg,
 }
 
 gboolean
-mate_bg_get_draw_background (MateBG *bg)
+ukui_bg_get_draw_background (UkuiBG *bg)
 {
 	g_return_val_if_fail (bg != NULL, FALSE);
 
@@ -599,7 +599,7 @@ mate_bg_get_draw_background (MateBG *bg)
 }
 
 const gchar *
-mate_bg_get_filename (MateBG *bg)
+ukui_bg_get_filename (UkuiBG *bg)
 {
 	g_return_val_if_fail (bg != NULL, NULL);
 
@@ -609,12 +609,12 @@ mate_bg_get_filename (MateBG *bg)
 static inline gchar *
 get_wallpaper_cache_dir ()
 {
-	return g_build_filename (g_get_user_cache_dir(), MATE_BG_CACHE_DIR, NULL);
+	return g_build_filename (g_get_user_cache_dir(), UKUI_BG_CACHE_DIR, NULL);
 }
 
 static inline gchar *
 get_wallpaper_cache_prefix_name (gint                     num_monitor,
-				 MateBGPlacement          placement,
+				 UkuiBGPlacement          placement,
 				 gint                     width,
 				 gint                     height)
 {
@@ -624,7 +624,7 @@ get_wallpaper_cache_prefix_name (gint                     num_monitor,
 static char *
 get_wallpaper_cache_filename (const char              *filename,
 			      gint                     num_monitor,
-			      MateBGPlacement          placement,
+			      UkuiBGPlacement          placement,
 			      gint                     width,
 			      gint                     height)
 {
@@ -695,7 +695,7 @@ cache_file_is_valid (const char *filename,
 }
 
 static void
-refresh_cache_file (MateBG     *bg,
+refresh_cache_file (UkuiBG     *bg,
 		    GdkPixbuf  *new_pixbuf,
 		    gint        num_monitor,
 		    gint        width,
@@ -748,14 +748,14 @@ file_changed (GFileMonitor     *file_monitor,
 	      GFileMonitorEvent event_type,
 	      gpointer          user_data)
 {
-	MateBG *bg = MATE_BG (user_data);
+	UkuiBG *bg = UKUI_BG (user_data);
 
 	clear_cache (bg);
 	queue_changed (bg);
 }
 
 void
-mate_bg_set_filename (MateBG	 *bg,
+ukui_bg_set_filename (UkuiBG	 *bg,
 		      const char *filename)
 {
 	g_return_if_fail (bg != NULL);
@@ -788,7 +788,7 @@ mate_bg_set_filename (MateBG	 *bg,
 }
 
 static void
-draw_color_area (MateBG       *bg,
+draw_color_area (UkuiBG       *bg,
 		 GdkPixbuf    *dest,
 		 GdkRectangle *rect)
 {
@@ -803,7 +803,7 @@ draw_color_area (MateBG       *bg,
 	gdk_rectangle_intersect (rect, &extent, rect);
 
 	switch (bg->color_type) {
-	case MATE_BG_COLOR_SOLID:
+	case UKUI_BG_COLOR_SOLID:
 		/* not really a big deal to ignore the area of interest */
 		pixel = ((guint) (bg->primary.red * 0xff) << 24)   |
 			((guint) (bg->primary.green * 0xff) << 16) |
@@ -813,11 +813,11 @@ draw_color_area (MateBG       *bg,
 		gdk_pixbuf_fill (dest, pixel);
 		break;
 
-	case MATE_BG_COLOR_H_GRADIENT:
+	case UKUI_BG_COLOR_H_GRADIENT:
 		pixbuf_draw_gradient (dest, TRUE, &(bg->primary), &(bg->secondary), rect);
 		break;
 
-	case MATE_BG_COLOR_V_GRADIENT:
+	case UKUI_BG_COLOR_V_GRADIENT:
 		pixbuf_draw_gradient (dest, FALSE, &(bg->primary), &(bg->secondary), rect);
 		break;
 
@@ -827,7 +827,7 @@ draw_color_area (MateBG       *bg,
 }
 
 static void
-draw_color (MateBG    *bg,
+draw_color (UkuiBG    *bg,
 	    GdkPixbuf *dest)
 {
 	GdkRectangle rect;
@@ -840,7 +840,7 @@ draw_color (MateBG    *bg,
 }
 
 static void
-draw_color_each_monitor (MateBG    *bg,
+draw_color_each_monitor (UkuiBG    *bg,
 			 GdkPixbuf *dest,
 			 GdkScreen *screen)
 {
@@ -901,7 +901,7 @@ pixbuf_clip_to_fit (GdkPixbuf *src,
 }
 
 static GdkPixbuf *
-get_scaled_pixbuf (MateBGPlacement  placement,
+get_scaled_pixbuf (UkuiBGPlacement  placement,
 		   GdkPixbuf       *pixbuf,
 		   int width, int height,
 		   int *x, int *y,
@@ -916,24 +916,24 @@ get_scaled_pixbuf (MateBGPlacement  placement,
 #endif
 
 	switch (placement) {
-	case MATE_BG_PLACEMENT_SPANNED:
+	case UKUI_BG_PLACEMENT_SPANNED:
                 new = pixbuf_scale_to_fit (pixbuf, width, height);
 		break;
-	case MATE_BG_PLACEMENT_ZOOMED:
+	case UKUI_BG_PLACEMENT_ZOOMED:
 		new = pixbuf_scale_to_min (pixbuf, width, height);
 		break;
 
-	case MATE_BG_PLACEMENT_FILL_SCREEN:
+	case UKUI_BG_PLACEMENT_FILL_SCREEN:
 		new = gdk_pixbuf_scale_simple (pixbuf, width, height,
 					       GDK_INTERP_BILINEAR);
 		break;
 
-	case MATE_BG_PLACEMENT_SCALED:
+	case UKUI_BG_PLACEMENT_SCALED:
 		new = pixbuf_scale_to_fit (pixbuf, width, height);
 		break;
 
-	case MATE_BG_PLACEMENT_CENTERED:
-	case MATE_BG_PLACEMENT_TILED:
+	case UKUI_BG_PLACEMENT_CENTERED:
+	case UKUI_BG_PLACEMENT_TILED:
 	default:
 		new = pixbuf_clip_to_fit (pixbuf, width, height);
 		break;
@@ -949,7 +949,7 @@ get_scaled_pixbuf (MateBGPlacement  placement,
 
 
 static void
-draw_image_area (MateBG        *bg,
+draw_image_area (UkuiBG        *bg,
 		 gint           num_monitor,
 		 GdkPixbuf     *pixbuf,
 		 GdkPixbuf     *dest,
@@ -966,16 +966,16 @@ draw_image_area (MateBG        *bg,
 	scaled = get_scaled_pixbuf (bg->placement, pixbuf, dest_width, dest_height, &x, &y, &w, &h);
 
 	switch (bg->placement) {
-	case MATE_BG_PLACEMENT_TILED:
+	case UKUI_BG_PLACEMENT_TILED:
 		pixbuf_tile (scaled, dest);
 		break;
-	case MATE_BG_PLACEMENT_ZOOMED:
-	case MATE_BG_PLACEMENT_CENTERED:
-	case MATE_BG_PLACEMENT_FILL_SCREEN:
-	case MATE_BG_PLACEMENT_SCALED:
+	case UKUI_BG_PLACEMENT_ZOOMED:
+	case UKUI_BG_PLACEMENT_CENTERED:
+	case UKUI_BG_PLACEMENT_FILL_SCREEN:
+	case UKUI_BG_PLACEMENT_SCALED:
 		pixbuf_blend (scaled, dest, 0, 0, w, h, x + area->x, y + area->y, 1.0);
 		break;
-	case MATE_BG_PLACEMENT_SPANNED:
+	case UKUI_BG_PLACEMENT_SPANNED:
 		pixbuf_blend (scaled, dest, 0, 0, w, h, x, y, 1.0);
 		break;
 	default:
@@ -989,7 +989,7 @@ draw_image_area (MateBG        *bg,
 }
 
 static void
-draw_image_for_thumb (MateBG     *bg,
+draw_image_for_thumb (UkuiBG     *bg,
 		      GdkPixbuf  *pixbuf,
 		      GdkPixbuf  *dest)
 {
@@ -1004,7 +1004,7 @@ draw_image_for_thumb (MateBG     *bg,
 }
 
 static void
-draw_once (MateBG    *bg,
+draw_once (UkuiBG    *bg,
 	   GdkPixbuf *dest,
 	   gboolean   is_root)
 {
@@ -1029,7 +1029,7 @@ draw_once (MateBG    *bg,
 }
 
 static void
-draw_each_monitor (MateBG    *bg,
+draw_each_monitor (UkuiBG    *bg,
 		   GdkPixbuf *dest,
 		   GdkScreen *screen)
 {
@@ -1063,7 +1063,7 @@ draw_each_monitor (MateBG    *bg,
 }
 
 void
-mate_bg_draw (MateBG     *bg,
+ukui_bg_draw (UkuiBG     *bg,
 	       GdkPixbuf *dest,
 	       GdkScreen *screen,
 	       gboolean   is_root)
@@ -1071,7 +1071,7 @@ mate_bg_draw (MateBG     *bg,
 	if (!bg)
 		return;
 
-	if (is_root && (bg->placement != MATE_BG_PLACEMENT_SPANNED)) {
+	if (is_root && (bg->placement != UKUI_BG_PLACEMENT_SPANNED)) {
 		draw_color_each_monitor (bg, dest, screen);
 		if (bg->filename) {
 			draw_each_monitor (bg, dest, screen);
@@ -1085,7 +1085,7 @@ mate_bg_draw (MateBG     *bg,
 }
 
 gboolean
-mate_bg_has_multiple_sizes (MateBG *bg)
+ukui_bg_has_multiple_sizes (UkuiBG *bg)
 {
 	SlideShow *show;
 	gboolean ret;
@@ -1104,7 +1104,7 @@ mate_bg_has_multiple_sizes (MateBG *bg)
 }
 
 static void
-mate_bg_get_pixmap_size (MateBG   *bg,
+ukui_bg_get_pixmap_size (UkuiBG   *bg,
 			  int        width,
 			  int        height,
 			  int       *pixmap_width,
@@ -1122,13 +1122,13 @@ mate_bg_get_pixmap_size (MateBG   *bg,
 
 	if (!bg->filename) {
 		switch (bg->color_type) {
-		case MATE_BG_COLOR_SOLID:
+		case UKUI_BG_COLOR_SOLID:
 			*pixmap_width = 1;
 			*pixmap_height = 1;
 			break;
 
-		case MATE_BG_COLOR_H_GRADIENT:
-		case MATE_BG_COLOR_V_GRADIENT:
+		case UKUI_BG_COLOR_H_GRADIENT:
+		case UKUI_BG_COLOR_V_GRADIENT:
 			break;
 		}
 
@@ -1137,8 +1137,8 @@ mate_bg_get_pixmap_size (MateBG   *bg,
 }
 
 /**
- * mate_bg_create_surface:
- * @bg: MateBG
+ * ukui_bg_create_surface:
+ * @bg: UkuiBG
  * @window:
  * @width:
  * @height:
@@ -1150,7 +1150,7 @@ mate_bg_get_pixmap_size (MateBG   *bg,
  * who created it.
  **/
 cairo_surface_t *
-mate_bg_create_surface (MateBG      *bg,
+ukui_bg_create_surface (UkuiBG      *bg,
 		 	GdkWindow   *window,
 			int	     width,
 			int	     height,
@@ -1172,7 +1172,7 @@ mate_bg_create_surface (MateBG      *bg,
 		bg->pixbuf_cache = NULL;
 	}
 
-	mate_bg_get_pixmap_size (bg, width, height, &pm_width, &pm_height);
+	ukui_bg_get_pixmap_size (bg, width, height, &pm_width, &pm_height);
 
 
 	if (root)
@@ -1186,7 +1186,7 @@ mate_bg_create_surface (MateBG      *bg,
 	}
 
 	cr = cairo_create (surface);
-	if (!bg->filename && bg->color_type == MATE_BG_COLOR_SOLID) {
+	if (!bg->filename && bg->color_type == UKUI_BG_COLOR_SOLID) {
 		gdk_cairo_set_source_rgba (cr, &(bg->primary));
 	}
 	else
@@ -1195,7 +1195,7 @@ mate_bg_create_surface (MateBG      *bg,
 
 		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8,
 					 width, height);
-		mate_bg_draw (bg, pixbuf, gdk_window_get_screen (window), root);
+		ukui_bg_draw (bg, pixbuf, gdk_window_get_screen (window), root);
 		gdk_cairo_set_source_pixbuf (cr, pixbuf, 0, 0);
 		g_object_unref (pixbuf);
 	}
@@ -1212,7 +1212,7 @@ mate_bg_create_surface (MateBG      *bg,
  * clients know what colors to draw on top with
  */
 gboolean
-mate_bg_is_dark (MateBG *bg,
+ukui_bg_is_dark (UkuiBG *bg,
 		  int      width,
 		  int      height)
 {
@@ -1222,7 +1222,7 @@ mate_bg_is_dark (MateBG *bg,
 
 	g_return_val_if_fail (bg != NULL, FALSE);
 
-	if (bg->color_type == MATE_BG_COLOR_SOLID) {
+	if (bg->color_type == UKUI_BG_COLOR_SOLID) {
 		color = bg->primary;
 	} else {
 		color.red = (bg->primary.red + bg->secondary.red) / 2;
@@ -1308,7 +1308,7 @@ get_original_size (const char *filename,
 }
 
 static const char *
-get_filename_for_size (MateBG *bg, gint best_width, gint best_height)
+get_filename_for_size (UkuiBG *bg, gint best_width, gint best_height)
 {
 	SlideShow *show;
 	Slide *slide;
@@ -1329,8 +1329,8 @@ get_filename_for_size (MateBG *bg, gint best_width, gint best_height)
 }
 
 gboolean
-mate_bg_get_image_size (MateBG	       *bg,
-			 MateDesktopThumbnailFactory *factory,
+ukui_bg_get_image_size (UkuiBG	       *bg,
+			 UkuiDesktopThumbnailFactory *factory,
 			 int                    best_width,
 			 int                    best_height,
 			 int		       *width,
@@ -1371,13 +1371,13 @@ fit_factor (int from_width, int from_height,
 }
 
 /**
- * mate_bg_create_thumbnail:
+ * ukui_bg_create_thumbnail:
  *
  * Returns: (transfer full): a #GdkPixbuf showing the background as a thumbnail
  */
 GdkPixbuf *
-mate_bg_create_thumbnail (MateBG               *bg,
-		           MateDesktopThumbnailFactory *factory,
+ukui_bg_create_thumbnail (UkuiBG               *bg,
+		           UkuiDesktopThumbnailFactory *factory,
 			   GdkScreen             *screen,
 			   int                    dest_width,
 			   int                    dest_height)
@@ -1404,7 +1404,7 @@ mate_bg_create_thumbnail (MateBG               *bg,
 }
 
 /**
- * mate_bg_get_surface_from_root:
+ * ukui_bg_get_surface_from_root:
  * @screen: a #GdkScreen
  *
  * This function queries the _XROOTPMAP_ID property from
@@ -1416,7 +1416,7 @@ mate_bg_create_thumbnail (MateBG               *bg,
  * Return value: a #cairo_surface_t if successful or %NULL
  **/
 cairo_surface_t *
-mate_bg_get_surface_from_root (GdkScreen *screen)
+ukui_bg_get_surface_from_root (GdkScreen *screen)
 {
 	int result;
 	gint format;
@@ -1509,7 +1509,7 @@ mate_bg_get_surface_from_root (GdkScreen *screen)
 /* Sets the "ESETROOT_PMAP_ID" property to later be used to free the pixmap,
  */
 static void
-mate_bg_set_root_pixmap_id (GdkScreen       *screen,
+ukui_bg_set_root_pixmap_id (GdkScreen       *screen,
 			    Display         *display,
 			    Pixmap           xpixmap)
 {
@@ -1581,7 +1581,7 @@ mate_bg_set_root_pixmap_id (GdkScreen       *screen,
 }
 
 /**
- * mate_bg_set_surface_as_root:
+ * ukui_bg_set_surface_as_root:
  * @screen: the #GdkScreen to change root background on
  * @surface: the #cairo_surface_t to set root background from.
  *   Must be an xlib surface backing a pixmap.
@@ -1591,10 +1591,10 @@ mate_bg_set_root_pixmap_id (GdkScreen       *screen,
  * we won't leak the pixmap if somebody else it setting
  * it at the same time. (This assumes that they follow the
  * same conventions we do).  @surface should come from a call
- * to mate_bg_create_surface().
+ * to ukui_bg_create_surface().
  **/
 void
-mate_bg_set_surface_as_root (GdkScreen *screen, cairo_surface_t *surface)
+ukui_bg_set_surface_as_root (GdkScreen *screen, cairo_surface_t *surface)
 {
 	g_return_if_fail (screen != NULL);
 	g_return_if_fail (cairo_surface_get_type (surface) == CAIRO_SURFACE_TYPE_XLIB);
@@ -1607,7 +1607,7 @@ mate_bg_set_surface_as_root (GdkScreen *screen, cairo_surface_t *surface)
 	Window      xroot        = RootWindow (display, gdk_x11_screen_get_screen_number (screen));
 
 	XGrabServer (display);
-	mate_bg_set_root_pixmap_id (screen, display, pixmap_id);
+	ukui_bg_set_root_pixmap_id (screen, display, pixmap_id);
 
 	XSetWindowBackgroundPixmap (display, xroot, pixmap_id);
 	XClearWindow (display, xroot);
@@ -1617,24 +1617,24 @@ mate_bg_set_surface_as_root (GdkScreen *screen, cairo_surface_t *surface)
 }
 
 /**
- * mate_bg_set_surface_as_root_with_crossfade:
+ * ukui_bg_set_surface_as_root_with_crossfade:
  * @screen: the #GdkScreen to change root background on
  * @surface: the cairo xlib surface to set root background from
  *
  * Set the root pixmap, and properties pointing to it.
- * This function differs from mate_bg_set_surface_as_root()
+ * This function differs from ukui_bg_set_surface_as_root()
  * in that it adds a subtle crossfade animation from the
  * current root pixmap to the new one.
  *
- * Return value: (transfer full): a #MateBGCrossfade object
+ * Return value: (transfer full): a #UkuiBGCrossfade object
  **/
-MateBGCrossfade *
-mate_bg_set_surface_as_root_with_crossfade (GdkScreen       *screen,
+UkuiBGCrossfade *
+ukui_bg_set_surface_as_root_with_crossfade (GdkScreen       *screen,
 		 			    cairo_surface_t *surface)
 {
 	GdkWindow       *root_window;
 	int              width, height;
-	MateBGCrossfade *fade;
+	UkuiBGCrossfade *fade;
 	cairo_t         *cr;
 	cairo_surface_t *old_surface;
 
@@ -1644,11 +1644,11 @@ mate_bg_set_surface_as_root_with_crossfade (GdkScreen       *screen,
 	root_window = gdk_screen_get_root_window (screen);
 	width       = gdk_window_get_width (root_window);
 	height      = gdk_window_get_height (root_window);
-	fade        = mate_bg_crossfade_new (width, height);
-	old_surface = mate_bg_get_surface_from_root (screen);
+	fade        = ukui_bg_crossfade_new (width, height);
+	old_surface = ukui_bg_get_surface_from_root (screen);
 
-	mate_bg_crossfade_set_start_surface (fade, old_surface);
-	mate_bg_crossfade_set_end_surface (fade, surface);
+	ukui_bg_crossfade_set_start_surface (fade, old_surface);
+	ukui_bg_crossfade_set_end_surface (fade, surface);
 
 	/* Before setting the surface as a root pixmap, let's have it draw
 	 * the old stuff, just so it won't be noticable
@@ -1661,8 +1661,8 @@ mate_bg_set_surface_as_root_with_crossfade (GdkScreen       *screen,
 	cairo_destroy (cr);
 	cairo_surface_destroy (old_surface);
 
-	mate_bg_set_surface_as_root (screen, surface);
-	mate_bg_crossfade_start (fade, root_window);
+	ukui_bg_set_surface_as_root (screen, surface);
+	ukui_bg_crossfade_start (fade, root_window);
 
 	return fade;
 }
@@ -1793,7 +1793,7 @@ file_cache_entry_delete (FileCacheEntry *ent)
 }
 
 static void
-bound_cache (MateBG *bg)
+bound_cache (UkuiBG *bg)
 {
       while (g_list_length (bg->file_cache) >= CACHE_SIZE) {
 	      GList *last_link = g_list_last (bg->file_cache);
@@ -1806,7 +1806,7 @@ bound_cache (MateBG *bg)
 }
 
 static const FileCacheEntry *
-file_cache_lookup (MateBG *bg, FileType type, const char *filename)
+file_cache_lookup (UkuiBG *bg, FileType type, const char *filename)
 {
 	GList *list;
 
@@ -1823,7 +1823,7 @@ file_cache_lookup (MateBG *bg, FileType type, const char *filename)
 }
 
 static FileCacheEntry *
-file_cache_entry_new (MateBG *bg,
+file_cache_entry_new (UkuiBG *bg,
 		      FileType type,
 		      const char *filename)
 {
@@ -1842,7 +1842,7 @@ file_cache_entry_new (MateBG *bg,
 }
 
 static void
-file_cache_add_pixbuf (MateBG *bg,
+file_cache_add_pixbuf (UkuiBG *bg,
 		       const char *filename,
 		       GdkPixbuf *pixbuf)
 {
@@ -1851,7 +1851,7 @@ file_cache_add_pixbuf (MateBG *bg,
 }
 
 static void
-file_cache_add_thumbnail (MateBG *bg,
+file_cache_add_thumbnail (UkuiBG *bg,
 			  const char *filename,
 			  GdkPixbuf *pixbuf)
 {
@@ -1860,7 +1860,7 @@ file_cache_add_thumbnail (MateBG *bg,
 }
 
 static void
-file_cache_add_slide_show (MateBG *bg,
+file_cache_add_slide_show (UkuiBG *bg,
 			   const char *filename,
 			   SlideShow *show)
 {
@@ -1869,7 +1869,7 @@ file_cache_add_slide_show (MateBG *bg,
 }
 
 static GdkPixbuf *
-load_from_cache_file (MateBG     *bg,
+load_from_cache_file (UkuiBG     *bg,
 		      const char *filename,
 		      gint        num_monitor,
 		      gint        best_width,
@@ -1890,7 +1890,7 @@ load_from_cache_file (MateBG     *bg,
 }
 
 static GdkPixbuf *
-get_as_pixbuf_for_size (MateBG    *bg,
+get_as_pixbuf_for_size (UkuiBG    *bg,
 			const char *filename,
 			gint         monitor,
 			gint         best_width,
@@ -1918,9 +1918,9 @@ get_as_pixbuf_for_size (MateBG    *bg,
 
 			if (g_strcmp0 (tmp, "svg") == 0 &&
 			    (best_width > 0 && best_height > 0) &&
-			    (bg->placement == MATE_BG_PLACEMENT_FILL_SCREEN ||
-			     bg->placement == MATE_BG_PLACEMENT_SCALED ||
-			     bg->placement == MATE_BG_PLACEMENT_ZOOMED))
+			    (bg->placement == UKUI_BG_PLACEMENT_FILL_SCREEN ||
+			     bg->placement == UKUI_BG_PLACEMENT_SCALED ||
+			     bg->placement == UKUI_BG_PLACEMENT_ZOOMED))
 			{
 				pixbuf = gdk_pixbuf_new_from_file_at_size (filename,
 									   best_width,
@@ -1945,7 +1945,7 @@ get_as_pixbuf_for_size (MateBG    *bg,
 }
 
 static SlideShow *
-get_as_slideshow (MateBG *bg, const char *filename)
+get_as_slideshow (UkuiBG *bg, const char *filename)
 {
 	const FileCacheEntry *ent;
 	if ((ent = file_cache_lookup (bg, SLIDESHOW, filename))) {
@@ -1962,7 +1962,7 @@ get_as_slideshow (MateBG *bg, const char *filename)
 }
 
 static GdkPixbuf *
-get_as_thumbnail (MateBG *bg, MateDesktopThumbnailFactory *factory, const char *filename)
+get_as_thumbnail (UkuiBG *bg, UkuiDesktopThumbnailFactory *factory, const char *filename)
 {
 	const FileCacheEntry *ent;
 	if ((ent = file_cache_lookup (bg, THUMBNAIL, filename))) {
@@ -1981,7 +1981,7 @@ get_as_thumbnail (MateBG *bg, MateDesktopThumbnailFactory *factory, const char *
 static gboolean
 blow_expensive_caches (gpointer data)
 {
-	MateBG *bg = data;
+	UkuiBG *bg = data;
 	GList *list;
 
 	bg->blow_caches_id = 0;
@@ -2007,7 +2007,7 @@ blow_expensive_caches (gpointer data)
 }
 
 static void
-blow_expensive_caches_in_idle (MateBG *bg)
+blow_expensive_caches_in_idle (UkuiBG *bg)
 {
 	if (bg->blow_caches_id == 0) {
 		bg->blow_caches_id =
@@ -2020,7 +2020,7 @@ blow_expensive_caches_in_idle (MateBG *bg)
 static gboolean
 on_timeout (gpointer data)
 {
-	MateBG *bg = data;
+	UkuiBG *bg = data;
 
 	bg->timeout_id = 0;
 
@@ -2054,7 +2054,7 @@ get_slide_timeout (Slide   *slide)
 }
 
 static void
-ensure_timeout (MateBG *bg,
+ensure_timeout (UkuiBG *bg,
 		Slide   *slide)
 {
 	if (!bg->timeout_id) {
@@ -2095,7 +2095,7 @@ get_mtime (const char *filename)
 }
 
 static GdkPixbuf *
-scale_thumbnail (MateBGPlacement placement,
+scale_thumbnail (UkuiBGPlacement placement,
 		 const char *filename,
 		 GdkPixbuf *thumb,
 		 GdkScreen *screen,
@@ -2105,8 +2105,8 @@ scale_thumbnail (MateBGPlacement placement,
 	int o_width;
 	int o_height;
 
-	if (placement != MATE_BG_PLACEMENT_TILED &&
-	    placement != MATE_BG_PLACEMENT_CENTERED) {
+	if (placement != UKUI_BG_PLACEMENT_TILED &&
+	    placement != UKUI_BG_PLACEMENT_CENTERED) {
 
 		/* In this case, the pixbuf will be scaled to fit the screen anyway,
 		 * so just return the pixbuf here
@@ -2135,7 +2135,7 @@ scale_thumbnail (MateBGPlacement placement,
 		new_width = floor (thumb_width * f + 0.5);
 		new_height = floor (thumb_height * f + 0.5);
 
-		if (placement == MATE_BG_PLACEMENT_TILED) {
+		if (placement == UKUI_BG_PLACEMENT_TILED) {
 			/* Heuristic to make sure tiles don't become so small that
 			 * they turn into a blur.
 			 *
@@ -2164,8 +2164,8 @@ scale_thumbnail (MateBGPlacement placement,
  * -1 means 'current slide'.
  */
 static GdkPixbuf *
-create_img_thumbnail (MateBG                      *bg,
-		      MateDesktopThumbnailFactory *factory,
+create_img_thumbnail (UkuiBG                      *bg,
+		      UkuiDesktopThumbnailFactory *factory,
 		      GdkScreen                    *screen,
 		      int                           dest_width,
 		      int                           dest_height,
@@ -2309,7 +2309,7 @@ find_best_size (GSList *sizes, gint width, gint height)
 }
 
 static GdkPixbuf *
-get_pixbuf_for_size (MateBG *bg,
+get_pixbuf_for_size (UkuiBG *bg,
 		     gint monitor,
 		     gint best_width,
 		     gint best_height)
@@ -2394,7 +2394,7 @@ get_pixbuf_for_size (MateBG *bg,
 }
 
 static gboolean
-is_different (MateBG    *bg,
+is_different (UkuiBG    *bg,
 	      const char *filename)
 {
 	if (!filename && bg->filename) {
@@ -2420,7 +2420,7 @@ is_different (MateBG    *bg,
 }
 
 static void
-clear_cache (MateBG *bg)
+clear_cache (UkuiBG *bg)
 {
 	GList *list;
 
@@ -3069,7 +3069,7 @@ read_slideshow_file (const char *filename,
 
 /* Thumbnail utilities */
 static GdkPixbuf *
-create_thumbnail_for_filename (MateDesktopThumbnailFactory *factory,
+create_thumbnail_for_filename (UkuiDesktopThumbnailFactory *factory,
 			       const char            *filename)
 {
 	char *thumb;
@@ -3087,7 +3087,7 @@ create_thumbnail_for_filename (MateDesktopThumbnailFactory *factory,
 	if (uri == NULL)
 		return NULL;
 
-	thumb = mate_desktop_thumbnail_factory_lookup (factory, uri, mtime);
+	thumb = ukui_desktop_thumbnail_factory_lookup (factory, uri, mtime);
 
 	if (thumb) {
 		result = gdk_pixbuf_new_from_file (thumb, NULL);
@@ -3101,17 +3101,17 @@ create_thumbnail_for_filename (MateDesktopThumbnailFactory *factory,
 
 			result = pixbuf_scale_to_fit (orig, 128, 128);
 
-			g_object_set_data_full (G_OBJECT (result), "mate-thumbnail-height",
+			g_object_set_data_full (G_OBJECT (result), "ukui-thumbnail-height",
 						g_strdup_printf ("%d", orig_height), g_free);
-			g_object_set_data_full (G_OBJECT (result), "mate-thumbnail-width",
+			g_object_set_data_full (G_OBJECT (result), "ukui-thumbnail-width",
 						g_strdup_printf ("%d", orig_width), g_free);
 
 			g_object_unref (orig);
 
-			mate_desktop_thumbnail_factory_save_thumbnail (factory, result, uri, mtime);
+			ukui_desktop_thumbnail_factory_save_thumbnail (factory, result, uri, mtime);
 		}
 		else {
-			mate_desktop_thumbnail_factory_create_failed_thumbnail (factory, uri, mtime);
+			ukui_desktop_thumbnail_factory_create_failed_thumbnail (factory, uri, mtime);
 		}
 	}
 
@@ -3156,7 +3156,7 @@ slideshow_has_multiple_sizes (SlideShow *show)
  * Returns whether the background is a slideshow.
  */
 gboolean
-mate_bg_changes_with_time (MateBG *bg)
+ukui_bg_changes_with_time (UkuiBG *bg)
 {
 	SlideShow *show;
 
@@ -3173,7 +3173,7 @@ mate_bg_changes_with_time (MateBG *bg)
 }
 
 /**
- * mate_bg_create_frame_thumbnail:
+ * ukui_bg_create_frame_thumbnail:
  *
  * Creates a thumbnail for a certain frame, where 'frame' is somewhat
  * vaguely defined as 'suitable point to show while single-stepping
@@ -3183,8 +3183,8 @@ mate_bg_changes_with_time (MateBG *bg)
  * or NULL if frame_num is out of bounds.
  */
 GdkPixbuf *
-mate_bg_create_frame_thumbnail (MateBG			*bg,
-				 MateDesktopThumbnailFactory	*factory,
+ukui_bg_create_frame_thumbnail (UkuiBG			*bg,
+				 UkuiDesktopThumbnailFactory	*factory,
 				 GdkScreen			*screen,
 				 int				 dest_width,
 				 int				 dest_height,

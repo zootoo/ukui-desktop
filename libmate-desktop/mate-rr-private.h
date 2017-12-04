@@ -1,5 +1,5 @@
-#ifndef MATE_RR_PRIVATE_H
-#define MATE_RR_PRIVATE_H
+#ifndef UKUI_RR_PRIVATE_H
+#define UKUI_RR_PRIVATE_H
 
 #include <X11/Xlib.h>
 
@@ -20,20 +20,20 @@ struct ScreenInfo
     XRRScreenResources *resources;
 #endif
     
-    MateRROutput **	outputs;
-    MateRRCrtc **	crtcs;
-    MateRRMode **	modes;
+    UkuiRROutput **	outputs;
+    UkuiRRCrtc **	crtcs;
+    UkuiRRMode **	modes;
     
-    MateRRScreen *	screen;
+    UkuiRRScreen *	screen;
 
-    MateRRMode **	clone_modes;
+    UkuiRRMode **	clone_modes;
 
 #ifdef HAVE_RANDR
     RROutput            primary;
 #endif
 };
 
-struct MateRRScreenPrivate
+struct UkuiRRScreenPrivate
 {
     GdkScreen *			gdk_screen;
     GdkWindow *			gdk_root;
@@ -49,7 +49,7 @@ struct MateRRScreenPrivate
     Atom                        connector_type_atom;
 };
 
-struct MateRROutputInfoPrivate
+struct UkuiRROutputInfoPrivate
 {
     char *		name;
 
@@ -59,7 +59,7 @@ struct MateRROutputInfoPrivate
     int			rate;
     int			x;
     int			y;
-    MateRRRotation	rotation;
+    UkuiRRRotation	rotation;
 
     gboolean		connected;
     gchar		vendor[4];
@@ -72,13 +72,13 @@ struct MateRROutputInfoPrivate
     gboolean            primary;
 };
 
-struct MateRRConfigPrivate
+struct UkuiRRConfigPrivate
 {
   gboolean clone;
-  MateRRScreen *screen;
-  MateRROutputInfo **outputs;
+  UkuiRRScreen *screen;
+  UkuiRROutputInfo **outputs;
 };
 
-gboolean _mate_rr_output_name_is_laptop (const char *name);
+gboolean _ukui_rr_output_name_is_laptop (const char *name);
 
 #endif

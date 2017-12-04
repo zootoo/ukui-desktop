@@ -1,5 +1,5 @@
 /*
- * mate-gsettings.c: helper API for GSettings
+ * ukui-gsettings.c: helper API for GSettings
  *
  * Copyright (C) 2013 Stefano Karapetsas
  *
@@ -22,10 +22,10 @@
  *  Stefano Karapetsas <stefano@karapetsas.com>
  */
 
-#include "mate-gsettings.h"
+#include "ukui-gsettings.h"
 
 /**
- * mate_gsettings_schema_exists:
+ * ukui_gsettings_schema_exists:
  * @schema: schema to check.
  *
  * Check if a given schema is installed in GSettings.
@@ -35,7 +35,7 @@
  * Since: 1.7.1
  */
 gboolean
-mate_gsettings_schema_exists (const gchar* schema)
+ukui_gsettings_schema_exists (const gchar* schema)
 {
     GSettingsSchemaSource *schema_source;
     GSettingsSchema *schema_schema;
@@ -57,7 +57,7 @@ mate_gsettings_schema_exists (const gchar* schema)
  *  - remove support for allow_any_name
  */
 gboolean
-mate_gsettings_is_valid_keyname (const gchar  *key,
+ukui_gsettings_is_valid_keyname (const gchar  *key,
                                  GError      **error)
 {
   gint i;
@@ -118,7 +118,7 @@ mate_gsettings_is_valid_keyname (const gchar  *key,
 }
 
 gboolean
-mate_gsettings_append_strv (GSettings   *settings,
+ukui_gsettings_append_strv (GSettings   *settings,
                             const gchar *key,
                             const gchar *value)
 {
@@ -148,7 +148,7 @@ mate_gsettings_append_strv (GSettings   *settings,
 }
 
 gboolean
-mate_gsettings_remove_all_from_strv (GSettings   *settings,
+ukui_gsettings_remove_all_from_strv (GSettings   *settings,
                                      const gchar *key,
                                      const gchar *value)
 {
@@ -175,7 +175,7 @@ mate_gsettings_remove_all_from_strv (GSettings   *settings,
 }
 
 GSList*
-mate_gsettings_strv_to_gslist (const gchar *const *array)
+ukui_gsettings_strv_to_gslist (const gchar *const *array)
 {
     GSList *list = NULL;
     gint i;
