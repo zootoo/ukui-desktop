@@ -1,5 +1,5 @@
 /*
- * mate-color.c: MATE color selection tool
+ * ukui-color.c: UKUI color selection tool
  *
  * Copyright (C) 2014 Stefano Karapetsas
  * 
@@ -25,21 +25,21 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libmate-desktop/mate-colorseldialog.h>
-#include <libmate-desktop/mate-colorsel.h>
+#include <libukui-desktop/ukui-colorseldialog.h>
+#include <libukui-desktop/ukui-colorsel.h>
 
-#define mate_gettext(package, locale, codeset) \
+#define ukui_gettext(package, locale, codeset) \
     bindtextdomain(package, locale); \
     bind_textdomain_codeset(package, codeset); \
     textdomain(package);
 
 gboolean
-copy_color (GtkWidget *widget, GdkEvent  *event, MateColorSelectionDialog *color_dialog)
+copy_color (GtkWidget *widget, GdkEvent  *event, UkuiColorSelectionDialog *color_dialog)
 {
     GdkColor color;
     gchar *color_string;
 
-    mate_color_selection_get_current_color (MATE_COLOR_SELECTION (color_dialog->colorsel), &color);
+    ukui_color_selection_get_current_color (UKUI_COLOR_SELECTION (color_dialog->colorsel), &color);
     g_object_get (color_dialog->colorsel, "hex-string", &color_string, NULL);
 
     gtk_clipboard_set_text (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD), color_string, -1);
@@ -55,15 +55,15 @@ main (int argc, char **argv)
     GtkWidget *color_selection;
     GtkWidget *widget;
 
-    mate_gettext (GETTEXT_PACKAGE, LOCALE_DIR, "UTF-8");
+    ukui_gettext (GETTEXT_PACKAGE, LOCALE_DIR, "UTF-8");
 
     /* initialize GTK+ */
     gtk_init (&argc, &argv);
     gtk_window_set_default_icon_name ("gtk-select-color");
 
-    color_dialog = mate_color_selection_dialog_new (_("MATE Color Selection"));
-    color_selection = MATE_COLOR_SELECTION_DIALOG (color_dialog)->colorsel;
-    mate_color_selection_set_has_palette (MATE_COLOR_SELECTION (color_selection), TRUE);
+    color_dialog = ukui_color_selection_dialog_new (_("UKUI Color Selection"));
+    color_selection = UKUI_COLOR_SELECTION_DIALOG (color_dialog)->colorsel;
+    ukui_color_selection_set_has_palette (UKUI_COLOR_SELECTION (color_selection), TRUE);
 
     /* quit signal */
     g_signal_connect (color_dialog, "destroy", gtk_main_quit, NULL);
@@ -77,9 +77,9 @@ main (int argc, char **argv)
     g_signal_connect (widget, "button-release-event", gtk_main_quit, NULL);
 
     gtk_widget_show_all (color_dialog);
-    gtk_widget_hide (MATE_COLOR_SELECTION_DIALOG (color_dialog)->ok_button);
-    gtk_widget_hide (MATE_COLOR_SELECTION_DIALOG (color_dialog)->cancel_button);
-    gtk_widget_hide (MATE_COLOR_SELECTION_DIALOG (color_dialog)->help_button);
+    gtk_widget_hide (UKUI_COLOR_SELECTION_DIALOG (color_dialog)->ok_button);
+    gtk_widget_hide (UKUI_COLOR_SELECTION_DIALOG (color_dialog)->cancel_button);
+    gtk_widget_hide (UKUI_COLOR_SELECTION_DIALOG (color_dialog)->help_button);
 
     /* start application */
     gtk_main ();

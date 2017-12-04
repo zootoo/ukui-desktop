@@ -1,12 +1,12 @@
 [Desktop Entry]
-_Name=MATE Color Selection
+_Name=UKUI Color Selection
 _GenericName=Color selection dialog
 _Comment=Choose colors from the palette or the screen
-Exec=mate-color-select
+Exec=ukui-color-select
 Icon=gtk-select-color
 Terminal=false
 Type=Application
 Categories=GTK;Graphics;
-Keywords=MATE;color;chooser;pick;palette;screen;selection;
-OnlyShowIn=MATE;
+Keywords=UKUI;color;chooser;pick;palette;screen;selection;
+OnlyShowIn=UKUI;
 StartupNotify=false
