@@ -1,7 +1,7 @@
 # List of source files containing translatable strings that should not be
 # translated.
 # Please keep this file sorted alphabetically.
-mate-about/mate-about.desktop.in
-mate-version.xml.in
-tools/mate-color-select.desktop.in
+ukui-about/ukui-about.desktop.in
+ukui-version.xml.in
+tools/ukui-color-select.desktop.in
 
