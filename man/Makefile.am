@@ -1,9 +1,9 @@
-man_MANS = mate-color-select.1
+man_MANS = ukui-color-select.1
 
-if MATE_ABOUT_ENABLED
-man_MANS += mate-about.1
+if UKUI_ABOUT_ENABLED
+man_MANS += ukui-about.1
 endif
 
-EXTRA_DIST = mate-about.1 mate-color-select.1
+EXTRA_DIST = ukui-about.1 ukui-color-select.1
 
 -include $(top_srcdir)/git.mk
