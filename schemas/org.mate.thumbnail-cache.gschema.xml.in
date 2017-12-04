@@ -1,5 +1,5 @@
 <schemalist gettext-domain="@GETTEXT_PACKAGE@">
-  <schema id="org.mate.thumbnail-cache" path="/org/mate/desktop/thumbnail-cache/">
+  <schema id="org.ukui.thumbnail-cache" path="/org/ukui/desktop/thumbnail-cache/">
     <key name="maximum-age" type="i">
       <default>180</default>
       <description>Maximum age for thumbnails in the cache, in days. Set to -1 to disable cleaning.</description>

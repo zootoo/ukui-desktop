@@ -1,18 +1,18 @@
 <schemalist gettext-domain="@GETTEXT_PACKAGE@">
-  <schema id="org.mate.debug" path="/org/mate/debug/">
+  <schema id="org.ukui.debug" path="/org/ukui/debug/">
     <key name="caja" type="b">
       <default>false</default>
     </key>
     <key name="marco" type="b">
       <default>false</default>
     </key>
-    <key name="mate-session" type="b">
+    <key name="ukui-session" type="b">
       <default>false</default>
     </key>
-    <key name="mate-settings-daemon" type="b">
+    <key name="ukui-settings-daemon" type="b">
       <default>false</default>
     </key>
-    <key name="mate-panel" type="b">
+    <key name="ukui-panel" type="b">
       <default>false</default>
     </key>
   </schema>

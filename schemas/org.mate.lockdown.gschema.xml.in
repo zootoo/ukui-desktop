@@ -1,5 +1,5 @@
 <schemalist gettext-domain="@GETTEXT_PACKAGE@">
-  <schema id="org.mate.lockdown" path="/org/mate/desktop/lockdown/">
+  <schema id="org.ukui.lockdown" path="/org/ukui/desktop/lockdown/">
     <key name="disable-command-line" type="b">
       <default>false</default>
       <summary>Disable command line</summary>

@@ -1,5 +1,5 @@
 <schemalist gettext-domain="@GETTEXT_PACKAGE@">
-  <schema id="org.mate.typing-break" path="/org/mate/desktop/typing-break/">
+  <schema id="org.ukui.typing-break" path="/org/ukui/desktop/typing-break/">
     <key name="type-time" type="i">
       <default>60</default>
       <summary>Type time</summary>

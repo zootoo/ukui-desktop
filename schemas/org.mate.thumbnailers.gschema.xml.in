@@ -1,5 +1,5 @@
 <schemalist gettext-domain="@GETTEXT_PACKAGE@">
-  <schema id="org.mate.thumbnailers" path="/org/mate/desktop/thumbnailers/">
+  <schema id="org.ukui.thumbnailers" path="/org/ukui/desktop/thumbnailers/">
     <key name="disable-all" type="b">
       <default>false</default>
       <summary>Disable all external thumbnailers</summary>

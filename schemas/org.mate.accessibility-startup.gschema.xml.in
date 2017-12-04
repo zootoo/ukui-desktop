@@ -1,9 +1,9 @@
 <schemalist gettext-domain="@GETTEXT_PACKAGE@">
-  <schema id="org.mate.accessibility-startup" path="/org/mate/desktop/accessibility/startup/">
+  <schema id="org.ukui.accessibility-startup" path="/org/ukui/desktop/accessibility/startup/">
     <key name="exec-ats" type="as">
       <default>[]</default>
       <summary>Startup Assistive Technology Applications</summary>
-      <description>List of assistive technology applications to start when logging into the MATE desktop.</description>
+      <description>List of assistive technology applications to start when logging into the UKUI desktop.</description>
     </key>
   </schema>
 </schemalist>

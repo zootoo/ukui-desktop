@@ -1,9 +1,9 @@
 <schemalist gettext-domain="@GETTEXT_PACKAGE@">
-  <schema id="org.mate.applications-office" path="/org/mate/desktop/applications/">
-    <child name="calendar" schema="org.mate.applications-office.calendar"/>
-    <child name="tasks" schema="org.mate.applications-office.tasks"/>
+  <schema id="org.ukui.applications-office" path="/org/ukui/desktop/applications/">
+    <child name="calendar" schema="org.ukui.applications-office.calendar"/>
+    <child name="tasks" schema="org.ukui.applications-office.tasks"/>
   </schema>
-  <schema id="org.mate.applications-office.calendar" path="/org/mate/desktop/applications/calendar/">
+  <schema id="org.ukui.applications-office.calendar" path="/org/ukui/desktop/applications/calendar/">
     <key name="exec" type="s">
       <default>'evolution'</default>
       <summary>Default calendar</summary>
@@ -15,7 +15,7 @@
       <description>Whether the default calendar application needs a terminal to run</description>
     </key>
   </schema>
-  <schema id="org.mate.applications-office.tasks" path="/org/mate/desktop/applications/tasks/">
+  <schema id="org.ukui.applications-office.tasks" path="/org/ukui/desktop/applications/tasks/">
     <key name="exec" type="s">
       <default>'evolution'</default>
       <summary>Default tasks</summary>

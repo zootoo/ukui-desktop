@@ -1,5 +1,5 @@
 <schemalist gettext-domain="@GETTEXT_PACKAGE@">
-  <schema id="org.mate.applications-at-mobility" path="/org/mate/desktop/applications/at/mobility/">
+  <schema id="org.ukui.applications-at-mobility" path="/org/ukui/desktop/applications/at/mobility/">
     <key name="exec" type="s">
       <default>'dasher'</default>
       <summary>Preferred Mobility assistive technology application</summary>
@@ -8,7 +8,7 @@
     <key name="startup" type="b">
       <default>false</default>
       <summary>Start preferred Mobility assistive technology application</summary>
-      <description>MATE to start preferred Mobility assistive technology application during login.</description>
+      <description>UKUI to start preferred Mobility assistive technology application during login.</description>
     </key>
   </schema>
 </schemalist>

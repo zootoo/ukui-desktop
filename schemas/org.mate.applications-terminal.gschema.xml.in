@@ -1,7 +1,7 @@
 <schemalist gettext-domain="@GETTEXT_PACKAGE@">
-  <schema id="org.mate.applications-terminal" path="/org/mate/desktop/applications/terminal/">
+  <schema id="org.ukui.applications-terminal" path="/org/ukui/desktop/applications/terminal/">
     <key name="exec" type="s">
-      <default>'mate-terminal'</default>
+      <default>'ukui-terminal'</default>
       <summary>Terminal application</summary>
       <description>Terminal program to use when starting applications that require one.</description>
     </key>
