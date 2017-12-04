@@ -1437,19 +1437,3 @@ msgstr ""
 #: ../tools/ukui-color-select.desktop.in.in.h:3
 msgid "Choose colors from the palette or the screen"
 msgstr ""
-
-#~ msgid "Program name"
-#~ msgstr "Nùmene de programma"
-
-#~ msgid ""
-#~ "The name of the program. If this is not set, it defaults to "
-#~ "g_get_application_name()"
-#~ msgstr ""
-#~ "Su nùmene de su programma. Si non est istatu seberadu, at a torrare a "
-#~ "g_get_application_name()"
-
-#~ msgid "Program version"
-#~ msgstr "Versione de su programma"
-
-#~ msgid "The version of the program"
-#~ msgstr "Sa versione de su programma"

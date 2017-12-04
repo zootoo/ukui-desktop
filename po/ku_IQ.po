@@ -1395,39 +1395,3 @@ msgstr ""
 #: ../tools/ukui-color-select.desktop.in.in.h:3
 msgid "Choose colors from the palette or the screen"
 msgstr ""
-
-#~ msgid "About MATE"
-#~ msgstr "دەربارەی MATE"
-
-#~ msgid "Program name"
-#~ msgstr "ناوی پڕۆگرام"
-
-#~ msgid "Program version"
-#~ msgstr "وەشانی پڕۆگرام"
-
-#~ msgid "The version of the program"
-#~ msgstr "وەشانی بەرنامەکە"
-
-#~ msgid "Copyright information for the program"
-#~ msgstr "زانیاری مافی لەبەرگرتنەوەی بەرنامەکە"
-
-#~ msgid "License"
-#~ msgstr "مۆڵەت"
-
-#~ msgid "The license of the program"
-#~ msgstr "مۆڵەتی بەرنامەکە"
-
-#~ msgid "Artists"
-#~ msgstr "هونەرمەندان"
-
-#~ msgid "Logo"
-#~ msgstr "لۆگۆ"
-
-#~ msgid "_License"
-#~ msgstr "_مۆڵەت"
-
-#~ msgid "Written by"
-#~ msgstr "نووسین"
-
-#~ msgid "Translated by"
-#~ msgstr "وەرگێڕان"

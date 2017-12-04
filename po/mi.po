@@ -1393,18 +1393,3 @@ msgstr ""
 #: ../tools/ukui-color-select.desktop.in.in.h:3
 msgid "Choose colors from the palette or the screen"
 msgstr ""
-
-#~ msgid "License"
-#~ msgstr "Raihana"
-
-#~ msgid "Authors"
-#~ msgstr "Kaituhituhi"
-
-#~ msgid "Documenters"
-#~ msgstr "Kaituhituhi"
-
-#~ msgid "Logo"
-#~ msgstr "Moko"
-
-#~ msgid "Written by"
-#~ msgstr "Kaituhi"

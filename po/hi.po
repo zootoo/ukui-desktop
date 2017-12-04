@@ -1401,15 +1401,3 @@ msgstr ""
 #: ../tools/ukui-color-select.desktop.in.in.h:3
 msgid "Choose colors from the palette or the screen"
 msgstr ""
-
-#~ msgid "Could not show link"
-#~ msgstr "लिंक नहीं खोला जा सका"
-
-#~ msgid "Program name"
-#~ msgstr "प्रोग्राम का नाम"
-
-#~ msgid "License"
-#~ msgstr "लाइसेंस"
-
-#~ msgid "The license of the program"
-#~ msgstr "प्रोग्राम का लाइसेंस"

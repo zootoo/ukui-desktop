@@ -1406,39 +1406,3 @@ msgstr ""
 #: ../tools/ukui-color-select.desktop.in.in.h:3
 msgid "Choose colors from the palette or the screen"
 msgstr ""
-
-#~ msgid "About MATE"
-#~ msgstr "關於 MATE"
-
-#~ msgid "Could not show link"
-#~ msgstr "無法顯示連結"
-
-#~ msgid "Program name"
-#~ msgstr "程式名稱"
-
-#~ msgid "Program version"
-#~ msgstr "程式版本"
-
-#~ msgid "The version of the program"
-#~ msgstr "程式的版本"
-
-#~ msgid "License"
-#~ msgstr "授權"
-
-#~ msgid "The license of the program"
-#~ msgstr "程式的授權"
-
-#~ msgid "Website URL"
-#~ msgstr "網站 URL"
-
-#~ msgid "Authors"
-#~ msgstr "作者"
-
-#~ msgid "C_redits"
-#~ msgstr "鳴謝(_R)"
-
-#~ msgid "_License"
-#~ msgstr "授權(_L)"
-
-#~ msgid "Credits"
-#~ msgstr "鳴謝"

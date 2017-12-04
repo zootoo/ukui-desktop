@@ -1392,9 +1392,3 @@ msgstr ""
 #: ../tools/ukui-color-select.desktop.in.in.h:3
 msgid "Choose colors from the palette or the screen"
 msgstr ""
-
-#~ msgid "Website URL"
-#~ msgstr "Adrèce du sito de malyâjo"
-
-#~ msgid "Website label"
-#~ msgstr "Ètiquèta du sito de malyâjo"
