@@ -11,7 +11,7 @@
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
-"Project-Id-Version: MATE Desktop Environment\n"
+"Project-Id-Version: UKUI Desktop Environment\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-25 17:50+0300\n"
 "PO-Revision-Date: 2017-09-19 11:02+0000\n"
@@ -27,7 +27,7 @@ msgstr ""
 #. * displayed in the about box to give credit to the translator(s).
 #: ../mate-about/mate-about.c:77
 msgid "translator-credits"
-msgstr "MATE Desktop Environment Team <https://www.transifex.com/mate/teams/13566/ko/>"
+msgstr "UKUI Desktop Environment Team <https://www.transifex.com/mate/teams/13566/ko/>"
 
 #: ../mate-about/mate-about.desktop.in.in.h:1
 msgid "About MATE"

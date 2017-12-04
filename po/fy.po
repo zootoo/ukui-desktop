@@ -6,7 +6,7 @@
 # Joeke de Graaf <mappack@null.net>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: MATE Desktop Environment\n"
+"Project-Id-Version: UKUI Desktop Environment\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-25 17:50+0300\n"
 "PO-Revision-Date: 2017-09-19 22:00+0000\n"
