@@ -5,14 +5,14 @@ public_icons_themes = \
 	$(NULL)
 
 public_icons = \
-	hicolor_apps_16x16_mate.png \
-	hicolor_apps_22x22_mate.png \
-	hicolor_apps_24x24_mate.png \
-	hicolor_apps_32x32_mate.png \
-	hicolor_apps_48x48_mate.png \
-	hicolor_apps_256x256_mate.png \
-	hicolor_apps_scalable_mate.svg \
-	hicolor_apps_scalable_mate-symbolic.svg \
+	hicolor_apps_16x16_ukui.png \
+	hicolor_apps_22x22_ukui.png \
+	hicolor_apps_24x24_ukui.png \
+	hicolor_apps_32x32_ukui.png \
+	hicolor_apps_48x48_ukui.png \
+	hicolor_apps_256x256_ukui.png \
+	hicolor_apps_scalable_ukui.svg \
+	hicolor_apps_scalable_ukui-symbolic.svg \
 	$(NULL)
 
 EXTRA_DIST = \
