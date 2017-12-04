@@ -1,481 +1,364 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Siranush <ss.m.95@mail.ru>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: UKUI Desktop Environment\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-25 17:50+0300\n"
+"POT-Creation-Date: 2017-12-04 14:26+0800\n"
 "PO-Revision-Date: 2017-09-19 11:02+0000\n"
 "Last-Translator: monsta <monsta@inbox.ru>\n"
 "Language-Team: Armenian (http://wiki.ukui.org/trans/hy/)\n"
+"Language: hy\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hy\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Translators should localize the following string which will be
 #. * displayed in the about box to give credit to the translator(s).
-#: ../mate-about/mate-about.c:77
+#: ../ukui-about/ukui-about.c:77
 msgid "translator-credits"
 msgstr "թարգմանչի կրեդիտներ"
 
-#: ../mate-about/mate-about.desktop.in.in.h:1
-msgid "About MATE"
-msgstr "Գնոմի Մասին"
+#: ../ukui-about/ukui-about.desktop.in.in.h:1
+#, fuzzy
+msgid "About UKUI"
+msgstr "Մասին %s"
 
-#: ../mate-about/mate-about.desktop.in.in.h:2
-msgid "Learn more about MATE"
+#: ../ukui-about/ukui-about.desktop.in.in.h:2
+#, fuzzy
+msgid "Learn more about UKUI"
 msgstr "Գնոմի մասին մի փոքր ավելի"
 
-#: ../mate-about/mate-about.h:45
+#: ../ukui-about/ukui-about.h:43
+#, fuzzy
 msgid ""
-"MATE provides an intuitive and attractive desktop to Linux users using "
+"UKUI provides an intuitive and attractive desktop to Linux users using "
 "traditional metaphors."
-msgstr "MATE ապահովում է ինտուիտիվ և գրավիչ աշխատասեղան Linux-ի օգտվողների համար օգտագործելով ավանդական փոխաբերությունը։"
+msgstr ""
+"MATE ապահովում է ինտուիտիվ և գրավիչ աշխատասեղան Linux-ի օգտվողների համար "
+"օգտագործելով ավանդական փոխաբերությունը։"
 
-#: ../mate-about/mate-about.h:48
+#: ../ukui-about/ukui-about.h:46
+#, fuzzy
 msgid ""
-"MATE includes most of what you see on your computer, including the file "
+"UKUI includes most of what you see on your computer, including the file "
 "manager, document viewer, image viewer, menus, and many applications."
-msgstr "MATE ներառում է ավելի քան, թե ինչ դուք տեսնում եք ձեր համակարգչի վրա, այդ թվում՝ ֆայլային մենեջեր, փաստաթուղթ դիտող, պատկերի դիտող, մենյուներ և շատ ծրագրեր։"
+msgstr ""
+"MATE ներառում է ավելի քան, թե ինչ դուք տեսնում եք ձեր համակարգչի վրա, այդ "
+"թվում՝ ֆայլային մենեջեր, փաստաթուղթ դիտող, պատկերի դիտող, մենյուներ և շատ "
+"ծրագրեր։"
 
-#: ../mate-about/mate-about.h:51
+#: ../ukui-about/ukui-about.h:49
+#, fuzzy
 msgid ""
-"MATE is a Free, usable, stable, accessible desktop environment for the Unix-"
+"UKUI is a Free, usable, stable, accessible desktop environment for the Unix-"
 "like family of operating systems."
-msgstr "MATE է ազատ, օգտագործելի , կայուն, մատչելի աշխատասեղանի գրաֆիկական միջավայր է, Unix֊անման օպերացիոն համակարգերի ընտանիքի համար։"
+msgstr ""
+"MATE է ազատ, օգտագործելի , կայուն, մատչելի աշխատասեղանի գրաֆիկական միջավայր "
+"է, Unix֊անման օպերացիոն համակարգերի ընտանիքի համար։"
 
-#: ../mate-about/mate-about.h:54
+#: ../ukui-about/ukui-about.h:52
+#, fuzzy
 msgid ""
-"MATE is the continuation of GNOME 2. Hundreds of people have contributed "
+"UKUI is the continuation of GNOME 2. Hundreds of people have contributed "
 "code to GNOME since it was started in 1997; many more have contributed in "
 "other important ways, including translations, documentation, and quality "
 "assurance."
-msgstr "MATE֊ը GNOME 2֊ի շարունակությունն է։ Հարյուրավոր մարդիկ են նպաստեցին GNOME֊ի կոդին, այն ժամանկաներից երբ այն սկսվեցէ 1997թ․; Շատ ավելի ներդրումներ կատարվեցին այլ ճանապարհներով, այդ թվում՝ թարգմանություններ, փաստաթղթավորում և որակի ապահովում։"
+msgstr ""
+"MATE֊ը GNOME 2֊ի շարունակությունն է։ Հարյուրավոր մարդիկ են նպաստեցին GNOME֊ի "
+"կոդին, այն ժամանկաներից երբ այն սկսվեցէ 1997թ․; Շատ ավելի ներդրումներ "
+"կատարվեցին այլ ճանապարհներով, այդ թվում՝ թարգմանություններ, փաստաթղթավորում "
+"և որակի ապահովում։"
 
-#: ../mate-about/mate-about.h:58
+#: ../ukui-about/ukui-about.h:56
+#, fuzzy
 msgid ""
 "GNOME 2 was the most popular Linux desktop but it’s no longer available... "
-"MATE is here to provide that same desktop to you!"
-msgstr "GNOME 2֊ը Լինուքսի ամենատարածված աշխատասեղանն է, բայց դա այլևս հասանելի չէ․․․ MATE֊ը այստեղ ապահովում է այդ նույն աշխատասեղանը Ձեզ համար!"
+"UKUI is here to provide that same desktop to you!"
+msgstr ""
+"GNOME 2֊ը Լինուքսի ամենատարածված աշխատասեղանն է, բայց դա այլևս հասանելի "
+"չէ․․․ MATE֊ը այստեղ ապահովում է այդ նույն աշխատասեղանը Ձեզ համար!"
 
-#: ../mate-about/mate-about.h:61
+#: ../ukui-about/ukui-about.h:59
+#, fuzzy
 msgid ""
-"The name “MATE” comes from yerba maté, a species of holly native to "
+"The name “UKUI” comes from yerba maté, a species of holly native to "
 "subtropical South America. Its leaves contain caffeine and are used to make "
-"infusions and a beverage called mate."
-msgstr "“MATE” անունը գալիս է yerba maté֊ից, որը փշարմավ բնիկ բույս է ՀարավայիՆ Ամերիկայում։ Դրա տերևները պարունակում են կոֆեին, և օգտագործվում են, որպես թուրմեր և խմիչքներ, որը կոչվում mate։"
+"infusions and a beverage called ukui."
+msgstr ""
+"“MATE” անունը գալիս է yerba maté֊ից, որը փշարմավ բնիկ բույս է ՀարավայիՆ "
+"Ամերիկայում։ Դրա տերևները պարունակում են կոֆեին, և օգտագործվում են, որպես "
+"թուրմեր և խմիչքներ, որը կոչվում mate։"
 
 #. Translators: "Unknown" here is used to identify a monitor for which
 #. * we don't know the vendor. When a vendor is known, the name of the
 #. * vendor is used.
-#: ../libmate-desktop/display-name.c:264
+#: ../libukui-desktop/display-name.c:264
 msgctxt "Monitor vendor"
 msgid "Unknown"
 msgstr "Անհայտ"
 
-#: ../libmate-desktop/mate-aboutdialog.c:179
-msgid "Could not show link"
-msgstr "Չհաջողվեց ցույց տալ հղումը"
-
-#: ../libmate-desktop/mate-aboutdialog.c:235
-msgid "Program name"
-msgstr "Ծրագրի անունը"
-
-#: ../libmate-desktop/mate-aboutdialog.c:236
-msgid ""
-"The name of the program. If this is not set, it defaults to "
-"g_get_application_name()"
-msgstr "Շրագրի անումը։ Եթե այն չի սահմանվում, ապա այն ընտ նախնականի g_get_application_name()"
-
-#: ../libmate-desktop/mate-aboutdialog.c:250
-msgid "Program version"
-msgstr "Ծրագրի տարբերակը"
-
-#: ../libmate-desktop/mate-aboutdialog.c:251
-msgid "The version of the program"
-msgstr "Ծրագրի տարբերակը"
-
-#: ../libmate-desktop/mate-aboutdialog.c:265
-msgid "Copyright string"
-msgstr "Հեղինակային իրավունքի տող"
-
-#: ../libmate-desktop/mate-aboutdialog.c:266
-msgid "Copyright information for the program"
-msgstr "Հեղինակային իրավունքի տեղեկատվությունը ծրագրի համար"
-
-#: ../libmate-desktop/mate-aboutdialog.c:283
-msgid "Comments string"
-msgstr "Մեկնաբանությունների տող"
-
-#: ../libmate-desktop/mate-aboutdialog.c:284
-msgid "Comments about the program"
-msgstr "Ծրագրի մասին մեկնաբանություններ"
-
-#: ../libmate-desktop/mate-aboutdialog.c:302
-#: ../libmate-desktop/mate-aboutdialog.c:2157
-msgid "License"
-msgstr "Արտոնագիր "
-
-#: ../libmate-desktop/mate-aboutdialog.c:303
-msgid "The license of the program"
-msgstr "Ծրագրի լիցենզիան"
-
-#: ../libmate-desktop/mate-aboutdialog.c:318
-msgid "Website URL"
-msgstr "Վեբ կայքի ինտերնետ միջոցները ցուցող հղում"
-
-#: ../libmate-desktop/mate-aboutdialog.c:319
-msgid "The URL for the link to the website of the program"
-msgstr "URL հղում է դեպի ծրագրի կայքը"
-
-#: ../libmate-desktop/mate-aboutdialog.c:334
-msgid "Website label"
-msgstr "Վեբ կայքի պիտակը"
-
-#: ../libmate-desktop/mate-aboutdialog.c:335
-msgid ""
-"The label for the link to the website of the program. If this is not set, it"
-" defaults to the URL"
-msgstr "Ծրագրի կայքի հղման համար պիտակ։ Եթե դա չի սահմանվում, այն նախնականն է URL համար"
-
-#: ../libmate-desktop/mate-aboutdialog.c:351
-msgid "Authors"
-msgstr "Հեղինակներ"
-
-#: ../libmate-desktop/mate-aboutdialog.c:352
-msgid "List of authors of the program"
-msgstr "Ծրագրի հեղինակների ցանկը"
-
-#: ../libmate-desktop/mate-aboutdialog.c:368
-msgid "Documenters"
-msgstr "Փաստաթղթերով հիմնավորողները"
-
-#: ../libmate-desktop/mate-aboutdialog.c:369
-msgid "List of people documenting the program"
-msgstr "Ծրագիրը փաստաթղթերով հիմնավորող մարդկանց ցուցակը"
-
-#: ../libmate-desktop/mate-aboutdialog.c:385
-msgid "Artists"
-msgstr "Արվեստագետ"
-
-#: ../libmate-desktop/mate-aboutdialog.c:386
-msgid "List of people who have contributed artwork to the program"
-msgstr "Մարդկանց ցանկը, ովքեր նպաստեցին ծրագրի նկարազարդմանը"
-
-#: ../libmate-desktop/mate-aboutdialog.c:403
-msgid "Translator credits"
-msgstr "Թարգմանչի կրեդիտներ"
-
-#: ../libmate-desktop/mate-aboutdialog.c:404
-msgid ""
-"Credits to the translators. This string should be marked as translatable"
-msgstr "Թարգմանիչների կրեդիտներ։ Այս տողը պետք է նշվի որպես թարգմանվող"
-
-#: ../libmate-desktop/mate-aboutdialog.c:419
-msgid "Logo"
-msgstr "Լոգո"
-
-#: ../libmate-desktop/mate-aboutdialog.c:420
-msgid ""
-"A logo for the about box. If this is not set, it defaults to "
-"gtk_window_get_default_icon_list()"
-msgstr "Պատկերանիշ մոտ վանդակի համար։ Եթե դա չի սահմանվում, այն նախնականն է gtk_window_get_default_icon_list() համար"
-
-#: ../libmate-desktop/mate-aboutdialog.c:435
-msgid "Logo Icon Name"
-msgstr "Պատկերանիշի պատկերակիի անունը"
-
-#: ../libmate-desktop/mate-aboutdialog.c:436
-msgid "A named icon to use as the logo for the about box."
-msgstr "Անունը կրող պատկերանշանը օգտագործել որպես լոգո վանդակի համար։"
-
-#: ../libmate-desktop/mate-aboutdialog.c:449
-msgid "Wrap license"
-msgstr "Արտոնագիրը պատել"
-
-#: ../libmate-desktop/mate-aboutdialog.c:450
-msgid "Whether to wrap the license text."
-msgstr "Արդյոք պատել արտոնագրի տեքստը։"
-
-#. Add the credits button
-#: ../libmate-desktop/mate-aboutdialog.c:541
-msgid "C_redits"
-msgstr "Երախտիք"
-
-#. Add the license button
-#: ../libmate-desktop/mate-aboutdialog.c:555
-msgid "_License"
-msgstr "_Լիցենզիա"
-
-#: ../libmate-desktop/mate-aboutdialog.c:829
-#, c-format
-msgid "About %s"
-msgstr "Մասին %s"
-
-#: ../libmate-desktop/mate-aboutdialog.c:2081
-msgid "Credits"
-msgstr "Երախտիք"
-
-#: ../libmate-desktop/mate-aboutdialog.c:2109
-msgid "Written by"
-msgstr "Գրված է"
-
-#: ../libmate-desktop/mate-aboutdialog.c:2112
-msgid "Documented by"
-msgstr "Փաստաթղթավորված է"
-
-#: ../libmate-desktop/mate-aboutdialog.c:2124
-msgid "Translated by"
-msgstr "Թարգմանված է"
-
-#: ../libmate-desktop/mate-aboutdialog.c:2128
-msgid "Artwork by"
-msgstr "Նկարազարդված է"
-
-#: ../libmate-desktop/mate-colorbutton.c:154
+#: ../libukui-desktop/ukui-colorbutton.c:154
 msgid "Use alpha"
 msgstr "Օգտագործել ալֆա"
 
-#: ../libmate-desktop/mate-colorbutton.c:155
+#: ../libukui-desktop/ukui-colorbutton.c:155
 msgid "Whether or not to give the color an alpha value"
 msgstr "Արդյոք գույն տալ ալֆա արժեքին թե ոչ"
 
-#: ../libmate-desktop/mate-colorbutton.c:169
+#: ../libukui-desktop/ukui-colorbutton.c:169
 msgid "Title"
 msgstr "Վերնագիր"
 
-#: ../libmate-desktop/mate-colorbutton.c:170
+#: ../libukui-desktop/ukui-colorbutton.c:170
 msgid "The title of the color selection dialog"
 msgstr "Գույնի ընտրության երկխոսության վերնագիր"
 
-#: ../libmate-desktop/mate-colorbutton.c:171
-#: ../libmate-desktop/mate-colorbutton.c:442
+#: ../libukui-desktop/ukui-colorbutton.c:171
+#: ../libukui-desktop/ukui-colorbutton.c:442
 msgid "Pick a Color"
 msgstr "Ընտրեք գույնը"
 
-#: ../libmate-desktop/mate-colorbutton.c:184
-#: ../libmate-desktop/mate-colorsel.c:294
+#: ../libukui-desktop/ukui-colorbutton.c:184
+#: ../libukui-desktop/ukui-colorsel.c:285
 msgid "Current Color"
 msgstr "Ընթացիկ Գույնը"
 
-#: ../libmate-desktop/mate-colorbutton.c:185
+#: ../libukui-desktop/ukui-colorbutton.c:185
 msgid "The selected color"
 msgstr "Ընտրված գույնը"
 
-#: ../libmate-desktop/mate-colorbutton.c:199
-#: ../libmate-desktop/mate-colorsel.c:301
+#: ../libukui-desktop/ukui-colorbutton.c:199
+#: ../libukui-desktop/ukui-colorsel.c:292
 msgid "Current Alpha"
 msgstr "Ընթացիկ Ալֆա"
 
-#: ../libmate-desktop/mate-colorbutton.c:200
+#: ../libukui-desktop/ukui-colorbutton.c:200
 msgid "The selected opacity value (0 fully transparent, 65535 fully opaque)"
-msgstr "Ընտրված անթափանցիկության արժեքը (0 լիովին թափանցիկ, 65535 լրիվ անթափանց)"
+msgstr ""
+"Ընտրված անթափանցիկության արժեքը (0 լիովին թափանցիկ, 65535 լրիվ անթափանց)"
 
-#: ../libmate-desktop/mate-colorbutton.c:335
+#: ../libukui-desktop/ukui-colorbutton.c:335
 msgid "Received invalid color data\n"
 msgstr "Ստացվել է անվավեր գույնի տվյալներ\n"
 
-#: ../libmate-desktop/mate-colorsel.c:280
+#: ../libukui-desktop/ukui-colorsel.c:271
 msgid "Has Opacity Control"
 msgstr "Ունի Անթափանցիկության Վերահսկում"
 
-#: ../libmate-desktop/mate-colorsel.c:281
+#: ../libukui-desktop/ukui-colorsel.c:272
 msgid "Whether the color selector should allow setting opacity"
 msgstr "Արդյոք գույնի սելեկտորը թույլատրում էր անթափանցիկություն դնել"
 
-#: ../libmate-desktop/mate-colorsel.c:287
+#: ../libukui-desktop/ukui-colorsel.c:278
 msgid "Has palette"
 msgstr "ՈՒնի ներկապնակ"
 
-#: ../libmate-desktop/mate-colorsel.c:288
+#: ../libukui-desktop/ukui-colorsel.c:279
 msgid "Whether a palette should be used"
 msgstr "Արդյոք ներկապնակ պետք է օգտագործել"
 
-#: ../libmate-desktop/mate-colorsel.c:295
+#: ../libukui-desktop/ukui-colorsel.c:286
 msgid "The current color"
 msgstr "Ընթացիկ Գույնը"
 
-#: ../libmate-desktop/mate-colorsel.c:302
+#: ../libukui-desktop/ukui-colorsel.c:293
 msgid "The current opacity value (0 fully transparent, 65535 fully opaque)"
-msgstr "Ներկայիս անթափանցիկության արժեքը (0 լիովին թափանցիկ, 65535 լրիվ անթափանց)"
+msgstr ""
+"Ներկայիս անթափանցիկության արժեքը (0 լիովին թափանցիկ, 65535 լրիվ անթափանց)"
 
-#: ../libmate-desktop/mate-colorsel.c:308
+#: ../libukui-desktop/ukui-colorsel.c:299
 msgid "HEX String"
 msgstr "HEX տող"
 
-#: ../libmate-desktop/mate-colorsel.c:309
+#: ../libukui-desktop/ukui-colorsel.c:300
 msgid "The hexadecimal string of current color"
 msgstr "Ընթացիկ գույնի տասնվեցական տողը"
 
-#: ../libmate-desktop/mate-colorsel.c:357
+#: ../libukui-desktop/ukui-colorsel.c:348
 msgid ""
 "Select the color you want from the outer ring. Select the darkness or "
 "lightness of that color using the inner triangle."
-msgstr "Ընտրել գույնը դուք ցանկանում եք արտաքին շրջանից։ Ընտրել այդ գույնի նթությունը և պայծառությունը օգտագործելով ներքին եռանկյունին։"
+msgstr ""
+"Ընտրել գույնը դուք ցանկանում եք արտաքին շրջանից։ Ընտրել այդ գույնի "
+"նթությունը և պայծառությունը օգտագործելով ներքին եռանկյունին։"
 
-#: ../libmate-desktop/mate-colorsel.c:381
+#: ../libukui-desktop/ukui-colorsel.c:372
 msgid ""
 "Click the eyedropper, then click a color anywhere on your screen to select "
 "that color."
-msgstr "Սեղմեք Eyedropper, ապա սեղմեք մի գույն ցանկացած տեղ Ձեր էկրանին այդ գույնը ընտրելու համար։"
+msgstr ""
+"Սեղմեք Eyedropper, ապա սեղմեք մի գույն ցանկացած տեղ Ձեր էկրանին այդ գույնը "
+"ընտրելու համար։"
 
-#: ../libmate-desktop/mate-colorsel.c:390
+#: ../libukui-desktop/ukui-colorsel.c:381
 msgid "_Hue:"
 msgstr "_Երանգ։"
 
-#: ../libmate-desktop/mate-colorsel.c:391
+#: ../libukui-desktop/ukui-colorsel.c:382
 msgid "Position on the color wheel."
 msgstr "Գույնի անիվի դիրքը"
 
-#: ../libmate-desktop/mate-colorsel.c:393
+#: ../libukui-desktop/ukui-colorsel.c:384
 msgid "_Saturation:"
 msgstr "_Հագեցվածություն:"
 
-#: ../libmate-desktop/mate-colorsel.c:394
+#: ../libukui-desktop/ukui-colorsel.c:385
 msgid "\"Deepness\" of the color."
 msgstr "Գույնի \"Մգություն\""
 
-#: ../libmate-desktop/mate-colorsel.c:395
+#: ../libukui-desktop/ukui-colorsel.c:386
 msgid "_Value:"
 msgstr "_Արժեք։"
 
-#: ../libmate-desktop/mate-colorsel.c:396
+#: ../libukui-desktop/ukui-colorsel.c:387
 msgid "Brightness of the color."
 msgstr "Գույնի պայծառությունը"
 
-#: ../libmate-desktop/mate-colorsel.c:397
+#: ../libukui-desktop/ukui-colorsel.c:388
 msgid "_Red:"
 msgstr "_Կարմիր։"
 
-#: ../libmate-desktop/mate-colorsel.c:398
+#: ../libukui-desktop/ukui-colorsel.c:389
 msgid "Amount of red light in the color."
 msgstr "Գույնի մեջ կարմիր լույսի քանակը։"
 
-#: ../libmate-desktop/mate-colorsel.c:399
+#: ../libukui-desktop/ukui-colorsel.c:390
 msgid "_Green:"
 msgstr "_Կանաչ։"
 
-#: ../libmate-desktop/mate-colorsel.c:400
+#: ../libukui-desktop/ukui-colorsel.c:391
 msgid "Amount of green light in the color."
 msgstr "Գույնի մեջ կանաչ լույսի քանակը։"
 
-#: ../libmate-desktop/mate-colorsel.c:401
+#: ../libukui-desktop/ukui-colorsel.c:392
 msgid "_Blue:"
 msgstr "_Կապույտ"
 
-#: ../libmate-desktop/mate-colorsel.c:402
+#: ../libukui-desktop/ukui-colorsel.c:393
 msgid "Amount of blue light in the color."
 msgstr "Գույնի մեջ կապույտ լույսի քանակը։"
 
-#: ../libmate-desktop/mate-colorsel.c:405
+#: ../libukui-desktop/ukui-colorsel.c:396
 msgid "Op_acity:"
 msgstr "Ան_թափանցիկություն:"
 
-#: ../libmate-desktop/mate-colorsel.c:416
-#: ../libmate-desktop/mate-colorsel.c:426
+#: ../libukui-desktop/ukui-colorsel.c:407
+#: ../libukui-desktop/ukui-colorsel.c:417
 msgid "Transparency of the color."
 msgstr "Գույնի թափանցիկություն:"
 
-#: ../libmate-desktop/mate-colorsel.c:433
+#: ../libukui-desktop/ukui-colorsel.c:424
 msgid "Color _name:"
 msgstr "Գույնի _անունը։"
 
-#: ../libmate-desktop/mate-colorsel.c:451
+#: ../libukui-desktop/ukui-colorsel.c:442
 msgid ""
 "You can enter an HTML-style hexadecimal color value, or simply a color name "
 "such as 'orange' in this entry."
-msgstr "Դուք կարող եք մուտքագրել HTML ոճի գույնի տասնվեցական արժեքը, կամ պարզապես գույնի անունը, ինչպիսիք է 'նարնջագույն' այս մուտքում։"
+msgstr ""
+"Դուք կարող եք մուտքագրել HTML ոճի գույնի տասնվեցական արժեքը, կամ պարզապես "
+"գույնի անունը, ինչպիսիք է 'նարնջագույն' այս մուտքում։"
 
-#: ../libmate-desktop/mate-colorsel.c:481
+#: ../libukui-desktop/ukui-colorsel.c:472
 msgid "_Palette:"
 msgstr "_Ներկապնակ:"
 
-#: ../libmate-desktop/mate-colorsel.c:514
+#: ../libukui-desktop/ukui-colorsel.c:505
 msgid "Color Wheel"
 msgstr "Գույնի Պտտում"
 
-#: ../libmate-desktop/mate-colorsel.c:971
+#: ../libukui-desktop/ukui-colorsel.c:962
 msgid ""
 "The previously-selected color, for comparison to the color you're selecting "
 "now. You can drag this color to a palette entry, or select this color as "
 "current by dragging it to the other color swatch alongside."
-msgstr "Նախկինում ընտրված գույնը, համեմատելու համար այն գույնի հետ, որ ընտրում եք հիմա։ Դուք կարող եք քաշել այս գույն է գունապնակի մուտքում կամ ընտրեք այս գույնը, որպես ընթացիկ, տեղափոխելով այն մեկ այլ գույնի կողքին։"
+msgstr ""
+"Նախկինում ընտրված գույնը, համեմատելու համար այն գույնի հետ, որ ընտրում եք "
+"հիմա։ Դուք կարող եք քաշել այս գույն է գունապնակի մուտքում կամ ընտրեք այս "
+"գույնը, որպես ընթացիկ, տեղափոխելով այն մեկ այլ գույնի կողքին։"
 
-#: ../libmate-desktop/mate-colorsel.c:974
+#: ../libukui-desktop/ukui-colorsel.c:965
 msgid ""
 "The color you've chosen. You can drag this color to a palette entry to save "
 "it for use in the future."
-msgstr "Դուք գույնը ընտրել եք։ Դուք կարող եք քաշել այս գույն ներկապնակի մուտք պահպանելու համար, այն ապագայում օգտագործելու համար։"
+msgstr ""
+"Դուք գույնը ընտրել եք։ Դուք կարող եք քաշել այս գույն ներկապնակի մուտք "
+"պահպանելու համար, այն ապագայում օգտագործելու համար։"
 
-#: ../libmate-desktop/mate-colorsel.c:979
+#: ../libukui-desktop/ukui-colorsel.c:970
 msgid ""
 "The previously-selected color, for comparison to the color you're selecting "
 "now."
-msgstr "Նախկինում ընտրված գույնը, համեմատելու համար այն գույնի հետ, որ ընտրում եք հիմա։"
+msgstr ""
+"Նախկինում ընտրված գույնը, համեմատելու համար այն գույնի հետ, որ ընտրում եք "
+"հիմա։"
 
-#: ../libmate-desktop/mate-colorsel.c:982
+#: ../libukui-desktop/ukui-colorsel.c:973
 msgid "The color you've chosen."
 msgstr "Գույնը դու ընտրել ես:"
 
-#: ../libmate-desktop/mate-colorsel.c:1366
+#: ../libukui-desktop/ukui-colorsel.c:1362
 msgid "gtk-color-sel"
 msgstr "gtk-color-sel"
 
-#: ../libmate-desktop/mate-colorsel.c:1371
+#: ../libukui-desktop/ukui-colorsel.c:1367
 msgid "_Save color here"
 msgstr "_Պահպանել գեւյնը այստեղ"
 
-#: ../libmate-desktop/mate-colorsel.c:1591
+#: ../libukui-desktop/ukui-colorsel.c:1587
 msgid ""
-"Click this palette entry to make it the current color. To change this entry,"
-" drag a color swatch here or right-click it and select \"Save color here.\""
-msgstr "Սեղմեք այս գունապանակի մուտքում այս գույնը ընթացիկ դարձնելու համար։ Այս մուտքում փոփոխության համար քաշել գույնը այստեղ կան այն right-click և ընտրել \"Save color here.\""
+"Click this palette entry to make it the current color. To change this entry, "
+"drag a color swatch here or right-click it and select \"Save color here.\""
+msgstr ""
+"Սեղմեք այս գունապանակի մուտքում այս գույնը ընթացիկ դարձնելու համար։ Այս "
+"մուտքում փոփոխության համար քաշել գույնը այստեղ կան այն right-click և ընտրել "
+"\"Save color here.\""
 
-#: ../libmate-desktop/mate-colorseldialog.c:99
-#: ../libmate-desktop/mate-colorseldialog.c:162
+#: ../libukui-desktop/ukui-colorseldialog.c:99
+#: ../libukui-desktop/ukui-colorseldialog.c:162
 msgid "Color Selection"
 msgstr "Գույնի Ընտություն"
 
-#: ../libmate-desktop/mate-colorseldialog.c:100
+#: ../libukui-desktop/ukui-colorseldialog.c:100
 msgid "The color selection embedded in the dialog."
 msgstr "Գույնի ընտրությունը ներդրված է երկխոսության մեջ։"
 
-#: ../libmate-desktop/mate-colorseldialog.c:106
+#: ../libukui-desktop/ukui-colorseldialog.c:106
 msgid "OK Button"
 msgstr "OK կոճակ"
 
-#: ../libmate-desktop/mate-colorseldialog.c:107
+#: ../libukui-desktop/ukui-colorseldialog.c:107
 msgid "The OK button of the dialog."
 msgstr "Երկխոսության OK կոճակը։"
 
-#: ../libmate-desktop/mate-colorseldialog.c:113
+#: ../libukui-desktop/ukui-colorseldialog.c:113
 msgid "Cancel Button"
 msgstr "Չեղարկել կոճակը"
 
-#: ../libmate-desktop/mate-colorseldialog.c:114
+#: ../libukui-desktop/ukui-colorseldialog.c:114
 msgid "The cancel button of the dialog."
 msgstr "Երկխոսության չեղարկել կոճակը։"
 
-#: ../libmate-desktop/mate-colorseldialog.c:120
+#: ../libukui-desktop/ukui-colorseldialog.c:120
 msgid "Help Button"
 msgstr "Օգնություն Կոճակ"
 
-#: ../libmate-desktop/mate-colorseldialog.c:121
+#: ../libukui-desktop/ukui-colorseldialog.c:121
 msgid "The help button of the dialog."
 msgstr "Երկխոսության օգնություն կոճակը։"
 
-#: ../libmate-desktop/mate-desktop-item.c:220
+#: ../libukui-desktop/ukui-desktop-item.c:220
 #, c-format
 msgid "Error reading file '%s': %s"
 msgstr " '%s': %s ֆայլի ընթերցման սխալ"
 
-#: ../libmate-desktop/mate-desktop-item.c:288
+#: ../libukui-desktop/ukui-desktop-item.c:288
 #, c-format
 msgid "Error rewinding file '%s': %s"
 msgstr "'%s': %s ֆայլի վերադարձման սխալ "
@@ -485,82 +368,83 @@ msgstr "'%s': %s ֆայլի վերադարձման սխալ "
 #. * a document
 #. Translators: the "name" mentioned here is the name of
 #. * an application or a document
-#: ../libmate-desktop/mate-desktop-item.c:380
-#: ../libmate-desktop/mate-desktop-item.c:3538
+#: ../libukui-desktop/ukui-desktop-item.c:380
+#: ../libukui-desktop/ukui-desktop-item.c:3547
 msgid "No name"
 msgstr "Անանուն"
 
-#: ../libmate-desktop/mate-desktop-item.c:607
+#: ../libukui-desktop/ukui-desktop-item.c:607
 #, c-format
 msgid "File '%s' is not a regular file or directory."
 msgstr "'%s' կանոնավոր ֆայլ չէ կամ թղթապանակ չէ"
 
-#: ../libmate-desktop/mate-desktop-item.c:791
+#: ../libukui-desktop/ukui-desktop-item.c:791
 #, c-format
 msgid "Cannot find file '%s'"
 msgstr "Չի կարող գտնել '%s' ֆայլը"
 
-#: ../libmate-desktop/mate-desktop-item.c:837
+#: ../libukui-desktop/ukui-desktop-item.c:837
 #, c-format
 msgid "No filename to save to"
 msgstr "Ֆայլի պահպանման համար անունը նշված չէ"
 
-#: ../libmate-desktop/mate-desktop-item.c:1840
+#: ../libukui-desktop/ukui-desktop-item.c:1842
 #, c-format
 msgid "Starting %s"
 msgstr "Գործարկում%s"
 
-#: ../libmate-desktop/mate-desktop-item.c:2077
+#: ../libukui-desktop/ukui-desktop-item.c:2079
 #, c-format
 msgid "No URL to launch"
 msgstr "Գործարկման համար URL–ը չի ներկայացվել"
 
-#: ../libmate-desktop/mate-desktop-item.c:2093
+#: ../libukui-desktop/ukui-desktop-item.c:2102
 #, c-format
 msgid "Not a launchable item"
 msgstr "Չգործարկվող տարր"
 
-#: ../libmate-desktop/mate-desktop-item.c:2103
+#: ../libukui-desktop/ukui-desktop-item.c:2112
 #, c-format
 msgid "No command (Exec) to launch"
 msgstr "Գործարկման համար (Exec) հրահանգը բացակայում է"
 
-#: ../libmate-desktop/mate-desktop-item.c:2116
+#: ../libukui-desktop/ukui-desktop-item.c:2125
 #, c-format
 msgid "Bad command (Exec) to launch"
 msgstr "Գործարկման համար (Exec)–ը անթույլատրելի է"
 
-#: ../libmate-desktop/mate-desktop-item.c:3595
+#: ../libukui-desktop/ukui-desktop-item.c:3604
 #, c-format
 msgid "Unknown encoding of: %s"
 msgstr "Անհայտ կոդավորում %s –ի համար"
 
-#: ../libmate-desktop/mate-desktop-utils.c:149
+#: ../libukui-desktop/ukui-desktop-utils.c:149
 msgid "Cannot find a terminal, using xterm, even if it may not work"
-msgstr "Նույնիսկ չաշխատելու դեպքում, օգտագործելով xterm–ը, չի կարող գտնել տերմինալը "
+msgstr ""
+"Նույնիսկ չաշխատելու դեպքում, օգտագործելով xterm–ը, չի կարող գտնել տերմինալը "
 
 #. Translators: a CRTC is a CRT Controller (this is X terminology).
-#: ../libmate-desktop/mate-rr.c:460
+#: ../libukui-desktop/ukui-rr.c:460
 #, c-format
 msgid "could not get the screen resources (CRTCs, outputs, modes)"
 msgstr "չի կարող գտնել էկրանի պաշարները (CRTC–ներ, արտածումներ, ռեժիմներ)"
 
-#: ../libmate-desktop/mate-rr.c:480
+#: ../libukui-desktop/ukui-rr.c:480
 #, c-format
 msgid "unhandled X error while getting the range of screen sizes"
 msgstr "չգտնված X սխալ էկրանի չափերի տվյալները գտնելու ընթացքում"
 
-#: ../libmate-desktop/mate-rr.c:486
+#: ../libukui-desktop/ukui-rr.c:486
 #, c-format
 msgid "could not get the range of screen sizes"
 msgstr "չի կարող գտնել էկրանի չափերի տիրույթը"
 
-#: ../libmate-desktop/mate-rr.c:704
+#: ../libukui-desktop/ukui-rr.c:704
 #, c-format
 msgid "RANDR extension is not present"
 msgstr "RANDR ընդլայնումը բացակայում է"
 
-#: ../libmate-desktop/mate-rr.c:1257
+#: ../libukui-desktop/ukui-rr.c:1257
 #, c-format
 msgid "could not get information about output %d"
 msgstr "չի կարող գտնել տեղեկություն արտածում  %d–ի մասին "
@@ -568,965 +452,1241 @@ msgstr "չի կարող գտնել տեղեկություն արտածում  %d
 #. Translators: the "position", "size", and "maximum"
 #. * words here are not keywords; please translate them
 #. * as usual.  A CRTC is a CRT Controller (this is X terminology)
-#: ../libmate-desktop/mate-rr.c:1738
+#: ../libukui-desktop/ukui-rr.c:1738
 #, c-format
 msgid ""
 "requested position/size for CRTC %d is outside the allowed limit: "
 "position=(%d, %d), size=(%d, %d), maximum=(%d, %d)"
-msgstr "պահանջված դիրքը/չափսը CRTC %d–ի համար թույլատրելի սահմաններից դուրս է. դիրք=(%d, %d), չափս=(%d, %d), առավելագույն=(%d, %d) "
+msgstr ""
+"պահանջված դիրքը/չափսը CRTC %d–ի համար թույլատրելի սահմաններից դուրս է. "
+"դիրք=(%d, %d), չափս=(%d, %d), առավելագույն=(%d, %d) "
 
-#: ../libmate-desktop/mate-rr.c:1772
+#: ../libukui-desktop/ukui-rr.c:1772
 #, c-format
 msgid "could not set the configuration for CRTC %d"
 msgstr "չի կարող կոնֆիգուրացնել CRTC %d–ի համար"
 
-#: ../libmate-desktop/mate-rr.c:1936
+#: ../libukui-desktop/ukui-rr.c:1936
 #, c-format
 msgid "could not get information about CRTC %d"
 msgstr "չի կարող CRTC %d–ի մասին տեղեկություն ստանալ"
 
-#: ../libmate-desktop/mate-rr-config.c:555
+#: ../libukui-desktop/ukui-rr-config.c:555
 msgid "Laptop"
 msgstr "Լափթոփ"
 
-#: ../libmate-desktop/mate-rr-config.c:713
+#: ../libukui-desktop/ukui-rr-config.c:713
 #, c-format
 msgid ""
 "none of the saved display configurations matched the active configuration"
-msgstr "պահպանված ցուցադրվող կոնֆիգուրացումներից ոչ մեկը չի համապատասխանում ակտիվ կոնֆիգուրացմանը"
+msgstr ""
+"պահպանված ցուցադրվող կոնֆիգուրացումներից ոչ մեկը չի համապատասխանում ակտիվ "
+"կոնֆիգուրացմանը"
 
-#: ../libmate-desktop/mate-rr-config.c:1486
+#: ../libukui-desktop/ukui-rr-config.c:1486
 #, c-format
 msgid "CRTC %d cannot drive output %s"
 msgstr "CRTC %d չի կարող գործարկել արդյունքը %s"
 
-#: ../libmate-desktop/mate-rr-config.c:1493
+#: ../libukui-desktop/ukui-rr-config.c:1493
 #, c-format
 msgid "output %s does not support mode %dx%d@%dHz"
 msgstr "ելքը %s չի աջակցում ռեժիմը %dx%d@%dՀց"
 
-#: ../libmate-desktop/mate-rr-config.c:1504
+#: ../libukui-desktop/ukui-rr-config.c:1504
 #, c-format
 msgid "CRTC %d does not support rotation=%s"
 msgstr "CRTC %d չի աջակցում պտույտը=%s"
 
-#: ../libmate-desktop/mate-rr-config.c:1518
+#: ../libukui-desktop/ukui-rr-config.c:1518
 #, c-format
 msgid ""
 "output %s does not have the same parameters as another cloned output:\n"
 "existing mode = %d, new mode = %d\n"
 "existing coordinates = (%d, %d), new coordinates = (%d, %d)\n"
 "existing rotation = %s, new rotation = %s"
-msgstr "%s ելքը չունի նույն պարամետրերը, ինչ ելք։\nառկա ռեժիմ = %d, նոր ռեժիմ = %d\nառկա կոորդինատներ = (%d, %d), նոր կոորդինատներ = (%d, %d)\nառկա ռոտացիա %s, նոր ռոտացիա = %s"
+msgstr ""
+"%s ելքը չունի նույն պարամետրերը, ինչ ելք։\n"
+"առկա ռեժիմ = %d, նոր ռեժիմ = %d\n"
+"առկա կոորդինատներ = (%d, %d), նոր կոորդինատներ = (%d, %d)\n"
+"առկա ռոտացիա %s, նոր ռոտացիա = %s"
 
-#: ../libmate-desktop/mate-rr-config.c:1533
+#: ../libukui-desktop/ukui-rr-config.c:1533
 #, c-format
 msgid "cannot clone to output %s"
 msgstr "չի կարող կրկնօրինակել ելքը %s"
 
-#: ../libmate-desktop/mate-rr-config.c:1702
+#: ../libukui-desktop/ukui-rr-config.c:1702
 #, c-format
 msgid "Trying modes for CRTC %d\n"
 msgstr "CRTC %d֊ի համար փորձարկման ռեժիմ\n"
 
-#: ../libmate-desktop/mate-rr-config.c:1726
+#: ../libukui-desktop/ukui-rr-config.c:1726
 #, c-format
 msgid "CRTC %d: trying mode %dx%d@%dHz with output at %dx%d@%dHz (pass %d)\n"
-msgstr "CRTC %d: մուտքագրման ռեժիմ %dx%d@%dՀց ելքի հետ միասին %dx%d@%dՀց (անցնել %d)\n"
+msgstr ""
+"CRTC %d: մուտքագրման ռեժիմ %dx%d@%dՀց ելքի հետ միասին %dx%d@%dՀց (անցնել "
+"%d)\n"
 
-#: ../libmate-desktop/mate-rr-config.c:1773
+#: ../libukui-desktop/ukui-rr-config.c:1773
 #, c-format
 msgid ""
 "could not assign CRTCs to outputs:\n"
 "%s"
-msgstr "չէր կարող վերագրել CRTCs ելքերին։\n%s"
+msgstr ""
+"չէր կարող վերագրել CRTCs ելքերին։\n"
+"%s"
 
-#: ../libmate-desktop/mate-rr-config.c:1777
+#: ../libukui-desktop/ukui-rr-config.c:1777
 #, c-format
 msgid ""
 "none of the selected modes were compatible with the possible modes:\n"
 "%s"
-msgstr "չկա ընտրված ռեժիմներ, որտեղ համատեղելի են հնարավոր եղանակները։\n%s"
+msgstr ""
+"չկա ընտրված ռեժիմներ, որտեղ համատեղելի են հնարավոր եղանակները։\n"
+"%s"
 
 #. Translators: the "requested", "minimum", and
 #. * "maximum" words here are not keywords; please
 #. * translate them as usual.
-#: ../libmate-desktop/mate-rr-config.c:1859
+#: ../libukui-desktop/ukui-rr-config.c:1859
 #, c-format
 msgid ""
 "required virtual size does not fit available size: requested=(%d, %d), "
 "minimum=(%d, %d), maximum=(%d, %d)"
-msgstr "պահանջված վիրտուալ չափը չի համապատասխանում հասանելի չափին. հարցված=(%d, %d), նվազագույն=(%d, %d), առավելագույն=(%d, %d)"
+msgstr ""
+"պահանջված վիրտուալ չափը չի համապատասխանում հասանելի չափին. հարցված=(%d, %d), "
+"նվազագույն=(%d, %d), առավելագույն=(%d, %d)"
 
-#. Keep this string in sync with mate-control-center/capplets/display/xrandr-
-#. capplet.c:get_display_name()
+#. Keep this string in sync with ukui-control-center/capplets/display/xrandr-capplet.c:get_display_name()
 #. Translators:  this is the feature where what you see on your laptop's
 #. * screen is the same as your external monitor.  Here, "Mirror" is being
 #. * used as an adjective, not as a verb.  For example, the Spanish
 #. * translation could be "Pantallas en Espejo", *not* "Espejar Pantallas".
-#: ../libmate-desktop/mate-rr-labeler.c:410
+#.
+#: ../libukui-desktop/ukui-rr-labeler.c:420
 #, c-format
 msgid "Mirror Screens"
 msgstr "Հայելային էկրաններ"
 
-#: ../schemas/org.mate.accessibility-keyboard.gschema.xml.in.h:1
+#: ../schemas/org.ukui.accessibility-keyboard.gschema.xml.in.h:1
 msgid "minimum interval in milliseconds"
 msgstr "նվազագույն միջակայքը միլիվայրկյաններով"
 
-#: ../schemas/org.mate.accessibility-keyboard.gschema.xml.in.h:2
+#: ../schemas/org.ukui.accessibility-keyboard.gschema.xml.in.h:2
 msgid "Ignore multiple presses of the _same_ key within @delay milliseconds."
-msgstr "Անտեսել բազմակ միջոցները the _same_ key @delay միլիվարկյանների ընթացքում։"
+msgstr ""
+"Անտեսել բազմակ միջոցները the _same_ key @delay միլիվարկյանների ընթացքում։"
 
-#: ../schemas/org.mate.accessibility-keyboard.gschema.xml.in.h:3
+#: ../schemas/org.ukui.accessibility-keyboard.gschema.xml.in.h:3
 msgid "Pixels per seconds"
 msgstr "Պիքսելներ մեկ վայրկյանում"
 
-#: ../schemas/org.mate.accessibility-keyboard.gschema.xml.in.h:4
+#: ../schemas/org.ukui.accessibility-keyboard.gschema.xml.in.h:4
 msgid "How many pixels per second to move at the maximum speed."
 msgstr "Ինչպես շատ պիքսել  տեղափոխել մեկ վայրկյանում առավելագույն րագությամբ։"
 
-#: ../schemas/org.mate.accessibility-keyboard.gschema.xml.in.h:5
+#: ../schemas/org.ukui.accessibility-keyboard.gschema.xml.in.h:5
 msgid "How long to accelerate in milliseconds"
 msgstr "Ինչպես արագացնել միլիվարկյաններով"
 
-#: ../schemas/org.mate.accessibility-keyboard.gschema.xml.in.h:6
+#: ../schemas/org.ukui.accessibility-keyboard.gschema.xml.in.h:6
 msgid "How many milliseconds it takes to go from 0 to maximum speed."
 msgstr "Քանի վարկյան է տևում 0֊ից մինչև առավելագույն արագությունը։"
 
-#: ../schemas/org.mate.accessibility-keyboard.gschema.xml.in.h:7
+#: ../schemas/org.ukui.accessibility-keyboard.gschema.xml.in.h:7
 msgid "Initial delay in milliseconds"
 msgstr "Սկզբնական ուշացումը միլի վայրկյաններում."
 
-#: ../schemas/org.mate.accessibility-keyboard.gschema.xml.in.h:8
+#: ../schemas/org.ukui.accessibility-keyboard.gschema.xml.in.h:8
 msgid ""
 "How many milliseconds to wait before mouse movement keys start to operate."
-msgstr "Քանի միլիվարկյան է սպասում մինչ մկնիկի շարժան ստեղների գործարկման սկիզբը։"
+msgstr ""
+"Քանի միլիվարկյան է սպասում մինչ մկնիկի շարժան ստեղների գործարկման սկիզբը։"
 
-#: ../schemas/org.mate.accessibility-keyboard.gschema.xml.in.h:9
+#: ../schemas/org.ukui.accessibility-keyboard.gschema.xml.in.h:9
 msgid "Minimum interval in milliseconds"
 msgstr "Նվազագույն միջակայքը միլի վայրկյաններում"
 
-#: ../schemas/org.mate.accessibility-keyboard.gschema.xml.in.h:10
+#: ../schemas/org.ukui.accessibility-keyboard.gschema.xml.in.h:10
 msgid ""
 "Do not accept a key as being pressed unless held for @delay milliseconds."
-msgstr "Չի ընդունում ստեղնը որպես սեղմված քանի դեռ անցկացվում է @ուշացում միլիվարկյանների համար։"
+msgstr ""
+"Չի ընդունում ստեղնը որպես սեղմված քանի դեռ անցկացվում է @ուշացում "
+"միլիվարկյանների համար։"
 
-#: ../schemas/org.mate.accessibility-keyboard.gschema.xml.in.h:11
+#: ../schemas/org.ukui.accessibility-keyboard.gschema.xml.in.h:11
 msgid "Disable if two keys are pressed at the same time."
 msgstr "Ապաակտիվացնել եթե երկու ստեղները են սեղմված միևնույն ժամանակ։"
 
-#: ../schemas/org.mate.accessibility-keyboard.gschema.xml.in.h:12
+#: ../schemas/org.ukui.accessibility-keyboard.gschema.xml.in.h:12
 msgid "Beep when a modifier is pressed."
 msgstr "Հեռուստաչափական ազդանշան, երբ կերպափոխիչը սեղմված է։"
 
-#: ../schemas/org.mate.accessibility-startup.gschema.xml.in.h:1
+#: ../schemas/org.ukui.accessibility-startup.gschema.xml.in.h:1
 msgid "Startup Assistive Technology Applications"
 msgstr "Գործարկել Օժանդակ Տեխնոլոգիաների Ծրագիրը"
 
-#: ../schemas/org.mate.accessibility-startup.gschema.xml.in.h:2
+#: ../schemas/org.ukui.accessibility-startup.gschema.xml.in.h:2
+#, fuzzy
 msgid ""
 "List of assistive technology applications to start when logging into the "
-"MATE desktop."
-msgstr "Օժանդակ տեխնոլոգիաների ծրագրերի ցանկը սկսելու համար, երբ մուտք է գուրծում MATE աշխատասեղանի մեջ։"
+"UKUI desktop."
+msgstr ""
+"Օժանդակ տեխնոլոգիաների ծրագրերի ցանկը սկսելու համար, երբ մուտք է գուրծում "
+"MATE աշխատասեղանի մեջ։"
 
-#: ../schemas/org.mate.applications-at-mobility.gschema.xml.in.h:1
+#: ../schemas/org.ukui.applications-at-mobility.gschema.xml.in.h:1
 msgid "Preferred Mobility assistive technology application"
 msgstr "Նախընտրված գոործարկվող օժանդակ տեխնոլոգիաների ծրագիր"
 
-#: ../schemas/org.mate.applications-at-mobility.gschema.xml.in.h:2
+#: ../schemas/org.ukui.applications-at-mobility.gschema.xml.in.h:2
 msgid ""
 "Preferred Mobility assistive technology application to be used for login, "
 "menu, or command line."
-msgstr "Նախընտրված գոործարկվող օժանդակ տեխնոլոգիաների ծրագիրը օգտագործվում է մուտքի, մենյուի կամ հրամանային տողի համար։"
+msgstr ""
+"Նախընտրված գոործարկվող օժանդակ տեխնոլոգիաների ծրագիրը օգտագործվում է մուտքի, "
+"մենյուի կամ հրամանային տողի համար։"
 
-#: ../schemas/org.mate.applications-at-mobility.gschema.xml.in.h:3
+#: ../schemas/org.ukui.applications-at-mobility.gschema.xml.in.h:3
 msgid "Start preferred Mobility assistive technology application"
 msgstr "Սկսել նախընտրված գոործարկվող օժանդակ տեխնոլոգիաների ծրագիր"
 
-#: ../schemas/org.mate.applications-at-mobility.gschema.xml.in.h:4
+#: ../schemas/org.ukui.applications-at-mobility.gschema.xml.in.h:4
+#, fuzzy
 msgid ""
-"MATE to start preferred Mobility assistive technology application during "
+"UKUI to start preferred Mobility assistive technology application during "
 "login."
-msgstr "MATE սկսում է նախընտրված գոործարկվող օժանդակ տեխնոլոգիաների ծրագիրը մուտքագրման ընթացքում"
+msgstr ""
+"MATE սկսում է նախընտրված գոործարկվող օժանդակ տեխնոլոգիաների ծրագիրը "
+"մուտքագրման ընթացքում"
 
-#: ../schemas/org.mate.applications-at-visual.gschema.xml.in.h:1
+#: ../schemas/org.ukui.applications-at-visual.gschema.xml.in.h:1
 msgid "Preferred Visual assistive technology application"
 msgstr "Նախընտրելի Վիզուալ օժանդակ տեխնոլոգիաների կիրառում"
 
-#: ../schemas/org.mate.applications-at-visual.gschema.xml.in.h:2
+#: ../schemas/org.ukui.applications-at-visual.gschema.xml.in.h:2
 msgid ""
 "Preferred Visual assistive technology application to be used for login, "
 "menu, or command line."
-msgstr "Նախընտրելի Վիզուալ օժանդակ տեխնոլոգիաների ծրագիրը օգտագործվում է մուքի, մենյուի կամ հրամանային տողի համար։"
+msgstr ""
+"Նախընտրելի Վիզուալ օժանդակ տեխնոլոգիաների ծրագիրը օգտագործվում է մուքի, "
+"մենյուի կամ հրամանային տողի համար։"
 
-#: ../schemas/org.mate.applications-at-visual.gschema.xml.in.h:3
+#: ../schemas/org.ukui.applications-at-visual.gschema.xml.in.h:3
 msgid "Start preferred Visual assistive technology application"
 msgstr "Սկսել նախընտրելի Վիզուալ օժանդակ տեխնոլոգիաների ծրագիրը"
 
-#: ../schemas/org.mate.applications-at-visual.gschema.xml.in.h:4
+#: ../schemas/org.ukui.applications-at-visual.gschema.xml.in.h:4
+#, fuzzy
 msgid ""
-"MATE to start preferred Visual assistive technology application during "
-"login."
-msgstr "MATE սկսում է նախընտրած Վիզուալ օժանդակ տեխնոլոգիաների ծրագիրը մուտքագրման ընթացքում։"
+"UKUI to start preferred Visual assistive technology application during login."
+msgstr ""
+"MATE սկսում է նախընտրած Վիզուալ օժանդակ տեխնոլոգիաների ծրագիրը մուտքագրման "
+"ընթացքում։"
 
-#: ../schemas/org.mate.applications-browser.gschema.xml.in.h:1
+#: ../schemas/org.ukui.applications-browser.gschema.xml.in.h:1
 msgid "Default browser"
 msgstr "Հիմնական ինտերնետ դիտարկիչ"
 
-#: ../schemas/org.mate.applications-browser.gschema.xml.in.h:2
+#: ../schemas/org.ukui.applications-browser.gschema.xml.in.h:2
 msgid "Default browser for all URLs."
 msgstr "Հիմնական ինտերնետ դիտարկիչը բոլոր հղումների համար։"
 
-#: ../schemas/org.mate.applications-browser.gschema.xml.in.h:3
+#: ../schemas/org.ukui.applications-browser.gschema.xml.in.h:3
 msgid "Browser needs terminal"
 msgstr "Բրաուզերը տերմինալի կարիք ունի"
 
-#: ../schemas/org.mate.applications-browser.gschema.xml.in.h:4
+#: ../schemas/org.ukui.applications-browser.gschema.xml.in.h:4
 msgid "Whether the default browser needs a terminal to run."
 msgstr "Արդյոք նախնական բրաուզերը կարիք ունի տերմինալի մեկնարկման"
 
-#: ../schemas/org.mate.applications-browser.gschema.xml.in.h:5
+#: ../schemas/org.ukui.applications-browser.gschema.xml.in.h:5
 msgid "Browser understands remote"
 msgstr "Բրաուզերը հասկանում է հեռավոր"
 
-#: ../schemas/org.mate.applications-browser.gschema.xml.in.h:6
+#: ../schemas/org.ukui.applications-browser.gschema.xml.in.h:6
 msgid "Whether the default browser understands netscape remote."
 msgstr "Արդյոք նախնական բրաուզերը հասկանում է հեռավոր ցանցը։"
 
-#: ../schemas/org.mate.applications-office.gschema.xml.in.h:1
+#: ../schemas/org.ukui.applications-office.gschema.xml.in.h:1
 msgid "Default calendar"
 msgstr "Հիմնական օրացույց"
 
-#: ../schemas/org.mate.applications-office.gschema.xml.in.h:2
+#: ../schemas/org.ukui.applications-office.gschema.xml.in.h:2
 msgid "Default calendar application"
 msgstr "Հիմնական օրացույցի դիմում"
 
-#: ../schemas/org.mate.applications-office.gschema.xml.in.h:3
+#: ../schemas/org.ukui.applications-office.gschema.xml.in.h:3
 msgid "Calendar needs terminal"
 msgstr "Օրացույցը տերմինալի կարիք ունի"
 
-#: ../schemas/org.mate.applications-office.gschema.xml.in.h:4
+#: ../schemas/org.ukui.applications-office.gschema.xml.in.h:4
 msgid "Whether the default calendar application needs a terminal to run"
 msgstr "Արդյոք նախնական օրացույցը կարիք ունի տերմինալի մեկնարկման"
 
-#: ../schemas/org.mate.applications-office.gschema.xml.in.h:5
+#: ../schemas/org.ukui.applications-office.gschema.xml.in.h:5
 msgid "Default tasks"
 msgstr "Հիմնական խնդիրներ"
 
-#: ../schemas/org.mate.applications-office.gschema.xml.in.h:6
+#: ../schemas/org.ukui.applications-office.gschema.xml.in.h:6
 msgid "Default tasks application"
 msgstr "Հիմնական խնդիրների դիմում"
 
-#: ../schemas/org.mate.applications-office.gschema.xml.in.h:7
+#: ../schemas/org.ukui.applications-office.gschema.xml.in.h:7
 msgid "Tasks needs terminal"
 msgstr "Առաջադրանքները տերմինալի կարիք ունեն"
 
-#: ../schemas/org.mate.applications-office.gschema.xml.in.h:8
+#: ../schemas/org.ukui.applications-office.gschema.xml.in.h:8
 msgid "Whether the default tasks application needs a terminal to run"
 msgstr "Արդյոք նախնական խնդիրների դիմումը կարիք ունի տերմինալի մեկնարկման"
 
-#: ../schemas/org.mate.applications-terminal.gschema.xml.in.h:1
+#: ../schemas/org.ukui.applications-terminal.gschema.xml.in.h:1
 msgid "Terminal application"
 msgstr "Տերմինալի դիմում"
 
-#: ../schemas/org.mate.applications-terminal.gschema.xml.in.h:2
+#: ../schemas/org.ukui.applications-terminal.gschema.xml.in.h:2
 msgid "Terminal program to use when starting applications that require one."
-msgstr "Տերմինալ ծրագիրը օգտագործվում է, երբ սկսում է դիմումները, որոնք պահանջում են մեկին։"
+msgstr ""
+"Տերմինալ ծրագիրը օգտագործվում է, երբ սկսում է դիմումները, որոնք պահանջում են "
+"մեկին։"
 
-#: ../schemas/org.mate.applications-terminal.gschema.xml.in.h:3
+#: ../schemas/org.ukui.applications-terminal.gschema.xml.in.h:3
 msgid "Exec Arguments"
 msgstr "Exec Արգումենտներ"
 
-#: ../schemas/org.mate.applications-terminal.gschema.xml.in.h:4
+#: ../schemas/org.ukui.applications-terminal.gschema.xml.in.h:4
 msgid ""
 "Argument used to execute programs in the terminal defined by the 'exec' key."
-msgstr "Արգումենտը օգտագործվում է ծրագրերի իրականացման համար տերմինալի կողմից սահմանված 'exec' ստեղնով։"
+msgstr ""
+"Արգումենտը օգտագործվում է ծրագրերի իրականացման համար տերմինալի կողմից "
+"սահմանված 'exec' ստեղնով։"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:1
+#: ../schemas/org.ukui.background.gschema.xml.in.h:1
 msgid "Draw Desktop Background"
 msgstr "Նկարել Աշխատանքային սեղանի ֆոն"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:2
-msgid "Have MATE draw the desktop background."
+#: ../schemas/org.ukui.background.gschema.xml.in.h:2
+#, fuzzy
+msgid "Have UKUI draw the desktop background."
 msgstr "Ունի աշխատանքային ֆոնը MATE նկարել "
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:3
+#: ../schemas/org.ukui.background.gschema.xml.in.h:3
 msgid "Show Desktop Icons"
 msgstr "Ցույց տալ աշխատասեղանի պատկերակը"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:4
-msgid "Have MATE file manager (Caja) draw the desktop icons."
-msgstr "Ունեն MATE ֆայլի մենեջերը (Caja) պատկերել աշխատանքային սեղանի պատկերանշանները։"
+#: ../schemas/org.ukui.background.gschema.xml.in.h:4
+#, fuzzy
+msgid "Have UKUI file manager (Caja) draw the desktop icons."
+msgstr ""
+"Ունեն MATE ֆայլի մենեջերը (Caja) պատկերել աշխատանքային սեղանի "
+"պատկերանշանները։"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:5
+#: ../schemas/org.ukui.background.gschema.xml.in.h:5
 msgid "Fade the background on change"
 msgstr "Անհետացնել փոփոխությունը ֆոնի վրա"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:6
+#: ../schemas/org.ukui.background.gschema.xml.in.h:6
+#, fuzzy
 msgid ""
-"If set to true, then MATE will change the desktop background with a fading "
+"If set to true, then UKUI will change the desktop background with a fading "
 "effect."
 msgstr "Եթե ճշգրիտ է, MATE կփոխի աշխատասեղանի ֆոնը գունաթափվող էֆեկտով։"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:7
+#: ../schemas/org.ukui.background.gschema.xml.in.h:7
 msgid "Picture Options"
 msgstr "Նկարի Տարբերակներ"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:8
+#: ../schemas/org.ukui.background.gschema.xml.in.h:8
 msgid ""
 "Determines how the image set by wallpaper_filename is rendered. Possible "
-"values are \"wallpaper\", \"centered\", \"scaled\", \"stretched\", \"zoom\","
-" \"spanned\"."
-msgstr "Որոշում է, թե ինչպես պատկերը սահմանել wallpaper_filename կողմից հստակեցված։ Հնարավոր արշեքներն են՝ \"wallpaper\", \"centered\", \"scaled\", \"stretched\", \"zoom\", \"spanned\"։"
+"values are \"wallpaper\", \"centered\", \"scaled\", \"stretched\", \"zoom\", "
+"\"spanned\"."
+msgstr ""
+"Որոշում է, թե ինչպես պատկերը սահմանել wallpaper_filename կողմից հստակեցված։ "
+"Հնարավոր արշեքներն են՝ \"wallpaper\", \"centered\", \"scaled\", \"stretched"
+"\", \"zoom\", \"spanned\"։"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:9
+#: ../schemas/org.ukui.background.gschema.xml.in.h:9
 msgid "Picture Filename"
 msgstr "Նկարի Ֆայլի անունը"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:10
+#: ../schemas/org.ukui.background.gschema.xml.in.h:10
 msgid "File to use for the background image."
 msgstr "Ֆայլը օգտագործել ֆոնի պատկերի համար։"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:11
+#: ../schemas/org.ukui.background.gschema.xml.in.h:11
 msgid "Picture Opacity"
 msgstr "Նկարի Անթափանցիկություն"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:12
+#: ../schemas/org.ukui.background.gschema.xml.in.h:12
 msgid "Opacity with which to draw the background picture."
 msgstr "Անթափանցիկություն, որի հետ պետք է պատկերել ֆոնի նկարը։"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:13
+#: ../schemas/org.ukui.background.gschema.xml.in.h:13
 msgid "Primary Color"
 msgstr "Առաջնային Գույն"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:14
+#: ../schemas/org.ukui.background.gschema.xml.in.h:14
 msgid "Left or Top color when drawing gradients, or the solid color."
 msgstr "Ձախ կամ վերին գույնը, երբ պատկերում է գրադիենտը, կամ մոխրագույնը։"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:15
+#: ../schemas/org.ukui.background.gschema.xml.in.h:15
 msgid "Secondary Color"
 msgstr "Երկրորդային Գույն"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:16
-msgid ""
-"Right or Bottom color when drawing gradients, not used for solid color."
-msgstr "Աջ կամ ստորին գույնը, երբ պատկերվում է գրադիենտը, չի օգտագործվում մոխրագույնը։"
+#: ../schemas/org.ukui.background.gschema.xml.in.h:16
+msgid "Right or Bottom color when drawing gradients, not used for solid color."
+msgstr ""
+"Աջ կամ ստորին գույնը, երբ պատկերվում է գրադիենտը, չի օգտագործվում "
+"մոխրագույնը։"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:17
+#: ../schemas/org.ukui.background.gschema.xml.in.h:17
 msgid "Color Shading Type"
 msgstr "Ստվերագծող գույնի տիպ"
 
-#: ../schemas/org.mate.background.gschema.xml.in.h:18
+#: ../schemas/org.ukui.background.gschema.xml.in.h:18
 msgid ""
-"How to shade the background color. Possible values are \"horizontal-"
-"gradient\", \"vertical-gradient\", and \"solid\"."
-msgstr "Ինչպես երանգավորել ֆոնր գույնը։ Հնարավոր արժեքներն են՝ horizontal-gradient\", \"vertical-gradient\", և \"solid\"."
+"How to shade the background color. Possible values are \"horizontal-gradient"
+"\", \"vertical-gradient\", and \"solid\"."
+msgstr ""
+"Ինչպես երանգավորել ֆոնր գույնը։ Հնարավոր արժեքներն են՝ horizontal-gradient"
+"\", \"vertical-gradient\", և \"solid\"."
 
-#: ../schemas/org.mate.file-views.gschema.xml.in.h:1
+#: ../schemas/org.ukui.file-views.gschema.xml.in.h:1
 msgid "File Icon Theme"
 msgstr "Ֆայլի Պատկերակի Թեմա"
 
-#: ../schemas/org.mate.file-views.gschema.xml.in.h:2
+#: ../schemas/org.ukui.file-views.gschema.xml.in.h:2
 msgid "Theme used for displaying file icons."
 msgstr "Թեման օգտագործվում է ֆայլի պատկերանշանների ցուցադրման համար։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:1
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:1
 msgid "Enable Accessibility"
 msgstr "Ակտիվացնել Մատչելիությունը"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:2
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:2
 msgid "Whether Applications should have accessibility support."
 msgstr "Արդյու Դիմումները պետք է ունենան հասանելիության աջակցություն։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:3
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:3
 msgid "Enable Animations"
 msgstr "Ակտիվացնել Անիմացիան"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:4
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:4
 msgid ""
 "Whether animations should be displayed. Note: This is a global key, it "
 "changes the behaviour of the window manager, the panel etc."
-msgstr "Արդյոք անիմացիաները պետք է ցուցադրվեն։ Նշում․ Սա գլոբալ ստեղն է, այն փոխում է պատուհանային կառավարիչի վարքագիծը, վահանակը և այլն։"
+msgstr ""
+"Արդյոք անիմացիաները պետք է ցուցադրվեն։ Նշում․ Սա գլոբալ ստեղն է, այն փոխում "
+"է պատուհանային կառավարիչի վարքագիծը, վահանակը և այլն։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:5
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:5
 msgid "Menus Have Tearoff"
 msgstr "Ընտրացանկը Ունի Tearoff"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:6
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:6
 msgid "Whether menus should have a tearoff."
 msgstr "Արդյոք ընտրացանկը պետք է ունենա tearoff."
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:7
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:7
 msgid "Can Change Accels"
 msgstr "Կարող է փոխել Accels"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:8
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:8
 msgid ""
-"Whether the user can dynamically type a new accelerator when positioned over"
-" an active menuitem."
-msgstr "Արդյոք օգտվողը կարող է դինամիկ մուտքագրել նոր արագացուցիչ, երբ տեղավորում է ակտիվ ընտրացանկի վերևում։"
+"Whether the user can dynamically type a new accelerator when positioned over "
+"an active menuitem."
+msgstr ""
+"Արդյոք օգտվողը կարող է դինամիկ մուտքագրել նոր արագացուցիչ, երբ տեղավորում է "
+"ակտիվ ընտրացանկի վերևում։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:9
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:9
 msgid "Toolbar Style"
 msgstr "Գործիքադարակի Ոճ"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:10
-msgid "Toolbar Style. Valid values are \"both\", \"both-horiz\", \"icons\", and \"text\"."
-msgstr "Գործիքադարակի Ոճը։ Վավեր արժեքներն են՝ \"both\", \"both-horiz\", \"icons\", և \"text\"."
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:10
+msgid ""
+"Toolbar Style. Valid values are \"both\", \"both-horiz\", \"icons\", and "
+"\"text\"."
+msgstr ""
+"Գործիքադարակի Ոճը։ Վավեր արժեքներն են՝ \"both\", \"both-horiz\", \"icons\", "
+"և \"text\"."
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:11
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:11
 msgid "Menus Have Icons"
 msgstr "Ընտրացանկերը Ունեն Պատկերակներ"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:12
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:12
 msgid "Whether menus may display an icon next to a menu entry."
-msgstr "Արդյոք ընտրացանկը կարող է ցուցադրել հաջորդ պատկերանշանը ընտրացանկի մուտքում։"
+msgstr ""
+"Արդյոք ընտրացանկը կարող է ցուցադրել հաջորդ պատկերանշանը ընտրացանկի մուտքում։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:13
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:13
 msgid "Buttons Have Icons"
 msgstr " Կոճակները Ունեն Պատկերակներ"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:14
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:14
 msgid "Whether buttons may display an icon in addition to the button text."
-msgstr "Արդյոք կոճակը կարող է ցուցադրել պատկերանշանը հավելագրում կոճակի տեքստի համար։"
+msgstr ""
+"Արդյոք կոճակը կարող է ցուցադրել պատկերանշանը հավելագրում կոճակի տեքստի համար։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:15
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:15
 msgid "Menubar Detachable"
 msgstr "Բաժանելի Ընտրացանկ"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:16
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:16
 msgid "Whether the user can detach menubars and move them around."
 msgstr "Արդյոք օգտվողը կարող է կցել ցանկի բարը և նրանց տեղափոխել շուրջը։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:17
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:17
 msgid "Toolbar Detachable"
 msgstr "Բաժանելի Գործիքադարակ"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:18
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:18
 msgid "Whether the user can detach toolbars and move them around."
 msgstr "Արդյոք օգտվողը կարող է կցել գործիքադարակը և նրանց տեղափոխել շուրջը։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:19
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:19
 msgid "Toolbar Icon Size"
 msgstr "Գործիքադարակի Պատկերանշանի Չափը"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:20
-msgid "Size of icons in toolbars, either \"small-toolbar\" or \"large-toolbar\"."
-msgstr "Պատկերանշանների չափը գործիքադարակի մեջ, ինչպես նաև \"small-toolbar\" կամ \"large-toolbar\"."
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:20
+msgid ""
+"Size of icons in toolbars, either \"small-toolbar\" or \"large-toolbar\"."
+msgstr ""
+"Պատկերանշանների չափը գործիքադարակի մեջ, ինչպես նաև \"small-toolbar\" կամ "
+"\"large-toolbar\"."
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:21
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:21
 msgid "Cursor Blink"
 msgstr "Կուրսորը թարթում է"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:22
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:22
 msgid "Whether the cursor should blink."
 msgstr "Արդյոք կուրսորը թարթելու էր։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:23
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:23
 msgid "Cursor Blink Time"
 msgstr "Կուրսորի Թարթման Ժամանակ"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:24
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:24
 msgid "Length of the cursor blink cycle, in milliseconds."
 msgstr "Կուրսորի թարթման ցիկլի երկարությունը միլիվարկյաններով։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:25
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:25
 msgid "Icon Theme"
 msgstr "Պատկերակ Թեմա"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:26
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:26
 msgid "Icon theme to use for the panel, Caja etc."
 msgstr ""
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:27
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:27
 msgid "Gtk+ Theme"
 msgstr "Gtk+ Թեմա"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:28
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:28
 msgid "Basename of the default theme used by gtk+."
 msgstr " gtk+ կողմից օգտագործվող հիմնական թեմաների հիմնավոր անունը։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:29
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:29
 msgid "List of symbolic names and color equivalents"
 msgstr "Սիմվոլային անունների ցանկի և գույնի համարժեքները"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:30
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:30
 msgid ""
 "A '\\n' separated list of \"name:color\" as defined by the 'gtk-color-"
 "scheme' setting"
-msgstr "'\\n' առանձնավբած է \"name:color\" ցուցակը, որպես սահմանված 'gtk-color-scheme' պարամետրի կողմից"
+msgstr ""
+"'\\n' առանձնավբած է \"name:color\" ցուցակը, որպես սահմանված 'gtk-color-"
+"scheme' պարամետրի կողմից"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:31
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:31
 msgid "Default font"
 msgstr "Հիմնական տառատեսակ"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:32
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:32
 msgid "Name of the default font used by gtk+."
 msgstr "gtk+ կողմից օգտագործվող հիմնական տառատեսակների անունը։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:33
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:33
 msgid "GTK IM Preedit Style"
 msgstr "GTK IM Խմբագրման Ոճ"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:34
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:34
 msgid "Name of the GTK+ input method Preedit Style used by gtk+."
-msgstr "GTK+ մուտքագրման մեթոդի Տպագրության նախապատրաստման Ոճի անունը gtk+ կողմից օգտագործված։"
+msgstr ""
+"GTK+ մուտքագրման մեթոդի Տպագրության նախապատրաստման Ոճի անունը gtk+ կողմից "
+"օգտագործված։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:35
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:35
 msgid "GTK IM Status Style"
 msgstr "GTK IM Կարգավիճակի Ոճ"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:36
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:36
 msgid "Name of the GTK+ input method Status Style used by gtk+."
-msgstr "GTK+ մուտքագրման մեթոդի Կարգավիճակի Ոճի անունը gtk+ կողմից օգտագործված։"
+msgstr ""
+"GTK+ մուտքագրման մեթոդի Կարգավիճակի Ոճի անունը gtk+ կողմից օգտագործված։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:37
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:37
 msgid "GTK IM Module"
 msgstr "GTK IM Մոդուլ"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:38
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:38
 msgid "Name of the input method module used by GTK+."
 msgstr "GTK+ կողմից օգտագործված ներմուծման մեթոդի մոդուլի անունը։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:39
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:39
 msgid "Use GTK3 header bar"
 msgstr "Օգտագործել GTK3 վերնագիր բարը"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:40
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:40
 msgid ""
 "Whether builtin GTK+ dialogs such as the file chooser, the color chooser or "
-"the font chooser will use a header bar at the top to show action widgets, or"
-" an action area at the bottom. This setting does not affect custom dialogs "
+"the font chooser will use a header bar at the top to show action widgets, or "
+"an action area at the bottom. This setting does not affect custom dialogs "
 "using GtkDialog directly, or message dialogs."
-msgstr "Արդյոք կառուցվել է GTK+ երկխոսությունները, ինչպիսիք են ֆայլ ընտրողը, գույն ընտրողը կամ տառատեսակը ընտրողը, կօգտագործի գլխավոր բարը վերևում գործողության դաշտերը ցույց տալու համար, կամ գործողությունների տարածքը ներքևի մասում։ Այս պարամետրը չի ազդում սովորական երկխոսություններում օգտագործելով GtkDialog անմիջականորեն կամ հաղորդագրության երկխոսություններում։"
+msgstr ""
+"Արդյոք կառուցվել է GTK+ երկխոսությունները, ինչպիսիք են ֆայլ ընտրողը, գույն "
+"ընտրողը կամ տառատեսակը ընտրողը, կօգտագործի գլխավոր բարը վերևում գործողության "
+"դաշտերը ցույց տալու համար, կամ գործողությունների տարածքը ներքևի մասում։ Այս "
+"պարամետրը չի ազդում սովորական երկխոսություններում օգտագործելով GtkDialog "
+"անմիջականորեն կամ հաղորդագրության երկխոսություններում։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:41
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:41
 msgid "Use GTK3 overlay scrolling"
 msgstr "Օգտագործել GTK3 պտտելու համար"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:42
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:42
 msgid ""
 "Whether built-in GTK+ scrolled windows will use overlay scrolling. Overlay "
 "scrolling hides and reduces the size of the scrollbar until it gets focus."
-msgstr "Արդյոք կառուցված GTK+ scrolled պատուհանները կօգտագործեն ոլորոլու համար։ Թաքցնել ոլորելը և նվազեցնել  ոլորման լուսաշերտի չափը քանի դեռ այն կենտրոնացվում է։"
+msgstr ""
+"Արդյոք կառուցված GTK+ scrolled պատուհանները կօգտագործեն ոլորոլու համար։ "
+"Թաքցնել ոլորելը և նվազեցնել  ոլորման լուսաշերտի չափը քանի դեռ այն "
+"կենտրոնացվում է։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:43
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:43
 msgid "Enable Gtk toolkit-wide animations"
 msgstr "Միացնել Gtk ծրագրային գործիքի լայն անիմացիաները։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:44
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:44
 msgid "Whether to enable toolkit-wide animations."
 msgstr "Արդյոք միացնել ծրագրային գործիքի լայն անիմացիաները։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:45
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:45
 msgid "Document font"
 msgstr "Փաստաթղթի տառատեսակ"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:46
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:46
 msgid "Name of the default font used for reading documents."
 msgstr "Նախնական տառատեսակի անունը օգտագործված է փաստաթղթերի կարդալու համար։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:47
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:47
 msgid "Monospace font"
 msgstr "Տարածության տառատեսակ"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:48
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:48
 msgid ""
 "Name of a monospaced (fixed-width) font for use in locations like terminals."
-msgstr "Մոնոտարածության տառատեսակի (ֆիքսված լայնությունը) անունը տեղադրման վայրերում օգտագործելու համար, ինչպիսին է տերմինալը։"
+msgstr ""
+"Մոնոտարածության տառատեսակի (ֆիքսված լայնությունը) անունը տեղադրման վայրերում "
+"օգտագործելու համար, ինչպիսին է տերմինալը։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:49
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:49
 msgid "Use Custom Font"
 msgstr "Օգտագործել Գործարկողի Տառատեսակը"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:50
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:50
 msgid "Whether to use a custom font in gtk+ applications."
 msgstr "Արդյոք օգտագործել սովորական տառաչափը gtk+ դիմումի մեջ։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:51
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:51
 msgid "Status Bar on Right"
 msgstr "Կարգավիճակների բարը աջ կողմում"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:52
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:52
 msgid "Whether to display a status bar meter on the right."
 msgstr "Արդյոք ցուցադրել կարգավիճակների բարը աջ կողմում"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:53
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:53
 msgid "Module for GtkFileChooser"
 msgstr "Մոդուլ Gtk Ֆայլերի Ընտրողի համար"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:54
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:54
 msgid ""
 "Module to use as the filesystem model for the GtkFileChooser widget. "
 "Possible values are \"gio\" and \"gtk+\"."
-msgstr "Մոդուլը օգտագործել որպես ֆայլային համակարգի մոդուլ GtkFileChooser դաշտի համար։ Հնարավոր արժեքներն են՝ \"gio\" և \"gtk+\"."
+msgstr ""
+"Մոդուլը օգտագործել որպես ֆայլային համակարգի մոդուլ GtkFileChooser դաշտի "
+"համար։ Հնարավոր արժեքներն են՝ \"gio\" և \"gtk+\"."
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:55
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:55
 msgid "Menubar accelerator"
 msgstr "Ընտրացանկի բարի արագացուցիչ"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:56
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:56
 msgid "Keyboard shortcut to open the menu bars."
 msgstr "Կրճատ ստեղնաշարային հրաման Ընտրացանկի բարերի բացելու համար։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:57
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:57
 msgid "Show the 'Input Methods' menu"
 msgstr "Ցույց տալ 'Մուտքագրման Մեթոդներ' ընտրացանկը"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:58
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:58
 msgid ""
 "Whether the context menus of entries and text views should offer to change "
 "the input method."
-msgstr "Արդյոք մուտքերի և տեքստի տեսքերի համատեքստի ընտրացանկը պետք է առաջարկեն փոխել ներմուծման մեթոդը։"
+msgstr ""
+"Արդյոք մուտքերի և տեքստի տեսքերի համատեքստի ընտրացանկը պետք է առաջարկեն "
+"փոխել ներմուծման մեթոդը։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:59
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:59
 msgid "Show the 'Unicode Control Character' menu"
 msgstr "Ցույց տալ 'Յունիկոդի Վերահսկիչ Սիմվոլների' ընտրացանկը"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:60
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:60
 msgid ""
 "Whether the context menus of entries and text views should offer to insert "
 "control characters."
-msgstr "Արդյոք մուտքերի և տեքստի տեսքերի համատեքստի ընտրացանկը պետք է առաջարկեն փոխել ներմուծման վերահսկման սիմվոլները։"
+msgstr ""
+"Արդյոք մուտքերի և տեքստի տեսքերի համատեքստի ընտրացանկը պետք է առաջարկեն "
+"փոխել ներմուծման վերահսկման սիմվոլները։"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:61
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:61
 msgid "Titlebar layout of GTK3 client-side decorated windows"
 msgstr "Title Bar դիրքը GTK3 հաճախորդի կողմից դեկորացված պատուհանները"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:62
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:62
 msgid ""
 "This setting determines which buttons should be put in the titlebar of "
-"client-side decorated windows, and whether they should be placed at the left"
-" of right. See "
-"https://developer.gnome.org/gtk3/stable/GtkSettings.html#GtkSettings--gtk-"
-"decoration-layout."
-msgstr "Այս պարամետրը սահմանում է, որը կոճակները պետք է տեղադրել հաճախորդների կողմից դեկորացված պատուհանների  titlebar մեջ և արդյոք դրանք պետք է տեղադրված լինեն ձախից աջ։ Տես https://developer.gnome.org/gtk3/stable/GtkSettings.html#GtkSettings--gtk-decoration-layout."
+"client-side decorated windows, and whether they should be placed at the left "
+"of right. See https://developer.gnome.org/gtk3/stable/GtkSettings."
+"html#GtkSettings--gtk-decoration-layout."
+msgstr ""
+"Այս պարամետրը սահմանում է, որը կոճակները պետք է տեղադրել հաճախորդների կողմից "
+"դեկորացված պատուհանների  titlebar մեջ և արդյոք դրանք պետք է տեղադրված լինեն "
+"ձախից աջ։ Տես https://developer.gnome.org/gtk3/stable/GtkSettings."
+"html#GtkSettings--gtk-decoration-layout."
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:63
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:63
+msgid "Use a global menubar for displaying application menus"
+msgstr ""
+
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:64
+#, fuzzy
+msgid ""
+"This setting determines where application menu will be displayed - in a "
+"window or on a panel with MenuModel protocol. See https://developer.gnome."
+"org/gtk3/stable/GtkSettings.html#GtkSettings--gtk-shell-shows-app-menu."
+msgstr ""
+"Այս պարամետրը սահմանում է, որը կոճակները պետք է տեղադրել հաճախորդների կողմից "
+"դեկորացված պատուհանների  titlebar մեջ և արդյոք դրանք պետք է տեղադրված լինեն "
+"ձախից աջ։ Տես https://developer.gnome.org/gtk3/stable/GtkSettings."
+"html#GtkSettings--gtk-decoration-layout."
+
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:65
+msgid "Use a global menubar for displaying window menubars"
+msgstr ""
+
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:66
+#, fuzzy
+msgid ""
+"This setting determines where window menubars will be displayed - in a "
+"window or on a panel with MenuModel protocol. See https://developer.gnome."
+"org/gtk3/stable/GtkSettings.html#GtkSettings--gtk-shell-shows-menubar."
+msgstr ""
+"Այս պարամետրը սահմանում է, որը կոճակները պետք է տեղադրել հաճախորդների կողմից "
+"դեկորացված պատուհանների  titlebar մեջ և արդյոք դրանք պետք է տեղադրված լինեն "
+"ձախից աջ։ Տես https://developer.gnome.org/gtk3/stable/GtkSettings."
+"html#GtkSettings--gtk-decoration-layout."
+
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:67
 msgid "Only show mnemonics on when the Alt key is pressed"
 msgstr "Միայն ցույց տալ mnemonics, երբ Alt ստեղնը սեղմված է"
 
-#: ../schemas/org.mate.interface.gschema.xml.in.h:64
+#: ../schemas/org.ukui.interface.gschema.xml.in.h:68
 msgid ""
 "Whether mnemonics should be automatically shown and hidden when the user "
 "presses the Alt key."
-msgstr "Արդյոք mnemonics պետք է ավտոմատ կերպով ցուցադրվի և թաքցվի, երբ օգտագործողը սեղմում է Alt ստեղնը։"
+msgstr ""
+"Արդյոք mnemonics պետք է ավտոմատ կերպով ցուցադրվի և թաքցվի, երբ օգտագործողը "
+"սեղմում է Alt ստեղնը։"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:1
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:1
 msgid "Disable command line"
 msgstr "Ապաակտիվացնել հրամանային տողը"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:2
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:2
 msgid ""
-"Prevent the user from accessing the terminal or specifying a command line to"
-" be executed. For example, this would disable access to the panel's \"Run "
+"Prevent the user from accessing the terminal or specifying a command line to "
+"be executed. For example, this would disable access to the panel's \"Run "
 "Application\" dialog."
-msgstr "Կանխարգելել օգտագործողին մուտք գործել տերմինալ կամ հրամանային տեղը նշել որպես իրագործված։ Օրինակ, դա կարող է անջատել մուտքը դեպի վահանակի \"Run Application\" երկխոսության։"
+msgstr ""
+"Կանխարգելել օգտագործողին մուտք գործել տերմինալ կամ հրամանային տեղը նշել "
+"որպես իրագործված։ Օրինակ, դա կարող է անջատել մուտքը դեպի վահանակի \"Run "
+"Application\" երկխոսության։"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:3
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:3
 msgid "Disable saving files to disk"
 msgstr "Անջատել ֆայլերի պահպանումը սակավառակի վրա"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:4
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:4
 msgid ""
 "Prevent the user from saving files to disk. For example, this would disable "
 "access to all applications' \"Save as\" dialogs."
-msgstr "Կանխել օգտվողին ֆայլերը սկավառակի վրա պահպանելուց։ Օրինակ, դա կարող է անջատել մուտքը դեպի բոլոր դիմումները' \"Պահպանել որպես\" երկխոսություններում։"
+msgstr ""
+"Կանխել օգտվողին ֆայլերը սկավառակի վրա պահպանելուց։ Օրինակ, դա կարող է "
+"անջատել մուտքը դեպի բոլոր դիմումները' \"Պահպանել որպես\" երկխոսություններում։"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:5
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:5
 msgid "Disable printing"
 msgstr "Կասեցնել տպագրություն"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:6
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:6
 msgid ""
 "Prevent the user from printing. For example, this would disable access to "
 "all applications' \"Print\" dialogs."
-msgstr "Կանխել օգտվողին տպագրությունից։ Օրինակ, դա կարող է անջատել մուտքը դեպի բոլոր դիմումները ' \"Տպել\" երկխոսություններում։"
+msgstr ""
+"Կանխել օգտվողին տպագրությունից։ Օրինակ, դա կարող է անջատել մուտքը դեպի բոլոր "
+"դիմումները ' \"Տպել\" երկխոսություններում։"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:7
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:7
 msgid "Disable print setup"
 msgstr "Ապաակտիվացնել տպագրության տեղակայումը"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:8
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:8
 msgid ""
 "Prevent the user from modifying print settings. For example, this would "
 "disable access to all applications' \"Print Setup\" dialogs."
-msgstr "Կանխել օգտվողին տպագրության պարամետրերը փոխելուց։ Օրինակ, դա կարող է անջատել մուտքը դեպի բոլոր դիմումները' \"Տպել Տեղակայում\" երկխոսություններում։"
+msgstr ""
+"Կանխել օգտվողին տպագրության պարամետրերը փոխելուց։ Օրինակ, դա կարող է անջատել "
+"մուտքը դեպի բոլոր դիմումները' \"Տպել Տեղակայում\" երկխոսություններում։"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:9
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:9
 msgid "Disable user switching"
 msgstr "Ապաակտիվացնել օգտատիրոջ փոխանջատումը"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:10
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:10
 msgid ""
 "Prevent the user from switching to another account while his session is "
 "active."
 msgstr "Կանխել օգտվողին այլ հաշվի անցունից, մինչդեռ նրա նիստը ակտիվ է։"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:11
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:11
 msgid "Disable lock screen"
 msgstr "Ապաակտիվացնել էկրանի արգելափակումը"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:12
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:12
 msgid "Prevent the user from locking the screen."
 msgstr "Կանխարգելել օգտագործողին էկրանի արգելափակումից։"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:13
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:13
 msgid "Disable URL and MIME type handlers"
 msgstr "Անջատել URL և MIME տիպերը հրամանաշարով"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:14
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:14
 msgid "Prevent running any URL or MIME type handler applications."
-msgstr "Կանխարգելել ցանկացած URL կամ MIME տեսակի մշակման ծրագրի դիմումի գործարկումը։"
+msgstr ""
+"Կանխարգելել ցանկացած URL կամ MIME տեսակի մշակման ծրագրի դիմումի գործարկումը։"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:15
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:15
 msgid "Disable theme settings"
 msgstr "Ապաակտիվացնել թեմայի կարգավորումները"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:16
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:16
 msgid "Prevent the user from changing theme settings."
 msgstr "Կանխարգելել օգտագործողին թեմայի պարամետրերը փոփոխելուց։"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:17
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:17
 msgid "Disable log out"
 msgstr "Ապաակտիվացնել դուրս գալը"
 
-#: ../schemas/org.mate.lockdown.gschema.xml.in.h:18
+#: ../schemas/org.ukui.lockdown.gschema.xml.in.h:18
 msgid "Prevent the user from logging out."
 msgstr "Կանխարգելել օգտագործողին դուրս գալուց։"
 
-#: ../schemas/org.mate.peripherals-keyboard.gschema.xml.in.h:1
+#: ../schemas/org.ukui.peripherals-keyboard.gschema.xml.in.h:1
 msgid "possible values are \"on\", \"off\", and \"custom\"."
 msgstr "հնարավոր արժեքներն են \"on\", \"off\", և \"custom\"."
 
-#: ../schemas/org.mate.peripherals-keyboard.gschema.xml.in.h:2
+#: ../schemas/org.ukui.peripherals-keyboard.gschema.xml.in.h:2
 msgid "Keyboard Bell Custom Filename"
 msgstr "Սովորական Ֆայլի Ստեղնաշարի Կանչ"
 
-#: ../schemas/org.mate.peripherals-keyboard.gschema.xml.in.h:3
+#: ../schemas/org.ukui.peripherals-keyboard.gschema.xml.in.h:3
 msgid "File name of the bell sound to be played."
 msgstr "Զանգի հնչման նվագարկման ֆայլի անումը"
 
-#: ../schemas/org.mate.peripherals-keyboard.gschema.xml.in.h:4
+#: ../schemas/org.ukui.peripherals-keyboard.gschema.xml.in.h:4
 msgid "Remember NumLock state"
 msgstr "Հիշել NumLock վիճակը"
 
-#: ../schemas/org.mate.peripherals-keyboard.gschema.xml.in.h:5
+#: ../schemas/org.ukui.peripherals-keyboard.gschema.xml.in.h:5
+#, fuzzy
 msgid ""
-"When set to true, MATE will remember the state of the NumLock LED between "
+"When set to true, UKUI will remember the state of the NumLock LED between "
 "sessions."
-msgstr "Երբ սահմանվում է ՃԻՇՏ MATE֊ը պետք է հիշի NumLock LED կարգավիճակը սեսիաների միջև։"
+msgstr ""
+"Երբ սահմանվում է ՃԻՇՏ MATE֊ը պետք է հիշի NumLock LED կարգավիճակը սեսիաների "
+"միջև։"
 
-#: ../schemas/org.mate.peripherals-keyboard.gschema.xml.in.h:6
+#: ../schemas/org.ukui.peripherals-keyboard.gschema.xml.in.h:6
 msgid "NumLock state"
 msgstr "NumLock վիճակ"
 
-#: ../schemas/org.mate.peripherals-keyboard.gschema.xml.in.h:7
+#: ../schemas/org.ukui.peripherals-keyboard.gschema.xml.in.h:7
 msgid "The remembered state of the NumLock LED."
 msgstr "Հիշել  NumLock LED վիճակը։"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:1
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:1
 msgid "Mouse button orientation"
 msgstr "Մկնիկի կոճակի կողմնորոշում"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:2
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:2
 msgid "Swap left and right mouse buttons for left-handed mice."
 msgstr "Փոխանակել մկնիկի աջ և ձախ կոճակները ձախլիկ մկների համար։"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:3
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:3
 msgid "Motion Acceleration"
 msgstr ""
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:4
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:4
 msgid ""
 "Acceleration multiplier for mouse motion. A value of -1 is the system "
 "default."
-msgstr "Մկնիկի շարժման համար արագացուցչային բազմապատկիչ։ -1֊ը համակարգի հիմնական արժեքն է։"
+msgstr ""
+"Մկնիկի շարժման համար արագացուցչային բազմապատկիչ։ -1֊ը համակարգի հիմնական "
+"արժեքն է։"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:5
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:5
 msgid "Motion Threshold"
 msgstr "Շարժման Շեմը"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:6
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:6
 msgid ""
 "Distance in pixels the pointer must move before accelerated mouse motion is "
 "activated. A value of -1 is the system default."
-msgstr "Ցուցիչի արագությունը պիքսելներով պետք է տեղափոխել մինչ մկնիկի շարժման արագացման ակտրվացումը։ -1֊ը համակարգի հիմնական արժեքն է։"
+msgstr ""
+"Ցուցիչի արագությունը պիքսելներով պետք է տեղափոխել մինչ մկնիկի շարժման "
+"արագացման ակտրվացումը։ -1֊ը համակարգի հիմնական արժեքն է։"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:7
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:7
 msgid "Drag Threshold"
 msgstr "Տեղափոխության Շեմ"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:8
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:8
 msgid "Distance before a drag is started."
 msgstr "Հեռավորությունը մինչ տեղափոխության սկսվելը։"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:9
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:9
 msgid "Double Click Time"
 msgstr "Կրկնակի կտտոցի ժամանակ"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:10
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:10
 msgid "Length of a double click."
 msgstr "Կրկնակի կտոցի երկարությունը"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:11
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:11
 msgid "Middle button emulation"
 msgstr "Միջին կոճակի էմուլյացիա"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:12
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:12
 msgid ""
 "Enables middle mouse button emulation through simultaneous left and right "
 "button click."
-msgstr "Հնարավորություն է տալիս մկնիկի մեջտեղի կոճակը էմուլյացնել միաժամանակ աջ և ձախ կոճակները սեղմելու միջոցով։"
+msgstr ""
+"Հնարավորություն է տալիս մկնիկի մեջտեղի կոճակը էմուլյացնել միաժամանակ աջ և "
+"ձախ կոճակները սեղմելու միջոցով։"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:13
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:13
 msgid "Locate Pointer"
 msgstr "Տեղադրել ցուցիչը"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:14
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:14
 msgid ""
 "Highlights the current location of the pointer when the Control key is "
 "pressed and released."
-msgstr "Ընդգծել ցուցիչի ընթացիկ դիրքը, երբ  Control ստեղնը սեղմվել և ազատ է արձակվել;"
+msgstr ""
+"Ընդգծել ցուցիչի ընթացիկ դիրքը, երբ  Control ստեղնը սեղմվել և ազատ է արձակվել;"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:15
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:15
 msgid "Cursor theme"
 msgstr "Կուրսորի թեման"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:16
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:16
 msgid "Cursor theme name."
 msgstr ""
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:17
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:17
 msgid "Cursor size"
 msgstr "Կուրսորի չափը"
 
-#: ../schemas/org.mate.peripherals-mouse.gschema.xml.in.h:18
+#: ../schemas/org.ukui.peripherals-mouse.gschema.xml.in.h:18
 msgid "Size of the cursor referenced by cursor_theme."
 msgstr "Կուրսորի_թեմայի կողմից կուրսորի հիշատակված չափը։"
 
-#: ../schemas/org.mate.sound.gschema.xml.in.h:1
+#: ../schemas/org.ukui.sound.gschema.xml.in.h:1
 msgid "Default mixer device"
 msgstr "Հիմնական խառնիչ սարք"
 
-#: ../schemas/org.mate.sound.gschema.xml.in.h:2
+#: ../schemas/org.ukui.sound.gschema.xml.in.h:2
 msgid "The default mixer device used by the multimedia key bindings."
 msgstr "Հիմնական խառնիչ սարքը օգտագործվում է մուլտիմեդիա ստեղնի կապերի կողմից։"
 
-#: ../schemas/org.mate.sound.gschema.xml.in.h:3
+#: ../schemas/org.ukui.sound.gschema.xml.in.h:3
 msgid "Default mixer tracks"
 msgstr "Հիմնական խառնիչի հետքերը"
 
-#: ../schemas/org.mate.sound.gschema.xml.in.h:4
+#: ../schemas/org.ukui.sound.gschema.xml.in.h:4
 msgid "The default mixer tracks used by the multimedia key bindings."
-msgstr "Հիմնական խառնիչի հետքերը օգտագործվում է մուլտիմեդիայի ստեղնի կապերի կողմից։"
+msgstr ""
+"Հիմնական խառնիչի հետքերը օգտագործվում է մուլտիմեդիայի ստեղնի կապերի կողմից։"
 
-#: ../schemas/org.mate.sound.gschema.xml.in.h:5
+#: ../schemas/org.ukui.sound.gschema.xml.in.h:5
 msgid "Enable ESD"
 msgstr "Ակտիվացնել ESD"
 
-#: ../schemas/org.mate.sound.gschema.xml.in.h:6
+#: ../schemas/org.ukui.sound.gschema.xml.in.h:6
 msgid "Enable sound server startup."
 msgstr "Միացնել ձայնային սերվերի մեկնարկը։"
 
-#: ../schemas/org.mate.sound.gschema.xml.in.h:7
+#: ../schemas/org.ukui.sound.gschema.xml.in.h:7
 msgid "Sounds for events"
 msgstr "Իրադարձությունների համար հնչյուններ"
 
-#: ../schemas/org.mate.sound.gschema.xml.in.h:8
+#: ../schemas/org.ukui.sound.gschema.xml.in.h:8
 msgid "Whether to play sounds on user events."
 msgstr "Արդյոք պետք է հնչի ձայներ օգտագործողի իրադարձությունների վրա։"
 
-#: ../schemas/org.mate.sound.gschema.xml.in.h:9
+#: ../schemas/org.ukui.sound.gschema.xml.in.h:9
 msgid "Sound theme name"
 msgstr "Ձայնի թեմայի անուն"
 
-#: ../schemas/org.mate.sound.gschema.xml.in.h:10
+#: ../schemas/org.ukui.sound.gschema.xml.in.h:10
 msgid "The XDG sound theme to use for event sounds."
 msgstr "XDG ձայնային թեման օգտագործել իրադարձությունների ձայների համար։"
 
-#: ../schemas/org.mate.sound.gschema.xml.in.h:11
+#: ../schemas/org.ukui.sound.gschema.xml.in.h:11
 msgid "Input feedback sounds"
 msgstr "Մուտքային հետադարձ հնչյուններ"
 
-#: ../schemas/org.mate.sound.gschema.xml.in.h:12
+#: ../schemas/org.ukui.sound.gschema.xml.in.h:12
 msgid "Whether to play sounds on input events."
 msgstr "Արդյոք հնչի ձայն մուտքային իրադարձությունների վրա։"
 
-#: ../schemas/org.mate.thumbnail-cache.gschema.xml.in.h:1
+#: ../schemas/org.ukui.thumbnail-cache.gschema.xml.in.h:1
 msgid ""
 "Maximum age for thumbnails in the cache, in days. Set to -1 to disable "
 "cleaning."
-msgstr "Մանրապատկերի առավելագույն տարիքը քեշում, օրերով։ Սահմանել -1 մաքրումը անջատելու համար։"
+msgstr ""
+"Մանրապատկերի առավելագույն տարիքը քեշում, օրերով։ Սահմանել -1 մաքրումը "
+"անջատելու համար։"
 
-#: ../schemas/org.mate.thumbnail-cache.gschema.xml.in.h:2
+#: ../schemas/org.ukui.thumbnail-cache.gschema.xml.in.h:2
 msgid ""
 "Maximum size of the thumbnail cache, in megabytes. Set to -1 to disable "
 "cleaning."
-msgstr "Մանրապատկերի առավելագույն չափը քեշում, մեգաբայթերով։ Սահմանել -1 մաքրումը անջատելու համար։"
+msgstr ""
+"Մանրապատկերի առավելագույն չափը քեշում, մեգաբայթերով։ Սահմանել -1 մաքրումը "
+"անջատելու համար։"
 
-#: ../schemas/org.mate.thumbnailers.gschema.xml.in.h:1
+#: ../schemas/org.ukui.thumbnailers.gschema.xml.in.h:1
 msgid "Disable all external thumbnailers"
 msgstr "Անջատել բոլոր արտաքին մանրապատկերիչները"
 
-#: ../schemas/org.mate.thumbnailers.gschema.xml.in.h:2
+#: ../schemas/org.ukui.thumbnailers.gschema.xml.in.h:2
 msgid ""
 "Set to true to disable all external thumbnailer programs, independent on "
 "whether they are independently disabled/enabled."
-msgstr "Սահմանել ճիշտ բոլոր արտաքին thumbnailer ծրագրերը անջատելու համար, անկախ նրանից թե դրանք ինքնուրույն կարոց են անջատվել/միանալ։"
+msgstr ""
+"Սահմանել ճիշտ բոլոր արտաքին thumbnailer ծրագրերը անջատելու համար, անկախ "
+"նրանից թե դրանք ինքնուրույն կարոց են անջատվել/միանալ։"
 
-#: ../schemas/org.mate.thumbnailers.gschema.xml.in.h:3
+#: ../schemas/org.ukui.thumbnailers.gschema.xml.in.h:3
 msgid ""
 "List of mime-types for which external thumbnailer programs will be disabled"
-msgstr "Տիպերի ցանկ, որոնց համար արտաքին մանրապատկերիչի ծրագրերը պետք է անջատված լինի։"
+msgstr ""
+"Տիպերի ցանկ, որոնց համար արտաքին մանրապատկերիչի ծրագրերը պետք է անջատված "
+"լինի։"
 
-#: ../schemas/org.mate.thumbnailers.gschema.xml.in.h:4
+#: ../schemas/org.ukui.thumbnailers.gschema.xml.in.h:4
 msgid ""
-"Thumbnails will not be created for files whose mime-type is contained in the"
-" list."
-msgstr "Մանրապատկերներ չի ստեղծվում այն ֆայլերի համար, որոնց տիպը պարունակվում է ֆայլում։"
+"Thumbnails will not be created for files whose mime-type is contained in the "
+"list."
+msgstr ""
+"Մանրապատկերներ չի ստեղծվում այն ֆայլերի համար, որոնց տիպը պարունակվում է "
+"ֆայլում։"
 
-#: ../schemas/org.mate.typing-break.gschema.xml.in.h:1
+#: ../schemas/org.ukui.typing-break.gschema.xml.in.h:1
 msgid "Type time"
 msgstr "Մեքենագրիր ժամանակ"
 
-#: ../schemas/org.mate.typing-break.gschema.xml.in.h:2
+#: ../schemas/org.ukui.typing-break.gschema.xml.in.h:2
 msgid "Number of minutes of typing time before break mode starts."
 msgstr "Մուտքագրման ժամանակի քանակաը րոպեներով մինչ ընդմիջման ռեժիմի սկսումը։"
 
-#: ../schemas/org.mate.typing-break.gschema.xml.in.h:3
+#: ../schemas/org.ukui.typing-break.gschema.xml.in.h:3
 msgid "Break time"
 msgstr "Ընդմիջման ժամանակ"
 
-#: ../schemas/org.mate.typing-break.gschema.xml.in.h:4
+#: ../schemas/org.ukui.typing-break.gschema.xml.in.h:4
 msgid "Number of minutes that the typing break should last."
 msgstr "Մուքագրման ընդմիջումը պետք է տևի մի քանի րոպե։"
 
-#: ../schemas/org.mate.typing-break.gschema.xml.in.h:5
+#: ../schemas/org.ukui.typing-break.gschema.xml.in.h:5
 msgid "Allow postponing of breaks"
 msgstr "Թույլատրիր ընդմիջումները հետաձգել"
 
-#: ../schemas/org.mate.typing-break.gschema.xml.in.h:6
+#: ../schemas/org.ukui.typing-break.gschema.xml.in.h:6
 msgid "Whether or not the typing break screen can be postponed."
 msgstr "Արդյոք էկրանի մուտքագրման ընդմիջումը կարող է հետաձգվել, թե ոչ։"
 
-#: ../schemas/org.mate.typing-break.gschema.xml.in.h:7
+#: ../schemas/org.ukui.typing-break.gschema.xml.in.h:7
 msgid "Whether or not keyboard locking is enabled"
 msgstr "Ամեն դեպքում ստեղնաշարն ակտիվացվում է արգելափակելով"
 
-#: ../schemas/org.mate.typing-break.gschema.xml.in.h:8
+#: ../schemas/org.ukui.typing-break.gschema.xml.in.h:8
 msgid "Whether or not keyboard locking is enabled."
 msgstr "Ամեն դեպքում ստեղնաշարն ակտիվացվում է արգելափակելով:"
 
-#: ../tools/mate-color-select.c:64
-#: ../tools/mate-color-select.desktop.in.in.h:1
-msgid "MATE Color Selection"
-msgstr "MATE Գույնի Ընտրություն"
+#: ../tools/ukui-color-select.c:64 ../tools/ukui-color-select.desktop.in.in.h:1
+#, fuzzy
+msgid "UKUI Color Selection"
+msgstr "Գույնի Ընտություն"
 
-#: ../tools/mate-color-select.desktop.in.in.h:2
+#: ../tools/ukui-color-select.desktop.in.in.h:2
 msgid "Color selection dialog"
 msgstr "Ընտրված երկխոսության գույնը"
 
-#: ../tools/mate-color-select.desktop.in.in.h:3
+#: ../tools/ukui-color-select.desktop.in.in.h:3
 msgid "Choose colors from the palette or the screen"
 msgstr "Ընտրեք գույները ներկապնակից կամ էկրանից"
+
+#~ msgid "About MATE"
+#~ msgstr "Գնոմի Մասին"
+
+#~ msgid "Could not show link"
+#~ msgstr "Չհաջողվեց ցույց տալ հղումը"
+
+#~ msgid "Program name"
+#~ msgstr "Ծրագրի անունը"
+
+#~ msgid ""
+#~ "The name of the program. If this is not set, it defaults to "
+#~ "g_get_application_name()"
+#~ msgstr ""
+#~ "Շրագրի անումը։ Եթե այն չի սահմանվում, ապա այն ընտ նախնականի "
+#~ "g_get_application_name()"
+
+#~ msgid "Program version"
+#~ msgstr "Ծրագրի տարբերակը"
+
+#~ msgid "The version of the program"
+#~ msgstr "Ծրագրի տարբերակը"
+
+#~ msgid "Copyright string"
+#~ msgstr "Հեղինակային իրավունքի տող"
+
+#~ msgid "Copyright information for the program"
+#~ msgstr "Հեղինակային իրավունքի տեղեկատվությունը ծրագրի համար"
+
+#~ msgid "Comments string"
+#~ msgstr "Մեկնաբանությունների տող"
+
+#~ msgid "Comments about the program"
+#~ msgstr "Ծրագրի մասին մեկնաբանություններ"
+
+#~ msgid "License"
+#~ msgstr "Արտոնագիր "
+
+#~ msgid "The license of the program"
+#~ msgstr "Ծրագրի լիցենզիան"
+
+#~ msgid "Website URL"
+#~ msgstr "Վեբ կայքի ինտերնետ միջոցները ցուցող հղում"
+
+#~ msgid "The URL for the link to the website of the program"
+#~ msgstr "URL հղում է դեպի ծրագրի կայքը"
+
+#~ msgid "Website label"
+#~ msgstr "Վեբ կայքի պիտակը"
+
+#~ msgid ""
+#~ "The label for the link to the website of the program. If this is not set, "
+#~ "it defaults to the URL"
+#~ msgstr ""
+#~ "Ծրագրի կայքի հղման համար պիտակ։ Եթե դա չի սահմանվում, այն նախնականն է URL "
+#~ "համար"
+
+#~ msgid "Authors"
+#~ msgstr "Հեղինակներ"
+
+#~ msgid "List of authors of the program"
+#~ msgstr "Ծրագրի հեղինակների ցանկը"
+
+#~ msgid "Documenters"
+#~ msgstr "Փաստաթղթերով հիմնավորողները"
+
+#~ msgid "List of people documenting the program"
+#~ msgstr "Ծրագիրը փաստաթղթերով հիմնավորող մարդկանց ցուցակը"
+
+#~ msgid "Artists"
+#~ msgstr "Արվեստագետ"
+
+#~ msgid "List of people who have contributed artwork to the program"
+#~ msgstr "Մարդկանց ցանկը, ովքեր նպաստեցին ծրագրի նկարազարդմանը"
+
+#~ msgid "Translator credits"
+#~ msgstr "Թարգմանչի կրեդիտներ"
+
+#~ msgid ""
+#~ "Credits to the translators. This string should be marked as translatable"
+#~ msgstr "Թարգմանիչների կրեդիտներ։ Այս տողը պետք է նշվի որպես թարգմանվող"
+
+#~ msgid "Logo"
+#~ msgstr "Լոգո"
+
+#~ msgid ""
+#~ "A logo for the about box. If this is not set, it defaults to "
+#~ "gtk_window_get_default_icon_list()"
+#~ msgstr ""
+#~ "Պատկերանիշ մոտ վանդակի համար։ Եթե դա չի սահմանվում, այն նախնականն է "
+#~ "gtk_window_get_default_icon_list() համար"
+
+#~ msgid "Logo Icon Name"
+#~ msgstr "Պատկերանիշի պատկերակիի անունը"
+
+#~ msgid "A named icon to use as the logo for the about box."
+#~ msgstr "Անունը կրող պատկերանշանը օգտագործել որպես լոգո վանդակի համար։"
+
+#~ msgid "Wrap license"
+#~ msgstr "Արտոնագիրը պատել"
+
+#~ msgid "Whether to wrap the license text."
+#~ msgstr "Արդյոք պատել արտոնագրի տեքստը։"
+
+#~ msgid "C_redits"
+#~ msgstr "Երախտիք"
+
+#~ msgid "_License"
+#~ msgstr "_Լիցենզիա"
+
+#~ msgid "Credits"
+#~ msgstr "Երախտիք"
+
+#~ msgid "Written by"
+#~ msgstr "Գրված է"
+
+#~ msgid "Documented by"
+#~ msgstr "Փաստաթղթավորված է"
+
+#~ msgid "Translated by"
+#~ msgstr "Թարգմանված է"
+
+#~ msgid "Artwork by"
+#~ msgstr "Նկարազարդված է"
+
+#~ msgid "MATE Color Selection"
+#~ msgstr "MATE Գույնի Ընտրություն"
